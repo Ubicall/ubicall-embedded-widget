@@ -1,8 +1,8 @@
 {
-  "name": "embeddable-ubi-widget",
+  "name": "embeddable-widget-demo-server",
   "private": true,
-  "version": "0.0.1",
-  "description": "ubi widget that are embeddable on 3rd party sites",
+  "version": "0.0.3",
+  "description": "Demo for creating ubicall widget that are embeddable on 3rd party sites",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
