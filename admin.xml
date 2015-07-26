@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>key</key>
+    <string>admin</string>
+    <key>Version</key>
+    <integer>1434881955101</integer>
+    <key>Font</key>
+    <string>Default</string>
+    <key>Initial</key>
+    <string>Choice</string>
+    <key>MainScreen</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Choice</string>
+      <key>ScreenTitle</key>
+      <string>Insurances</string>
+      <key>choices</key>
+      <array>
+        <dict>
+          <key>ScreenName</key>
+          <string>68d6d8f9.c905d8</string>
+          <key>ChoiceText</key>
+          <string>You have an active policy with Costco auto insurance</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+        <dict>
+          <key>ScreenName</key>
+          <string>8dc8d9b5.3a314</string>
+          <key>ChoiceText</key>
+          <string>Assistance relating to a claim</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+        <dict>
+          <key>ScreenName</key>
+          <string>5c51f81c.54c33</string>
+          <key>ChoiceText</key>
+          <string>Request a quote for auto, home or umbrella</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+      </array>
+    </dict>
+    <key>501861f7.9187b8</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Choice</string>
+      <key>ScreenTitle</key>
+      <string>Insurances</string>
+      <key>choices</key>
+      <array>
+        <dict>
+          <key>ScreenName</key>
+          <string>68d6d8f9.c905d8</string>
+          <key>ChoiceText</key>
+          <string>You have an active policy with Costco auto insurance</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+        <dict>
+          <key>ScreenName</key>
+          <string>8dc8d9b5.3a314</string>
+          <key>ChoiceText</key>
+          <string>Assistance relating to a claim</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+        <dict>
+          <key>ScreenName</key>
+          <string>5c51f81c.54c33</string>
+          <key>ChoiceText</key>
+          <string>Request a quote for auto, home or umbrella</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+      </array>
+    </dict>
+    <key>68d6d8f9.c905d8</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Choice</string>
+      <key>ScreenTitle</key>
+      <string>Insurance</string>
+      <key>choices</key>
+      <array>
+        <dict>
+          <key>ChoiceText</key>
+          <string>for ID cards or a copy of policy documents</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Auto</string>
+          <key>ScreenName</key>
+          <string>fdc178fc.ea1e78</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Home or umbrella</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+      </array>
+    </dict>
+    <key>16e8a813.abfb08</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Call</string>
+      <key>ChoiceText</key>
+      <string>Call</string>
+      <key>QueueDestination</key>
+      <dict>
+        <key>id</key>
+        <string>4</string>
+        <key>name</key>
+        <string>Information Support</string>
+      </dict>
+    </dict>
+    <key>fdc178fc.ea1e78</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Choice</string>
+      <key>ScreenTitle</key>
+      <string>Insurance2</string>
+      <key>choices</key>
+      <array>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Roadside Assistance</string>
+          <key>ScreenName</key>
+          <string>24bccc0d.dcd5a4</string>
+          <key>ChoiceType</key>
+          <string>Form</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>All Other Questions</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+      </array>
+    </dict>
+    <key>24bccc0d.dcd5a4</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Form</string>
+      <key>ScreenTitle</key>
+      <string>Insurance4</string>
+      <key>FormTitle</key>
+      <string>Insurance</string>
+      <key>FormFields</key>
+      <array>
+        <dict>
+          <key>FieldLabel</key>
+          <string>Enter Your Policy Number</string>
+          <key>FieldType</key>
+          <string>Text Field</string>
+          <key>isMandatory</key>
+          <true/>
+          <key>Keyboard</key>
+          <string>1</string>
+          <key>Placeholder</key>
+          <string>Policy Number</string>
+        </dict>
+      </array>
+    </dict>
+    <key>8dc8d9b5.3a314</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Choice</string>
+      <key>ScreenTitle</key>
+      <string>Insurance</string>
+      <key>choices</key>
+      <array>
+        <dict>
+          <key>ChoiceText</key>
+          <string>If you know the last names of the party you wish to speak with</string>
+          <key>ScreenName</key>
+          <string>78e501f0.1375e8</string>
+          <key>ChoiceType</key>
+          <string>Form</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Report a New Claim</string>
+          <key>ScreenName</key>
+          <string>e343a1a1.07c3c</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Calling About an Existing Claim</string>
+          <key>ScreenName</key>
+          <string>8e0e9d5f.60a138</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Information about business hours</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+      </array>
+    </dict>
+    <key>8e0e9d5f.60a138</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Choice</string>
+      <key>ScreenTitle</key>
+      <string>Insurance</string>
+      <key>choices</key>
+      <array>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Glass Claim</string>
+          <key>ScreenName</key>
+          <string>4aed8dba.cf2d04</string>
+          <key>ChoiceType</key>
+          <string>Form</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>if you are insured by Costco auto insurance</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>if you are a medical provider</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>if you are a collission repair shop</string>
+          <key>ScreenName</key>
+          <string>84207a64.a113</string>
+          <key>ChoiceType</key>
+          <string>Choice</string>
+        </dict>
+      </array>
+    </dict>
+    <key>4aed8dba.cf2d04</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Form</string>
+      <key>ScreenTitle</key>
+      <string>Glass Claim</string>
+      <key>FormTitle</key>
+      <string>Glass Claim</string>
+      <key>FormFields</key>
+      <array>
+        <dict>
+          <key>FieldLabel</key>
+          <string>Enter your 10 digit phone number associated with your policy</string>
+          <key>FieldType</key>
+          <string>Text Field</string>
+          <key>isMandatory</key>
+          <true/>
+          <key>Keyboard</key>
+          <string>2</string>
+          <key>Placeholder</key>
+          <string>your name</string>
+        </dict>
+      </array>
+    </dict>
+    <key>84207a64.a113</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Choice</string>
+      <key>ScreenTitle</key>
+      <string>Repair Shpo</string>
+      <key>choices</key>
+      <array>
+        <dict>
+          <key>ChoiceText</key>
+          <string>If you need technical assistance</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>For status regarding submited estimate</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+      </array>
+    </dict>
+    <key>78e501f0.1375e8</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Form</string>
+      <key>ScreenTitle</key>
+      <string>Last Name</string>
+      <key>FormTitle</key>
+      <string>Last Name</string>
+      <key>FormFields</key>
+      <array>
+        <dict>
+          <key>FieldLabel</key>
+          <string>Enter the last name of the person you wish to speak with</string>
+          <key>FieldType</key>
+          <string>Text Field</string>
+          <key>isMandatory</key>
+          <true/>
+          <key>Keyboard</key>
+          <string>1</string>
+          <key>Placeholder</key>
+          <string>Last Name</string>
+        </dict>
+      </array>
+    </dict>
+    <key>e343a1a1.07c3c</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Choice</string>
+      <key>ScreenTitle</key>
+      <string>Insurance</string>
+      <key>choices</key>
+      <array>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Report a home loss</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Report an auto loss</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+      </array>
+    </dict>
+    <key>5c51f81c.54c33</key>
+    <dict>
+      <key>ScreenType</key>
+      <string>Choice</string>
+      <key>ScreenTitle</key>
+      <string>Insurance</string>
+      <key>choices</key>
+      <array>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Auto Only</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>Home Only</string>
+          <key>ChoiceType</key>
+          <string>Call</string>
+          <key>QueueDestination</key>
+          <string>4</string>
+        </dict>
+        <dict>
+          <key>ChoiceText</key>
+          <string>For new or existing umbrella Quote</string>
+          <key>ScreenName</key>
+          <string>4aed8dba.cf2d04</string>
+          <key>ChoiceType</key>
+          <string>Form</string>
+        </dict>
+      </array>
+    </dict>
+  </dict>
+</plist>

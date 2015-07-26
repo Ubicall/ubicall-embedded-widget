@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" />
+<link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" />
+<link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" />
+<link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Header -->
+
+<div id="header">
+    <a onClick="javascript:history.go(-1)">
+        <i class="fa fa-chevron-left fa-left"></i>
+    </a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a>
+<h3>Support Agent</h3>
+</div>
+
+<!-- Animsition -->
+
+<div class="animsition">
+
+<!-- Pages -->
+
+
+
+
+<div id="pages-phone">
+
+<img src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/img/time-icon.png" class="phone-icon" alt="" />
+
+<h2>Average Waiting Time</h2>
+
+<h3>ASAP</h3>
+
+<div class="phone-02">
+
+<h4>When we should call you?</h4>
+
+<form action="/api/3rd/foo/widget/2/form" method="post">
+
+<div class="radio wid-48">
+<label><input type="radio" name="optradio" id="asap" checked>ASAP</label>
+</div>
+
+<div class="radio wid-48">
+<label><input type="radio" name="optradio" id="sele-time">Select Time</label>
+</div>
+
+<input type="text" class="form-control input-phone" placeholder="Hours" id="hou" readonly> - <input type="text" class="form-control input-phone" placeholder="Minutes" id="min" readonly>
+
+<form action="plist-02-03-03.html">
+
+<div class="form-group">
+    <input type="text" name="phone" class="form-control" placeholder="Please enter your phone number">
+<input name="qid" value="<%= qid %>" type="hidden"  >
+</div>
+    
+   <button type="submit" class="btn btn-default btn-02">Call Me</button>
+
+<button type="submit" class="btn btn-default btn-03">Cancel</button>
+
+</form>
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+</div>
+
+
+<!-- Page End -->
+
+
+<!-- Animsition End -->
+
+
+
+<!-- js -->
+
+<script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script>
+<script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+$("#sele-time").click(function()
+{ 
+    $('#hou').prop('readonly', false);
+	$('#min').prop('readonly', false);
+});
+$("#asap").click(function()
+{ 
+    $('#hou').attr('readonly', 'readonly');
+	$('#min').attr('readonly', 'readonly');
+});
+});
+</script>
+
+<script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script>
+<script>
+$(document).ready(function() {
+  
+  $(".animsition").animsition({
+  
+    inClass               :   'fade-in-right-sm',
+    outClass              :   'fade-out-right-sm',
+    inDuration            :    300,
+    outDuration           :    300,
+    linkElement           :   '.animsition-link',
+    loading               :    true,
+    loadingParentElement  :   'body', //animsition wrapper element
+    loadingClass          :   'animsition-loading',
+    unSupportCss          : [ 'animation-duration',
+                              '-webkit-animation-duration',
+                              '-o-animation-duration'
+                            ], 
+    overlay               :   false,
+    
+    overlayClass          :   'animsition-overlay-slide',
+    overlayParentElement  :   'body'
+  });
+});
+</script>
+
+<!-- js End -->
+
+</body>
+</html>

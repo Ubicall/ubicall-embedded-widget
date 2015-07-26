@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<link href="../css/bootstrap.min.css" rel="stylesheet" />
+<link href="../css/style-fonts.css" rel="stylesheet" />
+<link href="../css/plist.css" rel="stylesheet" />
+<link href="../css/animsition.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Header -->
+
+<div id="header">
+<a href="plist-02-03.html"><i class="fa fa-chevron-left fa-left"></i></a>
+<a href="plist-01.html"><i class="fa fa-home fa-right"></i></a>
+<h3>Support Agent</h3>
+</div>
+
+<!-- Animsition -->
+
+<div class="animsition">
+
+<!-- Pages -->
+
+<div role="tabpanel">
+
+<ul class="nav nav-tabs" role="tablist">
+<li role="presentation" class="active"><a href="#Phone" aria-controls="Phone" role="tab" data-toggle="tab">Receive a call on Cell phone</a></li>
+<li role="presentation"><a href="#Web" aria-controls="Web" role="tab" data-toggle="tab">Receive web VoIP call</a></li>
+</ul>
+
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="Phone">
+
+<div id="pages-phone">
+
+<img src="../img/time-icon.png" class="phone-icon" alt="" />
+
+<h2>Average Waiting Time</h2>
+
+<h3>ASAP</h3>
+
+<div class="phone-02">
+
+<h4>When we should call you?</h4>
+
+<form>
+
+<div class="radio wid-48">
+<label><input type="radio" name="optradio" id="asap" checked>ASAP</label>
+</div>
+
+<div class="radio wid-48">
+<label><input type="radio" name="optradio" id="sele-time">Select Time</label>
+</div>
+
+<input type="text" class="form-control input-phone" placeholder="Hours" id="hou" readonly> - <input type="text" class="form-control input-phone" placeholder="Minutes" id="min" readonly>
+
+<form action="plist-02-03-03.html">
+
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Please enter your phone number">
+</div>
+
+</form>
+
+<a href="plist-inv-02.html"><button type="submit" class="btn btn-default btn-02">Call Me</button></a>
+
+<a href="plist-02-03.html"><button type="submit" class="btn btn-default btn-03">Cancel</button></a>
+
+</div>
+
+</div>
+
+</div>
+
+<div role="tabpanel" class="tab-pane" id="Web">
+
+-- - - - - - - -
+
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- Page End -->
+
+</div>
+
+<!-- Animsition End -->
+
+
+
+<!-- js -->
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+$("#sele-time").click(function()
+{ 
+    $('#hou').prop('readonly', false);
+	$('#min').prop('readonly', false);
+});
+$("#asap").click(function()
+{ 
+    $('#hou').attr('readonly', 'readonly');
+	$('#min').attr('readonly', 'readonly');
+});
+});
+</script>
+
+<script src="../js/animsition.js"></script>
+<script>
+$(document).ready(function() {
+  
+  $(".animsition").animsition({
+  
+    inClass               :   'fade-in-right-sm',
+    outClass              :   'fade-out-right-sm',
+    inDuration            :    300,
+    outDuration           :    300,
+    linkElement           :   '.animsition-link',
+    loading               :    true,
+    loadingParentElement  :   'body', //animsition wrapper element
+    loadingClass          :   'animsition-loading',
+    unSupportCss          : [ 'animation-duration',
+                              '-webkit-animation-duration',
+                              '-o-animation-duration'
+                            ], 
+    overlay               :   false,
+    
+    overlayClass          :   'animsition-overlay-slide',
+    overlayParentElement  :   'body'
+  });
+});
+</script>
+
+<!-- js End -->
+
+</body>
+</html>

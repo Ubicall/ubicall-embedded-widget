@@ -1,0 +1,345 @@
+
+/**************************************** Body ****************************************/
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+}
+
+ul,li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+}
+
+a {
+	text-decoration: none;
+	outline:none;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+a:hover {
+	text-decoration: none;
+	outline:none;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+a:focus {
+	text-decoration: none;
+	outline:none;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+	-o-transition: .5s;
+	transition: .5s;
+}
+
+.clear {
+	clear: both;
+}
+
+
+/******************** Header ********************/
+
+#header {
+	margin: 0;
+	padding: 15px 5px;
+	width: 100%;
+	background: #039997;
+}
+
+#header h3 {
+	font-size: 14px;
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+}
+
+#header .fa.fa-right {
+	font-family: 'FontAwesome', sans-serif;
+	color: #fff;
+	font-size: 22px;
+    float: right;
+	margin-top: -2px;
+	margin-right: 5px;
+}
+
+#header .fa.fa-left {
+	font-family: 'FontAwesome', sans-serif;
+	font-size: 22px;
+    color: #fff;
+    float: left;
+	margin-top: -2px;
+	margin-left: 5px;
+}
+
+/******************** Pages ********************/
+
+#pages {
+	margin: 0;
+	padding: 10px 5px;
+}
+
+#pages h3 {
+	font-size: 16px;
+	font-weight: 600;
+	text-align: left;
+	line-height: 22px;
+	margin-bottom: 10px;
+}
+
+#pages h2 {
+	font-size: 16px;
+	font-weight: 600;
+	text-align: center;
+	line-height: 22px;
+	margin: 30px 0 10px 0;
+	color: #e15206;
+}
+
+#pages p {
+	font-size: 13px;
+	text-align: left;
+}
+
+ul.grid-01 li a {
+	float: left;
+	margin: 1%;
+	padding: 5% 1%;
+	background: 0;
+	width: 48%;
+	min-height: 130px;
+	border: 1px solid #ddd;
+	border-radius: 7px;
+	background: #fff;
+	display: block;
+	text-align: center;
+	color: #039997;
+	font-size: 13px;
+	font-weight: normal;
+	text-decoration: none;
+	display: block;
+}
+
+ul.grid-01 li a:hover {
+	background: #f5f5f5;
+	color: #faa632; 
+}
+
+ul.grid-01 li .fa {
+	font-family: 'FontAwesome', sans-serif;
+	margin: 0 auto 10% auto;
+	display: block;
+	font-size: 24px;
+}
+
+ul.grid-01 li img {
+	width: 52px;
+	height: 52px;
+	margin: 0 auto 10% auto;
+	display: block;
+}
+
+#pages .lest-01 .fa {
+	font-family: 'FontAwesome', sans-serif;
+	float: right;
+	font-size: 16px;
+}
+
+#pages .form-01 {
+	margin-bottom: 10px;
+}
+
+#pages .form-01 .fa {
+	font-family: 'FontAwesome', sans-serif;
+	font-size: 18px;
+	border: none;
+	outline: none;
+}
+
+#search {
+	background: #039996;
+	width: 100%;
+	padding: 5px;
+	margin: 0;
+}
+
+#search button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+
+/******************** Pages Screen ********************/
+
+#pages-screen {
+	margin: 0;
+	padding: 0;
+}
+
+#pages-screen img {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: auto;
+}
+
+
+/******************** Phone Pages ********************/
+
+#pages-phone {
+	margin: 0;
+	padding: 10px 5px 0 5px;
+}
+
+#pages-phone img {
+	width: 14%;
+    height: auto;
+    margin: 0 0 0 10px;
+    float: left;
+}
+
+#pages-phone h2 {
+	font-size: 17px;
+	font-weight: 600;
+	text-align: center;
+	margin: 0;
+	color: #039997;
+}
+
+#pages-phone h3 {
+	font-size: 17px;
+	font-weight: 600;
+	text-align: center;
+	margin: 5px 0;
+	color: #faa632;
+}
+
+#pages-phone h4 {
+	font-size: 15px;
+	font-weight: 600;
+	text-align: center;
+	margin: 0;
+	color: #333;
+}
+
+.phone-02 {
+	background: #f3f3f3;
+	padding: 10px 10px 0 10px;
+}
+
+.radio {
+  position: relative;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: #fff;
+  padding: 10px;
+}
+
+.input-phone {
+	width: 47%;
+	display: inline-block;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.nav-tabs>li {
+    float: left;
+    margin-bottom: -1px;
+    width: 97%;
+    text-align: center;
+    background-color: #f1f1f1;
+    border: none;
+    margin: 5px;
+	color: #333;
+}
+
+.nav-tabs>li>a {
+  margin-right: 2px;
+  margin-left: 2px;
+  line-height: 1.42857143;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #333;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  color: #fff;
+  cursor: default;
+  background-color: #d04800;
+  border-bottom-color: transparent;
+  border: none;
+   margin-right: 2px;
+  margin-left: 2px;
+}
+
+.tab-content>.active {
+  display: block;
+  visibility: visible;
+  margin-top: 10px;
+}
+
+
+/******************** Pages Button ********************/
+
+.btn-default {
+  color: #fff;
+  background-color: #faa632;
+  border-color: #faa632;
+  width: 100%;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.btn-default.active, .btn-default.focus, .btn-default:active, .btn-default:focus, .btn-default:hover, .open>.dropdown-toggle.btn-default {
+  color: #fff;
+  background-color: #e15206;
+  border-color: #e15206;
+}
+
+
+.btn-02 {
+  color: #fff;
+  background-color: #039997;
+  border-color: #039997;
+  width: 48%;
+  outline: none;
+  margin:0 1px 10px 1px;
+}
+
+.btn-02.active, .btn-02.focus, .btn-02:active, .btn-02:focus, .btn-02:hover, .open>.dropdown-toggle.btn-02 {
+  color: #039997;
+  background-color: #fff;
+  border-color: #039997;
+}
+
+.btn-03 {
+  width: 48%;
+  margin:0 1px 10px 1px;
+}
+
+.wid-48 {
+	width: 48%;
+	display: inline-block;
+}

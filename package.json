@@ -1,0 +1,23 @@
+{
+  "name": "embeddable-widget-demo-server",
+  "private": true,
+  "version": "0.0.3",
+  "description": "Demo for creating widgets that are embeddable on 3rd party sites",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "demo",
+    "widget",
+    "embed"
+  ],
+  "author": "bguiz",
+  "license": "GPLv3",
+  "dependencies": {
+    "body-parser": "^1.6.3",
+    "ejs": "^1.0.0",
+    "express": "^4.8.3",
+    "plist": "^1.1.0"
+  }
+}
