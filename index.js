@@ -27,13 +27,6 @@ module.exports.platformWidgetInitPathTemplate = platformWidgetInitPathTemplate;
 var serverApp = express();
 serverApp.use(body_parser.json());
 
-function isValidPartyId(partyId) {
-  //NOTE this check is trivial for now, of course,
-  //in a production platform we would use something like an API key
-  //lookup against the requested resources
-  return partyId && partyId.length === 10;
-}
-
 function isOriginAllowedForThisPartyId(origin, partyId) {
   var allowedHostsForParty = demo3rdPartyAllowedHostsFixtures['' + partyId];
   // console.log('isOriginAllowedForThisPartyId', partyId, origin, allowedHostsForParty);

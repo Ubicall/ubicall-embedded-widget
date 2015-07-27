@@ -11,13 +11,20 @@ var settings = require('../settings');
 var platformApp = express();
 platformApp.use(body_parser.json());
 
+
+function isValidPartyId(partyId) {
+  //NOTE this check is trivial for now, of course,
+  //in a production platform we would use something like an API key
+  //lookup against the requested resources
+  return partyId && partyId.length === 10;
+}
+
 //respond to widget API
 platformApp.get('/api/3rd/widget/:partyId', function(req, res) {
   var partyId = req.param.partyId;
   if(partId && isValidPartyId(partId)){
     // folder contain @partId widget components
-    var platformWidgetInitPath = platformTemplatesPath + partyId;
-    res.render( platformWidgetInitPath +  '/MainScreen.html' );
+    res.sendFile( settings.platformTemplatesPath + partyId +  '/MainScreen.html' );
   }else {
     res.redirect(settings.widgetError);
   }
@@ -48,7 +55,8 @@ platformApp.get('/api/3rd/widget:path/call/call/:page/:qid', function(req, res) 
 
         ////////////////
 
-
+        // TODO change next web service fro GET to Post and use https instead of http
+        // TODO move this call to client
         var url = 'http://ws.ubicall.com/webservice/get_schedule_web_call.php?voiceuser_id=' + user + '&license_key=e6053eb8d35e02ae40beeeacef203c1a&ipaddress=' + ip + '&time=0&address=test&qid=' + id;
         console.log('url id ' + url);
         request(url, function(error, response, body) {

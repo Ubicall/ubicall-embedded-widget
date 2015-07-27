@@ -1,0 +1,32 @@
+{
+  "name": "embedded-call-center-widget",
+  "main": "index.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/waleedsamy/embedded-call-center-widget",
+  "authors": [
+    "waleed samy <waleed_samy@ymail.com>"
+  ],
+  "description": "embed able web component provide facility to browse your call center IVR in web browser",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "GPLV2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "animsition": "https://github.com/blivesta/animsition.git#~3.5.2",
+    "bootstrap": "https://github.com/twbs/bootstrap.git#~3.3.5",
+    "jquery-ui": "https://github.com/jquery/jquery-ui.git#~1.11.4",
+    "font-awesome": "https://github.com/FortAwesome/Font-Awesome.git#~4.3.0",
+    "Modernizr": "https://github.com/Modernizr/Modernizr.git#2.8.3",
+    "respond": "https://github.com/scottjehl/Respond.git#~1.4.2",
+    "simplr-smoothscroll": "https://github.com/simov/simplr-smoothscroll.git#1.0.0",
+    "jquery-mousewheel": "https://github.com/jquery/jquery-mousewheel.git#~3.1.13",
+    "jquery-mobile": "https://github.com/jquery/jquery-mobile.git#~1.4.5"
+  }
+}
