@@ -1,221 +1,157 @@
-var http = require('http');
-var os = require('os');
 var fs = require('fs');
 var path = require('path');
-var settings = require('./settings');
-
 var express = require('express');
-var ejs = require('ejs');
 var body_parser = require('body-parser');
+var http = require('http');
 var request = require('request');
-var mkdirp = require('mkdirp');
-
-
-var serverHostSansProtocol = '' + getIpAddress() + ':' + settings.serverPort;
-
-var serverHost = '//' + serverHostSansProtocol;
-module.exports.serverHost = serverHost;
-module.exports.serverDirname = __dirname;
-
-
-var platformWidgetInitPathTemplate = '/3rd/gernerated/:path/MainScreen.html';
-module.exports.platformStylePathTemplate = platformStylePathTemplate;
-module.exports.platformWidgetInitPathTemplate = platformWidgetInitPathTemplate;
-
+var settings = require('../settings');
+var genWidget = require('./genWidget');
 
 //Platform server
-var serverApp = express();
-serverApp.use(body_parser.json());
+var platformApp = express();
+platformApp.use(body_parser.json());
 
-function isOriginAllowedForThisPartyId(origin, partyId) {
-  var allowedHostsForParty = demo3rdPartyAllowedHostsFixtures['' + partyId];
-  // console.log('isOriginAllowedForThisPartyId', partyId, origin, allowedHostsForParty);
-  if (Array.isArray(allowedHostsForParty)) {
-    var hostSansProtocol = origin.split('//');
-    hostSansProtocol = hostSansProtocol[hostSansProtocol.length - 1];
-    return (allowedHostsForParty.indexOf(hostSansProtocol) >= 0);
-  } else {
-    return false;
-  }
+
+function isValidPartyId(partyId) {
+  //TODO this check is trivial for now, of course,
+  //in a production platform we would use something like an API key
+  //lookup against the requested resources
+  return partyId && partyId.length === 10;
 }
 
-
-//serve platform script file
-fs.readdir('platforms', function(err, files) {
-  var dirs = [];
-  if (Array.isArray(files)) {
-    dirs = files.filter(function(file) {
-      return fs.statSync('platforms/' + file).isDirectory();
-    });
+//respond to widget API
+platformApp.get('/widget/:licence', function(req, res) {
+  var lic = req.param.licence;
+  if(lic && isValidPartyId(lic)){
+    // folder contain @partId widget components
+    res.sendFile( settings.platformTemplatesPath + lic +  '/MainScreen.html' );
+  }else {
+    res.redirect(settings.widgetError);
   }
-  console.log(dirs);
-  serverApp.set('view engine', 'html');
-  serverApp.engine('html', ejs.renderFile);
-  serverApp.engine('js', ejs.renderFile);
-  dirs.forEach(function(dir) {
-    serverApp.use(require('./platforms/' + dir));
-  });
-  serverApp.use(express.static('server'));
+});
+
+
+platformApp.get('/widget/:licence/:view', function(req, res) {
+  // TODO check if settings.platformTemplatesPath + req.params.licence + '/' + req.params.view exist first
+  res.render( settings.platformTemplatesPath + req.params.licence + '/' + req.params.view );
+});
+
+
+// TODO post to widget will generate (call genWidget) widget files
+// send new plist url as header value plistUrl
+platformApp.post('/widget', function(req, res) {
+  genWidget.generate(//TODO plistUrl value from header
+  );
 });
 
 http.createServer(serverApp).listen(settings.serverPort);
 
-/////////////////////////////////////
-
-// TODO : enhance generate html function
-// TODO : use statndard libraries to manipulate and create html in suggest https://www.npmjs.com/package/jquery
-// TODO : there is no function in world has 150 line of code , it's buggy
-// TODO : why not seperate function such createForm() , createCall() , createChoice() ... and add them in htmlUtil.js
-
-serverApp.get('/gfile/:url', function(req, res) {
 
 
 
-  var url = 'https://designer.ubicall.com/plist/' + req.params.url;
-  console.log(url);
 
-  request(url, function(error, response, body) {
-    if (!error && response.statusCode == 200) {
+///////////////////////////////////////////////
 
-      //  console.log(body);
-      var plist = require('plist');
-      var obj = plist.parse(body);
-      console.log(JSON.stringify(obj));
+// TODO Will be removed and replaced with client side code
 
-      ///////////
-      var c = 1;
-      var licence_key = obj.key;
+platformApp.get('/widget:path/call/call/:page/:qid', function(req, res) {
 
-      for (var row in obj) {
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  var id = req.params.qid
+
+  if (req.params.page == 'web') {
+    var url = 'http://ws.ubicall.com/webservice/get_web_acc.php?sdk_name=0000&sdk_version=0000&deviceuid=0000&device_token=0000&device_name=0000&device_model=0000&device_version=0000&licence_key=e6053eb8d35e02ae40beeeacef203c1a';
+    console.log('url id ' + url);
 
 
-        if (typeof obj[row] == 'object') {
+    request(url, function(error, response, body) {
+      if (!error && response.statusCode == 200) {
 
+        var json_data = JSON.parse(body);
 
+        var user = json_data.data.username;
+        var pass = json_data.data.password;
 
-          var stype = obj[row].ScreenType;
-          switch (stype) {
+        ////////////////
 
-            //////////
-
-            case "Choice":
-              htmlUtil.careteHeader();
-              htmlUtil.createChoise({});
-              htmlUtil.createFooter();
-
-              //////
-            case "Form":
-              var main = obj[row].FormFields;
-              var html = '<!DOCTYPE html><html><head><meta charset="utf-8" />
-              <link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><!-- Pages --><div id="pages"><form>';
-              for (var form in main) {
-
-
-                if (main[form].isMandatory == true) {
-                  html += '<div class="form-group"> <label>' +
-                  main[form].FieldLabel + '</label></p><p> <input  class="form-control" type="text" placeholder="' + main[form].Placeholder + '" required="required" ></div>';
-                } else {
-                  html += ' <div class="form-group"><label>' + main[form].FieldLabel + '</label></p><p> <input  class="form-control" type="text" placeholder="' + main[form].Placeholder + '"></div>';
-                }
-              }
-
-
-              html += '<button type="submit" class="btn btn-default">Submit</button></form></div><!-- Page End --></div><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script></body></html>';
-              MakeStream(html, licence_key, row);
-              break;
-              ///////
-
-            case "Grid":
-              var main = obj[row].choices;
-
-              if (row == 'MainScreen') {
-
-                var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><div id="pages"><ul class="grid-01">';
-              } else {
-                var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><div id="pages"><ul class="grid-01">';
-              }
-
-
-              for (var grid in main) {
-
-                if (main[grid].ChoiceType == 'URL') {
-                  html += ' <li> <a  href="' + main[grid].url + '" target="_blank" > <img  src="' + main[grid].UrlImage + '"height="50" width="50"> ' + main[grid].ChoiceText + '</a></li>';
-                } else if (main[grid].ChoiceType == 'Call') {
-
-                  html += ' <li> <a  href="call/' + main[qid].QueueDestination + '" class="animsition-link"> <img  src="' + main[grid].UrlImage + '"height="50" width="50"> ' + main[grid].ChoiceText + '</a></li>';
-                  /*
-
-                                var htmlcall ='<html><head></head><body><center><h1>'+main[grid].ChoiceText+'</h1><form action="/api/3rd/foo/widget/2/form" method="post">';
-                                htmlcall+=' <p> <label>Please enter your phone number</label></p><p> <input name="phone" type="tel" placeholder=" phone number" required="required" > <input name="qid" value="'+main[grid].QueueDestination+'" type="hidden"  ></p>';
-
-
-                                htmlcall+='<button class="btn btn-default" type="submit">Submit</button> </form></center></body></html>';
-                                MakeStream(htmlcall,'call'+c);
-                  */
-
-                } else {
-
-                  html += ' <li> <a  href="' + main[grid].ScreenName + '.html" class="animsition-link"> <img  src="' + main[grid].UrlImage + '"height="50" width="50"> ' + main[grid].ChoiceText + '</a></li>';
-                }
-                c++;
-              }
-              html += '</ul></div><!-- Page End --></div><!-- Animsition End --><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script><!-- js End --></body></html>';
-              MakeStream(html, licence_key, row);
-              break;
-              //////////
-            case "URL":
-              var main = obj[row].choices;
-              var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><div id="pages"><ul class="grid-01">';
-              html += '<li><a href="' + obj[row].URL + '" target="_blank" >' + obj[row].ChoiceText + '</a></li>';
-              html += '</ul></div><!-- Page End --></div><!-- Animsition End --><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script><!-- js End --></body></html>';
-              MakeStream(html, licence_key, row);
-              break;
-              ///////////
-            case "Info":
-              var main = obj[row].choices;
-              var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><div class="animsition">';
-              html += '<div id="pages"><p>' + obj[row].ContentText + '</p></div>';
-              html += '</div><!-- Animsition End --><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script><!-- js End --></body></html>';
-              MakeStream(html, licence_key, row);
-              break;
-              /*
-            case "Call":
-                // var main=obj[row].choices;
-                var html ='<!DOCTYPE html><html><head></head><body><center><h1>'+obj[row].ChoiceText+'</h1><form action="/api/3rd/foo/widget/2/form" method="post">';
-                 var main=obj[row].QueueDestination;
-                 for(var call in main){
-                html+=' <p> <label>Please enter your phone number</label></p><p> <input name="phone" type="tel" placeholder=" phone number" required="required" > <input name="qid" value="'+main[call].id+'" type="hidden"  ></p>';
-
-                 }
-                html+='<button class="btn btn-default" type="submit">Submit</button></form></center></body></html>';
-                MakeStream(html,row);
-                break;
-                */
-
+        // TODO change next web service from GET to Post and use https instead of http
+        // TODO move this call to client
+        var url = 'http://ws.ubicall.com/webservice/get_schedule_web_call.php?voiceuser_id=' + user + '&license_key=e6053eb8d35e02ae40beeeacef203c1a&ipaddress=' + ip + '&time=0&address=test&qid=' + id;
+        console.log('url id ' + url);
+        request(url, function(error, response, body) {
+          if (!error && response.statusCode == 200) {
+            console.log("ws2 : " + body); // Show the HTML for the Modulus homepage.
+          } else {
+            console.log("ws2 ERR : " + error)
           }
+        });
 
-        }
 
+        ///////////////
 
+        res.render('server/3rd/generated/' + req.params.path + '/freeswitch.html', {
+          username: user,
+          pass: pass
+
+        });
+
+      } else {
+        res.send("ERR : " + error);
       }
-      /////
+    });
 
-      res.sendStatus(200)
 
-    } else {
 
-      res.sendStatus(500);
-    }
-  });
 
+
+  } else {
+    res.render('server/3rd/generated/' + req.params.path + '/call_phone', {
+      qid: req.params.qid
+    });
+
+  }
 
 });
 
-function MakeStream(html, namefolder, namefile) {
-  mkdirp.sync('views/server/3rd/foo/' + namefolder, 0777);
-  var stream = fs.createWriteStream("views/server/3rd/foo/" + namefolder + "/" + namefile + ".html");
-  stream.once('open', function() {
-    stream.write(html);
-    stream.end();
+///////////////////////////////////////////
+
+var bodyParser = require("body-parser");
+var parseBody = bodyParser.urlencoded({
+  extended: true
+});
+
+// TODO will be removed and client will call get_schedule_web_call directly
+platformApp.post('/widget/:path/form', parseBody, function(req, res) {
+  //var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  var id = req.body.qid;
+  var phone = req.body.phone;
+  var ip = "10.0.0.161";
+
+
+  var url = 'http://ws.ubicall.com/webservice/get_schedule_web_call.php?voiceuser_id=' + phone + '&license_key=123123123&ipaddress=' + ip + '&time=0&address=test&qid=' + id;
+  console.log('url id ' + url);
+  request(url, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body); // Show the HTML for the Modulus homepage.
+    } else {
+      console.log("ERR : " + error)
+    }
   });
-}
+
+  /////////////////////////
+  res.status(201);
+  res.send("Sent successfully");
+  // res.render('server/3rd/foo/plist/MainScreen.html');
+
+});
+
+
+// TODO will be removed and replaced with static call page , no need for render dynamic one
+platformApp.get('/widget/:licence/call/:qid', function(req, res) {
+  res.render( settings.platformTemplatesPath + req.params.path + '/call.html', {
+    qid: req.params.qid
+  });
+});
+
+
+module.exports = platformApp;

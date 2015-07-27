@@ -18,4 +18,4 @@ clientApp.get('/demo', function(req, res) {
     platformScript: platformScriptPath
   });
 });
-http.createServer(clientApp).listen(settings.clientPort);
+http.createServer(clientApp).listen(1880);

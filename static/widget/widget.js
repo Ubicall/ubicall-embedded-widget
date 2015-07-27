@@ -2,8 +2,7 @@
 
 //inspired from http://stackoverflow.com/a/2190927
 var ubiWidget = ubiWidget || (function() {
-  var _args = {}; // private
-
+  var _args = {};
 
   function _createUbiWidgetContainer(id) {
     var containerId = id || 'ubi-widget' + Math.random() * (9999 - 10254);
@@ -14,10 +13,10 @@ var ubiWidget = ubiWidget || (function() {
   function _createUbiWidget(ubiWidget, partyId) {
     var iframeSource;
     if (partyId) {
-      iframeSource = serverHost + '/api/3rd/widget/' + partyId;
+      iframeSource = 'https://platform.ubicall.com/widget/' + partyId;
     } else {
       // TODO FALL BACK URL FOR ERROR API
-      iframeSource = serverHost + '/api/3rd/widget/err'
+      iframeSource = 'https://platform.ubicall.com/widget/404';
     }
     var iframe = document.createElement('iframe');
     iframe.setAttribute('src', iframeSource);

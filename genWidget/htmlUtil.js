@@ -1,9 +1,9 @@
 module.exports = {
 
-  function: createHeader() {
+  createHeader: function() {
     // TODO
   },
-  function: createCall(){
+  createCall: function(){
     var main = obj[row].choices;
     var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><!-- Pages --><div id="pages"><div class="list-group">';
 
@@ -41,7 +41,7 @@ module.exports = {
     MakeStream(html, licence_key, row);
     break;
   },
-  function createFooter() {
+  createFooter :function() {
     // TODO
   }
 
