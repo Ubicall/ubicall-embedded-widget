@@ -28,9 +28,18 @@
 
 <div id="pages">
 
+<script type="text/javascript">
+function processedCall(){
+  // TODO ajax call for sign in web service to get sip user name and password
+  // TODO ajax call with previues user ws number to schedule ws to add this call in table calls
 
-<a href="call/web/<%= qid %>">
-    <button type="submit" class="btn btn-default">Receive web VoIP call</button>
+  // TODO save sip user name and password in shared place like cookie , localstorage , iframe variable
+  
+  // go TO Next pag XXXXXXXXXXXXXXXXXXXXXX
+}
+</script>
+<a href="XXXXXXXXXXXXXXcall/web/<%= qid %>">
+    <button type="submit" class="btn btn-default" onclick="processedCall()">Receive web VoIP call</button>
 </a>
 
 <a href="call/form/<%= qid %>"><button type="submit" class="btn btn-default">Receive a call on Cell phone</button></a>
