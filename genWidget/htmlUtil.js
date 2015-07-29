@@ -40,14 +40,38 @@ function createGrid($, grids) {
 @return
 **/
 function createInfo($, content) {
-  var $p = $('<p>').text(content);
+  var $p = $('<p/>').text(content);
   $('#pages').html($p);
   return $;
 }
 
-
+/**
+@param $ is cheerio documnet
+@param queue queue id
+@return
+  <div>
+      <a href="#">
+          <button class="btn btn-default" click="ubiCallManager.scheduleSipCall(@param queue)">Receive web VoIP call</button>
+      </a>
+      <a href="https://cdn.ubicall.com/widget/submitCall.html">
+        <button class="btn btn-default" type="submit">Receive a call on Cell phone</button>
+      </a>
+  </div>
+**/
 function createCall($, queue) {
-  // TODO
+  var $div = $('<div/>');
+
+  var $a = $('<a/>').attr('href', '#');
+  var $butA = $('<button/>').attr('class', 'btn btn-default')
+    .attr('click' , 'ubiCallManager.scheduleSipCall('+queue+')').text('Receive web VoIP call');
+  $a.append($butA);
+  var $b = $('<a/>').attr('href', 'https://cdn.ubicall.com/widget/submitCall.html');
+  var $butB = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone');
+  $b.append($butB);
+  $div.append($a);
+  $div.append($b);
+
+  $('#pages').html($div);
   return $;
 }
 

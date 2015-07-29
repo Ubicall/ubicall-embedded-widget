@@ -42,7 +42,7 @@ function generate(plistUrl){
                var content = htmlUtil.setTitle($, obj[row].ScreenTitle) ;
                 content = htmlUtil.createChoice(content,obj[row] );
                 MakeStream(content.html(),licence_key,row);
-          
+
             case "Form":
               var main = obj[row].FormFields;
               var html = '<!DOCTYPE html><html><head><meta charset="utf-8" />
@@ -84,44 +84,22 @@ function generate(plistUrl){
               break;
 
 
-
-
-            case "URL":
-              var main = obj[row].choices;
-              var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><div id="pages"><ul class="grid-01">';
-              html += '<li><a href="' + obj[row].URL + '" target="_blank" >' + obj[row].ChoiceText + '</a></li>';
-              html += '</ul></div><!-- Page End --></div><!-- Animsition End --><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script><!-- js End --></body></html>';
-              MakeStream(html, licence_key, row);
-              break;
-              ///////////
             case "Info":
 
                 var content = htmlUtil.setTitle($, obj[row].ScreenTitle) ;
                 content = htmlUtil.createInfo(content,obj[row].ContentText );
                 MakeStream(content.html(),licence_key,row);
                 break;
-           
-              /*
+
+
             case "Call":
-                // var main=obj[row].choices;
-                var html ='<!DOCTYPE html><html><head></head><body><center><h1>'+obj[row].ChoiceText+'</h1><form action="/api/3rd/foo/widget/2/form" method="post">';
-                 var main=obj[row].QueueDestination;
-                 for(var call in main){
-                html+=' <p> <label>Please enter your phone number</label></p><p> <input name="phone" type="tel" placeholder=" phone number" required="required" > <input name="qid" value="'+main[call].id+'" type="hidden"  ></p>';
-
-                 }
-                html+='<button class="btn btn-default" type="submit">Submit</button></form></center></body></html>';
-                MakeStream(html,row);
+                var content = htmlUtil.setTitle($, obj[row].QueueDestination.name) ;
+                content = htmlUtil.createCall(content,obj[row].QueueDestination.id);
+                MakeStream(content.html(),licence_key,row);
                 break;
-                */
-
           }
-
         }
-
-
       }
-      /////
 
       res.sendStatus(200)
 
@@ -145,5 +123,3 @@ function MakeStream(html, namefolder, namefile) {
 module.exports = {
   generate : generate
 }
-
-
