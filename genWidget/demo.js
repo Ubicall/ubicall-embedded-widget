@@ -8,8 +8,8 @@ var cheerio = require('cheerio'),
 
 
 
-var content = htmlUtil.setTitle($, 'choice SCRENN') ;
-content = htmlUtil.createCall($ , 5);
+var content = htmlUtil.setTitle($, 'choice SCRENN');
+content = htmlUtil.createCall($, 5);
 // content = htmlUtil.createChoices(content,
 //     [
 //     		{"ScreenName":"http://www.fedex.com/","ChoiceText":"Track Your Order"},

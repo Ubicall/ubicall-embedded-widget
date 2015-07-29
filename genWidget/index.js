@@ -10,19 +10,9 @@ var cheerio = require('cheerio'),
 function generate(plistUrl) {
   request(plistUrl, function(error, response, body) {
     if (!error && response.statusCode == 200) {
-      if (_parsePlist(body)) {
-        res.status(200).json({
-          message: "widget generated successfully"
-        });
-      } else {
-        res.status(500).json({
-          message: "error generating widget , plist may be courrpted"
-        })
-      }
+      return _parsePlist(body);
     } else {
-      res.status(500).json({
-        message: "error generating widget , plist may be courrpted"
-      })
+      return false;
     }
   });
 }
