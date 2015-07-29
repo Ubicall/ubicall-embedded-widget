@@ -11,8 +11,10 @@
   "license": "GPLv3",
   "dependencies": {
     "body-parser": "^1.6.3",
+    "cheerio": "^0.19.0",
     "ejs": "^1.0.0",
     "express": "^4.8.3",
+    "js-beautify": "^1.5.10",
     "plist": "^1.1.0"
   }
 }

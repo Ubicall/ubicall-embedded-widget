@@ -1,48 +1,52 @@
+var extUrlRegex =
+  new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+
+
+function createGrid($, grids){
+  var $ul = $('<ul/>').attr('id', 'grid-01')
+  grids.forEach(function(grid) {
+    var $li = $('<li/>');
+    var $a = $('<a/>').attr('href', grid.nextLink).attr('class', 'animsition-link').text(grid.text);
+    if(extUrlRegex.test(grid.nextLink)){
+      $a.attr('target', '_blank');
+    }
+    var $img = $('<img/>').attr('src', grid.iconLink).attr('height', 50).attr('width', 50);
+    $a.append($img);
+    $li.append($a);
+    $ul.append($li);
+  });
+  $('#pages').html($ul);
+  return $;
+}
+
+function createChoices($ , choices){
+
+  return $;
+}
+
 module.exports = {
 
-  createHeader: function() {
-    // TODO
+  setTitle: function($, title) {
+    $("#header .header").text(title);
+    return $;
   },
-  createCall: function(){
-    var main = obj[row].choices;
-    var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><!-- Pages --><div id="pages"><div class="list-group">';
-
-    for (var cho in main) {
-      if (main[cho].ChoiceType == 'Choice') {
-
-        html += '<a href="' + main[cho].ScreenName + '.html" class="list-group-item lest-01" data-toggle="collapse" >' + main[cho].ChoiceText + '</a>';
-      }
-      if (main[cho].ChoiceType == 'URL') {
-
-        html += '<a href="' + main[cho].url + '" class="list-group-item lest-01" data-toggle="collapse" target="_blank" >' + main[cho].ChoiceText + '</a>';
-      } else if (main[cho].ChoiceType == 'Call') {
-
-
-        /// TODO : genertate call file on the fly
-
-                          var htmlcall ='<html><head></head><body><center><h1>'+main[cho].ChoiceText+
-                          '</h1><form action="/api/3rd/foo/widget/2/form" method="post">';
-                          htmlcall+=' <p> <label>Please enter your phone number</label></p><p> <input name="phone"
-                          type="tel" placeholder=" phone number" required="required" ><input name="qid"
-                          value="'+main[cho].QueueDestination+'" type="hidden"  >  </p>';
-                          htmlcall+='<button class="btn btn-default" type="submit">Submit</button> </form></center></body></html>';
-                          MakeStream(htmlcall,'call'+c);
-
-        // TODO now use this static link @'call' + c as next page for link
-        html += '<a href="call' + c + '" class="list-group-item lest-01" data-toggle="collapse" >' + main[cho].ChoiceText + '</a></p>';
-
-      } else {
-
-        html += '<a href="' + main[cho].ScreenName + '.html" class="list-group-item lest-01" data-toggle="collapse" >' + main[cho].ChoiceText + '</a>';
-      }
-      c++;
-    }
-    html += '</div></div><!-- Page End --></div><!-- Animsition End --><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script><!-- js End --></body></html>';
-    MakeStream(html, licence_key, row);
-    break;
+  createChoices: function($, choices) {
+    //TODO
+    return $;
   },
-  createFooter :function() {
-    // TODO
-  }
-
+  /**
+   *@grids is [{text , nextLink , iconLink} , {text , nextLink , iconLink}]
+    return
+        <ul class="grid-01">
+           <li>
+             <a href="e00b2cb8.70e9f8.html" class="animsition-link">
+               <img src="https://designer.ubicall.com/uploads/fdab76ef5814558d0e5fae788d9a7bd1.png" height="50" width="50"> Shipping & Returns</a>
+           </li>
+           <li>
+             <a href="df63be64.823108.html" class="animsition-link">
+               <img src="https://designer.ubicall.com/uploads/509deebc910aee6633a8d7f6d0e33358.png" height="50" width="50"> FAQ's</a>
+           </li>
+         </ul>
+   **/
+  createGrid: createGrid
 }

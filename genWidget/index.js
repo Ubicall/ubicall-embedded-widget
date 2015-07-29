@@ -1,3 +1,4 @@
+var jquery = require( "jquery" );
 var htmlUtil =  require('./htmlUtil.js');
 
 
@@ -60,43 +61,27 @@ function generate(plistUrl){
               ///////
 
             case "Grid":
-              var main = obj[row].choices;
-
-              if (row == 'MainScreen') {
-
-                var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><div id="pages"><ul class="grid-01">';
-              } else {
-                var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><div id="pages"><ul class="grid-01">';
-              }
 
 
-              for (var grid in main) {
-
+              var grids = [] ;
+              for (var grid in obj[row].choices) {
+                var grid = {} ;
                 if (main[grid].ChoiceType == 'URL') {
-                  html += ' <li> <a  href="' + main[grid].url + '" target="_blank" > <img  src="' + main[grid].UrlImage + '"height="50" width="50"> ' + main[grid].ChoiceText + '</a></li>';
-                } else if (main[grid].ChoiceType == 'Call') {
-
-                  html += ' <li> <a  href="call/' + main[qid].QueueDestination + '" class="animsition-link"> <img  src="' + main[grid].UrlImage + '"height="50" width="50"> ' + main[grid].ChoiceText + '</a></li>';
-                  /*
-
-                                var htmlcall ='<html><head></head><body><center><h1>'+main[grid].ChoiceText+'</h1><form action="/api/3rd/foo/widget/2/form" method="post">';
-                                htmlcall+=' <p> <label>Please enter your phone number</label></p><p> <input name="phone" type="tel" placeholder=" phone number" required="required" > <input name="qid" value="'+main[grid].QueueDestination+'" type="hidden"  ></p>';
-
-
-                                htmlcall+='<button class="btn btn-default" type="submit">Submit</button> </form></center></body></html>';
-                                MakeStream(htmlcall,'call'+c);
-                  */
-
+                  grid.nextLink = main[grid].url;
                 } else {
-
-                  html += ' <li> <a  href="' + main[grid].ScreenName + '.html" class="animsition-link"> <img  src="' + main[grid].UrlImage + '"height="50" width="50"> ' + main[grid].ChoiceText + '</a></li>';
+                  grid.nextLink = main[grid].ScreenName;
                 }
-                c++;
+                grid.iconLink = main[grid].UrlImage;
+                grid.text = main[grid].ChoiceText;
+                grids.push(grid)
               }
-              html += '</ul></div><!-- Page End --></div><!-- Animsition End --><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script><!-- js End --></body></html>';
-              MakeStream(html, licence_key, row);
+              content = htmlUtil.createGrid(content, grids);
+              MakeStream(content, licence_key, row);
               break;
-              //////////
+
+
+
+
             case "URL":
               var main = obj[row].choices;
               var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><div id="pages"><ul class="grid-01">';
