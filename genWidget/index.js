@@ -1,6 +1,10 @@
 var jquery = require( "jquery" );
 var htmlUtil =  require('./htmlUtil.js');
-
+var fs = require('fs');
+var settings = require('../settings');
+var beautify_html = require('js-beautify').html;
+var cheerio = require('cheerio'),
+  $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
 
 // TODO : enhance generate html function
 // TODO : use statndard libraries to manipulate and create html in suggest https://www.npmjs.com/package/jquery
@@ -34,11 +38,11 @@ function generate(plistUrl){
             //////////
 
             case "Choice":
-              htmlUtil.careteHeader();
-              htmlUtil.createChoise({});
-              htmlUtil.createFooter();
 
-              //////
+               var content = htmlUtil.setTitle($, obj[row].ScreenTitle) ;
+                content = htmlUtil.createChoice(content,obj[row] );
+                MakeStream(content.html(),licence_key,row);
+          
             case "Form":
               var main = obj[row].FormFields;
               var html = '<!DOCTYPE html><html><head><meta charset="utf-8" />
@@ -91,12 +95,12 @@ function generate(plistUrl){
               break;
               ///////////
             case "Info":
-              var main = obj[row].choices;
-              var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><div class="animsition">';
-              html += '<div id="pages"><p>' + obj[row].ContentText + '</p></div>';
-              html += '</div><!-- Animsition End --><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script><!-- js End --></body></html>';
-              MakeStream(html, licence_key, row);
-              break;
+
+                var content = htmlUtil.setTitle($, obj[row].ScreenTitle) ;
+                content = htmlUtil.createInfo(content,obj[row].ContentText );
+                MakeStream(content.html(),licence_key,row);
+                break;
+           
               /*
             case "Call":
                 // var main=obj[row].choices;
@@ -131,7 +135,7 @@ function generate(plistUrl){
 
 function MakeStream(html, namefolder, namefile) {
   mkdirp.sync('views/server/3rd/foo/' + namefolder, 0777);
-  var stream = fs.createWriteStream("views/server/3rd/foo/" + namefolder + "/" + namefile + ".html");
+  var stream = fs.createWriteStream("/home/sand/Kode/nKode/ubicallwidget/static/generated/" + namefolder + "/" + namefile + ".html");
   stream.once('open', function() {
     stream.write(html);
     stream.end();
@@ -141,3 +145,5 @@ function MakeStream(html, namefolder, namefile) {
 module.exports = {
   generate : generate
 }
+
+
