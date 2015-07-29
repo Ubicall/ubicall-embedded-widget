@@ -12,31 +12,6 @@ var platformApp = express();
 platformApp.use(body_parser.json());
 
 
-function isValidPartyId(partyId) {
-  //TODO this check is trivial for now, of course,
-  //in a production platform we would use something like an API key
-  //lookup against the requested resources
-  return partyId && partyId.length === 10;
-}
-
-//respond to widget API
-platformApp.get('/widget/:licence', function(req, res) {
-  var lic = req.param.licence;
-  if(lic && isValidPartyId(lic)){
-    // folder contain @partId widget components
-    res.sendFile( settings.platformTemplatesPath + lic +  '/MainScreen.html' );
-  }else {
-    res.redirect(settings.widgetError);
-  }
-});
-
-
-platformApp.get('/widget/:licence/:view', function(req, res) {
-  // TODO check if settings.platformTemplatesPath + req.params.licence + '/' + req.params.view exist first
-  res.render( settings.platformTemplatesPath + req.params.licence + '/' + req.params.view );
-});
-
-
 // TODO post to widget will generate (call genWidget) widget files
 // send new plist url as header value plistUrl
 platformApp.post('/widget', function(req, res) {

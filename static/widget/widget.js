@@ -15,29 +15,13 @@ var ubiWidget = ubiWidget || (function() {
     if (partyId) {
       iframeSource = 'https://platform.ubicall.com/widget/' + partyId;
     } else {
-      // TODO FALL BACK URL FOR ERROR API
-      iframeSource = 'https://platform.ubicall.com/widget/404';
+      iframeSource = 'https://www.ubicall.com/40x.html';
     }
     var iframe = document.createElement('iframe');
     iframe.setAttribute('src', iframeSource);
     iframe.setAttribute('class', ' popup-ifram-style');
     iframe.setAttribute('frameborder', '0');
     fooWidget.appendChild(iframe);
-  }
-
-  //See http://css-tricks.com/snippets/javascript/inject-new-css-rules
-
-  function _injectStyles() {
-    var css = '<%= inlineCss %>';
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    if (style.styleSheet) {
-      style.styleSheet.cssText = css;
-    } else {
-      style.appendChild(document.createTextNode(css));
-    }
-    var head = document.head || document.querySelector('head');
-    head.appendChild(style);
   }
 
   return {
@@ -55,7 +39,6 @@ var ubiWidget = ubiWidget || (function() {
       }
 
       _createUbiWidget(ubiWidget, _args.licence_key);
-      _injectStyles();
     }
   };
 }());
