@@ -19,6 +19,15 @@ function createGrid($, grids){
   return $;
 }
 
+
+
+function createInfo($, content){
+ 
+  var $p = $('<p>').text(content);
+  $('#pages').html($p );
+  return $;
+}
+
 function createChoices($ , choices){
 
   return $;
@@ -48,5 +57,7 @@ module.exports = {
            </li>
          </ul>
    **/
-  createGrid: createGrid
+  createGrid: createGrid,
+  createChoices: createChoices,
+  createInfo : createInfo
 }
