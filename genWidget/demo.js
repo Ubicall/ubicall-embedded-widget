@@ -9,14 +9,18 @@ var cheerio = require('cheerio'),
 
 
 var content = htmlUtil.setTitle($, 'choice SCRENN') ;
-content = htmlUtil.createChoices(content,
-    [
-    		{"ScreenName":"http://www.fedex.com/","ChoiceText":"Track Your Order"},
-    		{"ScreenName":"eeeba174.b1edc","ChoiceText":"Returns & Exchange"},
-    		{"ScreenName":"622f68d9.41c69","ChoiceText":"Shipping Rates"},
-    		{"ScreenName":"95934b1b.df9038","ChoiceText":"Warranty"},
-    		{"ScreenName":"3834cdc.a475fb2","ChoiceText":"Speak to an Agent"}
-    ]);
+content = htmlUtil.createForm(content,
+   [
+         {
+            "FieldLabel":"Enter Your Policy Number",
+            "FieldType":"Text Field",
+            "isMandatory":true,
+            "Keyboard":"1",
+            "Placeholder":"Policy Number"
+         }
+      ]
+
+    );
 
 /*
 var content = htmlUtil.setTitle($, 'INFO SCRENN') ;
