@@ -28,8 +28,55 @@ function createInfo($, content){
   return $;
 }
 
-function createChoices($ , choices){
 
+function createCall($ , queue){
+
+  return $;
+}
+
+ /**
+  @param choices [{"ScreenName":"http://www.fedex.com/","ChoiceText":"Track Your Order"},
+    {"ScreenName":"eeeba174.b1edc","ChoiceText":"Returns & Exchange"}]
+  @ return 
+      <div class="list-group">
+        <a target="_blank" data-toggle="collapse" class="list-group-item lest-01"  href="http://www.fedex.com/">Track Your Order</a>
+        <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
+      </div>
+  **/
+function createChoices($ , choices)
+{
+
+  var $div = $('<div/>').attr('class', 'list-group')
+  choices.forEach(function(choice) {
+   
+   var $a = $('<a/>').attr('class', 'list-group-item lest-01').text(choice.ChoiceText);
+    if(extUrlRegex.test(choice.ScreenName)){
+      $a.attr('href', choice.ScreenName).attr('target', '_blank');
+    } else {
+       $a.attr('href', choice.ScreenName+ '.html');
+    }
+    $div.append($a);
+  });
+
+  $('#pages').html($div);
+  return $;
+}
+
+
+function createGrid($, grids){
+  var $ul = $('<ul/>').attr('id', 'list-group')
+  grids.forEach(function(grid) {
+    var $li = $('<li/>');
+    var $a = $('<a/>').attr('href', grid.nextLink).attr('class', 'animsition-link').text(grid.text);
+    if(extUrlRegex.test(grid.nextLink)){
+      $a.attr('target', '_blank');
+    }
+    var $img = $('<img/>').attr('src', grid.iconLink).attr('height', 50).attr('width', 50);
+    $a.append($img);
+    $li.append($a);
+    $ul.append($li);
+  });
+  $('#pages').html($ul);
   return $;
 }
 
@@ -39,10 +86,7 @@ module.exports = {
     $("#header .header").text(title);
     return $;
   },
-  createChoices: function($, choices) {
-    //TODO
-    return $;
-  },
+
   /**
    *@grids is [{text , nextLink , iconLink} , {text , nextLink , iconLink}]
     return
@@ -58,6 +102,14 @@ module.exports = {
          </ul>
    **/
   createGrid: createGrid,
+  /**
+  <div class="list-group">
+      <a target="_blank" data-toggle="collapse" class="list-group-item lest-01" 
+        href="http://www.fedex.com/">Track Your Order</a><a data-toggle="collapse" 
+        class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
+        <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a><a data-toggle="collapse" class="list-group-item lest-01" href="622f68d9.41c69.html">Shipping Rates</a><a data-toggle="collapse" class="list-group-item lest-01" href="95934b1b.df9038.html">Warranty</a><a data-toggle="collapse" class="list-group-item lest-01" href="95934b1b.df9038.html">Warranty</a><a data-toggle="collapse" class="list-group-item lest-01" href="3834cdc.a475fb2.html">Speak to an Agent</a></div>
+  **/
   createChoices: createChoices,
-  createInfo : createInfo
+  createInfo : createInfo,
+  createCall : createCall
 }

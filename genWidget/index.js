@@ -38,11 +38,11 @@ function generate(plistUrl){
             //////////
 
             case "Choice":
-              htmlUtil.careteHeader();
-              htmlUtil.createChoise({});
-              htmlUtil.createFooter();
 
-              //////
+               var content = htmlUtil.setTitle($, obj[row].ScreenTitle) ;
+                content = htmlUtil.createChoice(content,obj[row] );
+                MakeStream(content.html(),licence_key,row);
+          
             case "Form":
               var main = obj[row].FormFields;
               var html = '<!DOCTYPE html><html><head><meta charset="utf-8" />
