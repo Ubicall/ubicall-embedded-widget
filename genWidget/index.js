@@ -39,10 +39,21 @@ function generate(plistUrl){
 
             case "Choice":
 
-               var content = htmlUtil.setTitle($, obj[row].ScreenTitle) ;
-                content = htmlUtil.createChoice(content,obj[row] );
-                MakeStream(content.html(),licence_key,row);
-          
+              var choices = [] ;
+              for (var choice in obj[row].choices) {
+                var choice = {} ;
+                if (main[choice].ChoiceType == 'URL') {
+                  choice.ScreenName = main[choice].url;
+                } else {
+                  choice.ScreenName = main[choice].ScreenName;
+                }
+                choice.ChoiceText = main[choice].ChoiceText;
+                choices.push(choice)
+              }
+              var content = htmlUtil.setTitle($, obj[row].ScreenTitle) ;
+              content = htmlUtil.createChoice(content, choices);
+              MakeStream(content, licence_key, row);
+            break;
             case "Form":
               var main = obj[row].FormFields;
               var html = '<!DOCTYPE html><html><head><meta charset="utf-8" />
@@ -71,18 +82,18 @@ function generate(plistUrl){
               for (var grid in obj[row].choices) {
                 var grid = {} ;
                 if (main[grid].ChoiceType == 'URL') {
-                  grid.nextLink = main[grid].url;
+                  grid.ScreenName = main[grid].url;
                 } else {
-                  grid.nextLink = main[grid].ScreenName;
+                  grid.ScreenName = main[grid].ScreenName;
                 }
-                grid.iconLink = main[grid].UrlImage;
-                grid.text = main[grid].ChoiceText;
+                grid.UrlImage = main[grid].UrlImage;
+                grid.ChoiceText = main[grid].ChoiceText;
                 grids.push(grid)
               }
+             var content = htmlUtil.setTitle($, obj[row].ScreenTitle) ;
               content = htmlUtil.createGrid(content, grids);
               MakeStream(content, licence_key, row);
               break;
-
 
 
 

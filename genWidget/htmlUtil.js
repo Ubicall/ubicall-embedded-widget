@@ -53,7 +53,7 @@ function createChoices($ , choices)
     if(extUrlRegex.test(choice.ScreenName)){
       $a.attr('href', choice.ScreenName).attr('target', '_blank');
     } else {
-       $a.attr('href', choice.ScreenName+ '.html');
+       $a.attr('href', choice.ScreenName+'.html');
     }
     $div.append($a);
   });
@@ -67,11 +67,11 @@ function createGrid($, grids){
   var $ul = $('<ul/>').attr('id', 'list-group')
   grids.forEach(function(grid) {
     var $li = $('<li/>');
-    var $a = $('<a/>').attr('href', grid.nextLink).attr('class', 'animsition-link').text(grid.text);
-    if(extUrlRegex.test(grid.nextLink)){
+    var $a = $('<a/>').attr('href', grid.ScreenName).attr('class', 'animsition-link').text(grid.ChoiceText);
+    if(extUrlRegex.test(grid.ScreenName)){
       $a.attr('target', '_blank');
     }
-    var $img = $('<img/>').attr('src', grid.iconLink).attr('height', 50).attr('width', 50);
+    var $img = $('<img/>').attr('src', grid.ScreenName).attr('height', 50).attr('width', 50);
     $a.append($img);
     $li.append($a);
     $ul.append($li);
