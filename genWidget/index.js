@@ -17,7 +17,6 @@ function generate(plistUrl) {
   });
 }
 
-
 function _parsePlist(plistContent) {
   var plistObject = plist.parse(plistContent);
   var licence_key = plistObject.key;
@@ -30,23 +29,9 @@ function _parsePlist(plistContent) {
           content = htmlUtil.createChoice(content, plistObject[row]);
           _MakeStream(content.html(), licence_key, row);
         case "Form":
-          var main = plistObject[row].FormFields;
-          var html = '<!DOCTYPE html><html><head><meta charset="utf-8" /> < link href = "http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css"
-          rel = "stylesheet" / > < link href = "http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css"
-          rel = "stylesheet" / > < link href = "http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css"
-          rel = "stylesheet" / > < link href = "http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css"
-          rel = "stylesheet" / > < /head><body><!-- Header --><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i > < /a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i > < /a><h3>' + plistObject[row].ScreenTitle + '</h
-          3 > < /div><!-- Animsition --><div class="animsition"><!-- Pages --><div id="pages"><form>';
-          for (var form in main) {
-            if (main[form].isMandatory == true) {
-              html += '<div class="form-group"> <label>' +
-                main[form].FieldLabel + '</label></p><p> <input  class="form-control" type="text" placeholder="' + main[form].Placeholder + '" required="required" ></div>';
-            } else {
-              html += ' <div class="form-group"><label>' + main[form].FieldLabel + '</label></p><p> <input  class="form-control" type="text" placeholder="' + main[form].Placeholder + '"></div>';
-            }
-          }
-          html += '<button type="submit" class="btn btn-default">Submit</button></form></div><!-- Page End --></div><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script></body></html>';
-          _MakeStream(html, licence_key, row);
+          var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
+          content = htmlUtil.createForm(content, plistObject[row].FormFields);
+          _MakeStream(content.html(), licence_key, row);
           break;
         case "Grid":
           var grids = [];

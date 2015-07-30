@@ -7,9 +7,8 @@ var cheerio = require('cheerio'),
   $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
 
 
-
-var content = htmlUtil.setTitle($, 'choice SCRENN');
-content = htmlUtil.createCall($, 5);
+//var content = htmlUtil.setTitle($, 'choice SCRENN');
+//content = htmlUtil.createCall($, 5);
 // content = htmlUtil.createChoices(content,
 //     [
 //     		{"ScreenName":"http://www.fedex.com/","ChoiceText":"Track Your Order"},
@@ -18,7 +17,19 @@ content = htmlUtil.createCall($, 5);
 //     		{"ScreenName":"95934b1b.df9038","ChoiceText":"Warranty"},
 //     		{"ScreenName":"3834cdc.a475fb2","ChoiceText":"Speak to an Agent"}
 //     ]);
+var content = htmlUtil.setTitle($, 'choice SCRENN') ;
+content = htmlUtil.createForm(content,
+   [
+         {
+            "FieldLabel":"Enter Your Policy Number",
+            "FieldType":"Text Field",
+            "isMandatory":true,
+            "Keyboard":"1",
+            "Placeholder":"Policy Number"
+         }
+      ]
 
+    );
 /*
 var content = htmlUtil.setTitle($, 'INFO SCRENN') ;
 content = htmlUtil.createInfo(content , 'contentsssssssssssssssssssssssssssssssss');

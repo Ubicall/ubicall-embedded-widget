@@ -34,6 +34,48 @@ function createGrid($, grids) {
   return $;
 }
 
+function createForm($, FormField) {
+
+  var scrip = " <script> $(document) .ready(function(){       $('form').submit(function(){      var inpval = $('inpval').val();     var inpName=$('inpName').val();     localStorage.setItem('formKay', inpname);     localStorage.setItem('formVal', inpval);                   return false;        });});</script>";
+
+  var $maidiv = $('<div/>').append(scrip);
+
+
+
+  var $form = $('<form/>');
+  FormField.forEach(function(Field) {
+
+    var $div = $('<div/>').attr('class', 'form-group');
+    var $label = $('<label/>').text(Field.FieldLabel);
+
+    var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', Field.Placeholder).attr('id', 'inpval');
+    var $Hinput = $('<input/>').attr('id', 'inpName').attr('type', 'hidden').attr('value', Field.FieldLabel);
+
+    if (Field.isMandatory == true) {
+      $input.attr('required', 'required');
+    }
+    if (Field.Keyboard == '1') {
+      $input.attr('type', 'number');
+    } else {
+      $input.attr('type', 'text');
+    }
+
+    $div.append($label);
+    $div.append($input);
+    $form.append($div);
+  });
+  var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
+  $form.append($button);
+  $maidiv.append($form);
+  $('#pages').html($maidiv);
+
+  return $;
+}
+
+
+
+
+
 /**
 @param $ is cheerio documnet
 @param content ' content for info screen '
@@ -104,8 +146,6 @@ function createChoices($, choices) {
 }
 
 
-
-
 module.exports = {
   setTitle: function($, title) {
     $("#header .header").text(title);
@@ -114,5 +154,6 @@ module.exports = {
   createGrid: createGrid,
   createChoices: createChoices,
   createInfo: createInfo,
-  createCall: createCall
+  createCall: createCall,
+  createForm:createForm
 }
