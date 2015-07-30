@@ -6,7 +6,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
-  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-300-01.woff2) format('woff2');
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-300-01.woff2) format('woff2');
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
 }
 /* latin */
@@ -14,7 +14,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
-  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-300-02.woff2) format('woff2');
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-300-02.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
@@ -23,7 +23,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-400-01.woff2) format('woff2');
+  src: local('Open Sans'), local('OpenSans'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-400-01.woff2) format('woff2');
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
 }
 /* latin */
@@ -31,7 +31,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-400-02.woff2) format('woff2');
+  src: local('Open Sans'), local('OpenSans'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-400-02.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
@@ -40,7 +40,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 600;
-  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-600-01.woff2) format('woff2');
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-600-01.woff2) format('woff2');
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
 }
 /* latin */
@@ -48,7 +48,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 600;
-  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-600-02.woff2) format('woff2');
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-600-02.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
@@ -57,7 +57,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-700-01.woff2) format('woff2');
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-700-01.woff2) format('woff2');
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
 }
 /* latin */
@@ -65,7 +65,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-700-02.woff2) format('woff2');
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-700-02.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
@@ -74,7 +74,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-800-01.woff2) format('woff2');
+  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-800-01.woff2) format('woff2');
   unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
 }
 /* latin */
@@ -82,7 +82,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(http://cdn.ubicall.com/widget/fonts/OpenSans-800-02.woff2) format('woff2');
+  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(https://cdn.ubicall.com/widget/fonts/OpenSans-800-02.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
@@ -92,12 +92,12 @@
   font-family: 'FontAwesome';
   font-weight: normal;
   font-style: normal;
-  src: url(http://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.eot?v=4.3.0);
-  src: url(http://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0) format('embedded-opentype'),
-  url(http://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0) format('woff2'),
-  url(http://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.woff?v=4.3.0) format('woff'),
-  url(http://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.ttf?v=4.3.0) format('truetype'),
-  url(http://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular) format('svg');
+  src: url(https://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.eot?v=4.3.0);
+  src: url(https://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0) format('embedded-opentype'),
+  url(https://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0) format('woff2'),
+  url(https://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.woff?v=4.3.0) format('woff'),
+  url(https://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.ttf?v=4.3.0) format('truetype'),
+  url(https://cdn.ubicall.com/widget/font-awesome/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular) format('svg');
 }
 
 
