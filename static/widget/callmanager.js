@@ -1,11 +1,18 @@
 'use strict';
 var ubiCallManager = ubiCallManager || (function() {
-  function _setLicenceKey(lic) {
+
+  _initGeo();
+
+  var GEO = GEO || _getGeoInfo();
+  var LICENSE = LICENSE || _getLicenceKey();
+  var phoneCallSubmitQueue;
+
+  function setLicenceKey(lic) {
     localStorage.setItem('lic', lic);
   }
 
   function _getLicenceKey() {
-    _setLicenceKey('e6053eb8d35e02ae40beeeacef203c1a');
+    setLicenceKey('e6053eb8d35e02ae40beeeacef203c1a');
     return localStorage.getItem('lic');
   }
 
@@ -22,6 +29,46 @@ var ubiCallManager = ubiCallManager || (function() {
     localStorage.getItem('sip');
   }
 
+  function _saveGeoInfo(geo) {
+    localStorage.removeItem('geo');
+    localStorage.setItem('geo', sip);
+  }
+
+  function _removeGeoInfo() {
+    localStorage.removeItem('geo');
+  }
+
+  function _getGeoInfo() {
+    localStorage.getItem('geo');
+  }
+
+  function _initGeo() {
+    $.ajax({
+      url: 'https://freegeoip.net/json',
+      type: 'POST',
+      dataType: 'jsonp',
+      success: function(geo) {
+        _saveGeoInfo(geo)
+      },
+      error: function(xhr){
+        console.log("unable to get geo data , retry with another service provider")
+        __geoFallBack()
+      },
+      timeout: 3000 // sets timeout to 3 seconds
+    });
+  }
+
+  function __geoFallBack(){
+    $.ajax({
+      url: 'https://l2.io/ip',
+      type: 'POST',
+      dataType: 'jsonp',
+      success: function(ip) {
+        _saveGeoInfo({ip:ip});
+      }
+    });
+  }
+
   function scheduleSipCall(queue) {
     var lic_key = _getLicenceKey();
     _getNumber({
@@ -29,36 +76,61 @@ var ubiCallManager = ubiCallManager || (function() {
     });
     $.ajax({
       type: "get",
-      url: "http: //ws.ubicall.com/webservice/get_schedule_web_call.php",
+      url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
       contentType: "application/json",
       data: {
         voiceuser_id: _getSipInfo.username,
-        license_key: _getLicenceKey(),
-        qid: queue
+        license_key: LICENSE,
+        qid: queue,
+        ipaddress: GEO.ip || ''
       },
       success: function(response) {
-        /** sample
-          {
-            status: 200,
-            data: [
-              {
-                call: "processing",
-                call_id: 0
-              }
-          ]
-        }
-      **/
         if (response.status == 200) {
           console.log("sechduling call");
-        }else {
-          console.log("error in sechduling call");
+        } else {
+          console.log("error in sechduling web call");
         }
       },
       error: function(xhr) {
-        console.log("error in sechduling call ");
+        console.log("error in sechduling web call");
       }
     });
   }
+
+  function schedulePhoneCall(phone , time) {
+    var lic_key = _getLicenceKey();
+    $.ajax({
+      type: "get",
+      url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
+      contentType: "application/json",
+      data: {
+        voiceuser_id: phone,
+        license_key: LICENSE,
+        qid: phoneCallSubmitQueue,
+        ipaddress: GEO.ip
+      },
+      success: function(response) {
+        if (response.status == 200) {
+          console.log("sechduling call");
+          phoneCallSubmitQueue = null;
+        } else {
+          console.log("error in sechduling phone call");
+        }
+      },
+      error: function(xhr) {
+        console.log("error in sechduling phone call");
+      }
+    });
+  }
+
+  function setPhoneCallQueue(queue){
+    phoneCallSubmitQueue = queue;
+  }
+
   return {
-    scheduleSipCall: scheduleSipCall
+    setLicenceKey : setLicenceKey,
+    scheduleSipCall: scheduleSipCall,
+    setPhoneCallQueue : setPhoneCallQueue,
+    schedulePhoneCall: schedulePhoneCall
+  }
 }());
