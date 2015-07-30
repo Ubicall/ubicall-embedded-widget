@@ -34,7 +34,7 @@ function createGrid($, grids) {
   return $;
 }
 
-function createForm($, FormField) {
+function createForm($, formFields, queue) {
 
   var scrip = " <script> $(document) .ready(function(){       $('form').submit(function(){      var inpval = $('inpval').val();     var inpName=$('inpName').val();     localStorage.setItem('formKay', inpname);     localStorage.setItem('formVal', inpval);                   return false;        });});</script>";
 
@@ -43,18 +43,18 @@ function createForm($, FormField) {
 
 
   var $form = $('<form/>');
-  FormField.forEach(function(Field) {
+  formFields.forEach(function(field) {
 
     var $div = $('<div/>').attr('class', 'form-group');
-    var $label = $('<label/>').text(Field.FieldLabel);
+    var $label = $('<label/>').text(field.FieldLabel);
 
-    var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', Field.Placeholder).attr('id', 'inpval');
-    var $Hinput = $('<input/>').attr('id', 'inpName').attr('type', 'hidden').attr('value', Field.FieldLabel);
+    var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', field.Placeholder).attr('id', 'inpval');
+    var $Hinput = $('<input/>').attr('id', 'inpName').attr('type', 'hidden').attr('value', field.FieldLabel);
 
-    if (Field.isMandatory == true) {
+    if (field.isMandatory == true) {
       $input.attr('required', 'required');
     }
-    if (Field.Keyboard == '1') {
+    if (field.Keyboard == '1') {
       $input.attr('type', 'number');
     } else {
       $input.attr('type', 'text');
@@ -64,6 +64,9 @@ function createForm($, FormField) {
     $div.append($input);
     $form.append($div);
   });
+
+
+  // TODO on submit callmanager.setPhoneCallQueue(queue) then go to https://cdn.ubicall.com/widget/call.html
   var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
   $form.append($button);
   $maidiv.append($form);

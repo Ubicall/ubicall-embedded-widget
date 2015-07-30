@@ -2,6 +2,7 @@ var fs = require('fs');
 var beautify_html = require('js-beautify').html;
 var plist = require('plist');
 var request = require('request');
+var mkdirp = require('mkdirp');
 var htmlUtil = require('./htmlUtil.js');
 var settings = require('../settings');
 var cheerio = require('cheerio'),
@@ -21,13 +22,14 @@ function _parsePlist(plistContent) {
   var plistObject = plist.parse(plistContent);
   var licence_key = plistObject.key;
   for (var row in plistObject) {
-    if (typeof plistObject[row] == 'object') {
+    if (typeof plistObject[row] == 'object') {  // parse only plist component and leave mete info like font , version now
       var stype = plistObject[row].ScreenType;
       switch (stype) {
         case "Choice":
           var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-          content = htmlUtil.createChoice(content, plistObject[row]);
+          content = htmlUtil.createChoices(content, plistObject[row].choices);
           _MakeStream(content.html(), licence_key, row);
+          break;
         case "Form":
           var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
           content = htmlUtil.createForm(content, plistObject[row].FormFields);
@@ -60,14 +62,13 @@ function _parsePlist(plistContent) {
           _MakeStream(content.html(), licence_key, row);
           break;
       }
-    } else {
-      return false;
     }
   }
   return true;
 }
 
 function _MakeStream(html, namefolder, namefile) {
+  mkdirp.sync(settings.platformTemplatesPath + namefolder, 0777);
   var stream = fs.createWriteStream(settings.platformTemplatesPath + namefolder + "/" + namefile + ".html");
   stream.once('open', function() {
     stream.write(html);

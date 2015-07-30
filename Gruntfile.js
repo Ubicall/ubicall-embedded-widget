@@ -50,10 +50,16 @@ module.exports = function (grunt) {
                 src: ['**/*bower.json', '**/*.min.js', '**/*.min.css', '**/*.min.js.map', '**/*.min.map', '**/fonts/*'],
                 dest: '<%= app.dist %>/'
             },
-            views: {
+            static:{
+              expand: true,
+              cwd: '<%= app.static %>',
+              src: ['**/js/*', '**/css/*', '**/fonts/*'],
+              dest: '<%= app.dist %>/widget'
+            },
+            widgetStatic: {
                 expand: true,
-                cwd: '<%= app.static %>',
-                src: ['**/*.html', '**/*.htm', '**/*robots.ico'],
+                cwd: '<%= app.static %>/widget',
+                src: ['**/*.*'],
                 dest: '<%= app.dist %>/widget'
             },
             deployPlatform: {
@@ -68,10 +74,9 @@ module.exports = function (grunt) {
               src : ['**/*.*','!widget/**'],
               dest: settings.cdn.sharedStatic
             },
-        },
-    }
+        }
+      });
 
-    grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -80,8 +85,13 @@ module.exports = function (grunt) {
         'clean',
         'uglify:widget',
         'copy:libs',
-        'copy:views',
+        'copy:static',
+        'copy:widgetStatic',
         'copy:deployPlatform',
         'copy:deployStaticResources'
     ]);
+
+    grunt.registerTask('default', [
+      'prebuild'
+  ]);
 };

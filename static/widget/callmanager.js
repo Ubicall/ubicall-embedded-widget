@@ -81,7 +81,7 @@ var ubiCallManager = ubiCallManager || (function() {
       data: {
         voiceuser_id: _getSipInfo.username,
         license_key: LICENSE,
-        qid: queue,
+        qid: queue || phoneCallSubmitQueue,
         ipaddress: GEO.ip || ''
       },
       success: function(response) {
