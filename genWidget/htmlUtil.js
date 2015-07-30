@@ -95,7 +95,7 @@ function createInfo($, content) {
 @param queue queue id
 @return
   <div>
-      <a href="#">
+      <a href="https://cdn.ubicall.com/widget/waiting.html">
           <button class="btn btn-default" click="ubiCallManager.scheduleSipCall(@param queue)">Receive web VoIP call</button>
       </a>
       <a href="https://cdn.ubicall.com/widget/submitCall.html">
@@ -106,7 +106,7 @@ function createInfo($, content) {
 function createCall($, queue) {
   var $div = $('<div/>');
 
-  var $a = $('<a/>').attr('href', '#');
+  var $a = $('<a/>').attr('href', 'https://cdn.ubicall.com/widget/waiting.html');
   var $butA = $('<button/>').attr('class', 'btn btn-default')
     .attr('click' , 'ubiCallManager.scheduleSipCall('+queue+')').text('Receive web VoIP call');
   $a.append($butA);
