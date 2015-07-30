@@ -35,22 +35,21 @@ function createGrid($, grids) {
 }
 
 
-function createForm($, FormField) {
+function createForm($, FormField,qid) {
 
-var scrip =" <script> $(document) .ready(function(){       $('form').submit(function(){      var inpval = $('inpval').val();     var inpName=$('inpName').val();     localStorage.setItem('formKay', inpname);     localStorage.setItem('formVal', inpval);                   return false;        });});</script>";
+var scrip = " <script> $(document) .ready(function(){$.fn.serializeObject = function(){    var o = {};    var a = this.serializeArray();    $.each(a, function() {        if (o[this.name] !== undefined) {            if (!o[this.name].push) {                o[this.name] = [o[this.name]];            }            o[this.name].push(this.value || '');        } else {            o[this.name] = this.value || '';        }    });    return o;};       $('form').submit(function(){       var data =JSON.stringify($('form').serializeObject()));    ubiCallManager.setFormDate(data);    ubiCallManager.setPhoneCallQueue("+qid+");                                      return false;                  });});</script>";
 
 var $maidiv = $('<div/>').append(scrip);
 
 
 
-  var $form = $('<form/>');
+  var $form = $('<form/>').attr('action','https://cdn.ubicall.com/widget/call.html');
   FormField.forEach(function(Field) {
 
    var $div = $('<div/>').attr('class', 'form-group');
      var $label= $('<label/>').text(Field.FieldLabel);
      
-     var $input=$('<input/>').attr('class', 'form-control').attr('placeholder',Field.Placeholder).attr('id','inpval');
-     var $Hinput=$('<input/>').attr('id','inpName').attr('type','hidden').attr('value',Field.FieldLabel);
+     var $input=$('<input/>').attr('class', 'form-control').attr('placeholder',Field.Placeholder).attr('name',Field.FieldLabel);
 
     if (Field.isMandatory==true) {
      $input.attr('required','required');

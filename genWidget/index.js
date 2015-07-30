@@ -55,6 +55,12 @@ function generate(plistUrl){
               MakeStream(content, licence_key, row);
             break;
             case "Form":
+
+               var content = htmlUtil.setTitle($, obj[row].ScreenTitle) ;
+               content = htmlUtil.setTitlecontent (content,obj[row].QueueDestination) ;
+                MakeStream(content, licence_key, row);
+
+            /*
               var main = obj[row].FormFields;
               var html = '<!DOCTYPE html><html><head><meta charset="utf-8" />
               <link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/bootstrap.min.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/style-fonts.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/plist.css" rel="stylesheet" /><link href="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/css/animsition.css" rel="stylesheet" /></head><body><!-- Header --><div id="header"><a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a><a href="MainScreen.html"><i class="fa fa-home fa-right"></i></a><h3>' + obj[row].ScreenTitle + '</h3></div><!-- Animsition --><div class="animsition"><!-- Pages --><div id="pages"><form>';
@@ -73,6 +79,7 @@ function generate(plistUrl){
               html += '<button type="submit" class="btn btn-default">Submit</button></form></div><!-- Page End --></div><!-- js --><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/jquery.min.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/animsition.js"></script><script src="http://10.0.0.161/ubicall/nodeifram/views/server/3rd/foo/js/cust.js"></script></body></html>';
               MakeStream(html, licence_key, row);
               break;
+              */
               ///////
 
             case "Grid":
