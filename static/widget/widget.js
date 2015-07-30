@@ -13,7 +13,7 @@ var ubiWidget = ubiWidget || (function() {
   function _createUbiWidget(ubiWidget, partyId) {
     var iframeSource;
     if (partyId) {
-      iframeSource = 'https://platform.ubicall.com/widget/' + partyId;
+      iframeSource = 'https://platform.ubicall.com/widget/li/' + partyId;
     } else {
       iframeSource = 'https://www.ubicall.com/40x.html';
     }
@@ -21,7 +21,8 @@ var ubiWidget = ubiWidget || (function() {
     iframe.setAttribute('src', iframeSource);
     iframe.setAttribute('class', ' popup-ifram-style');
     iframe.setAttribute('frameborder', '0');
-    fooWidget.appendChild(iframe);
+    iframe.setAttribute('lic', partyId);
+    ubiWidget.appendChild(iframe);
   }
 
   return {

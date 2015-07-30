@@ -1,19 +1,22 @@
 'use strict';
 var ubiCallManager = ubiCallManager || (function() {
 
-  _initGeo();
 
   var GEO = GEO || _getGeoInfo();
   var LICENSE = LICENSE || _getLicenceKey();
   var phoneCallSubmitQueue;
+  _initGeo();
+
+  //will use jquery q
+  sipSign();
 
   function setLicenceKey(lic) {
     localStorage.setItem('lic', lic);
+    window.frameElement.setAttribute("lic" , lic)
   }
 
   function _getLicenceKey() {
-    setLicenceKey('e6053eb8d35e02ae40beeeacef203c1a');
-    return localStorage.getItem('lic');
+    return localStorage.getItem('lic') || window.frameElement.getAttribute("lic");
   }
 
   function _saveSipInfo(sip) {
@@ -69,6 +72,33 @@ var ubiCallManager = ubiCallManager || (function() {
     });
   }
 
+  function sipSign(){
+    $.ajax({
+      type: "get",
+      url: "https://ws.ubicall.com/webservice/get_web_acc.php",
+      contentType: "application/json",
+      data: {
+        sdk_name: 0000,
+        sdk_version: 0000,
+        deviceuid: 0000,
+        device_token: 0000,
+        device_model: 0000,
+        device_version: 0000,
+        licence_key: LICENSE
+      },
+      success: function(response) {
+        if (response.status == 200) {
+          _saveSipInfo(status.data);
+        } else {
+          console.log("error un able to get your sip credentials ");
+        }
+      },
+      error: function(xhr) {
+        console.log("error un able to get your sip credentials ");
+      }
+    });
+  }
+
   function scheduleSipCall(queue) {
     var lic_key = _getLicenceKey();
     _getNumber({
@@ -79,7 +109,7 @@ var ubiCallManager = ubiCallManager || (function() {
       url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
       contentType: "application/json",
       data: {
-        voiceuser_id: _getSipInfo.username,
+        voiceuser_id: _getSipInfo().username,
         license_key: LICENSE,
         qid: queue || phoneCallSubmitQueue,
         ipaddress: GEO.ip || ''
@@ -131,6 +161,7 @@ var ubiCallManager = ubiCallManager || (function() {
     setLicenceKey : setLicenceKey,
     scheduleSipCall: scheduleSipCall,
     setPhoneCallQueue : setPhoneCallQueue,
-    schedulePhoneCall: schedulePhoneCall
+    schedulePhoneCall: schedulePhoneCall,
+    getSipInfo : _getSipInfo
   }
 }());

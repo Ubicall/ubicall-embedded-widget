@@ -53,14 +53,8 @@ module.exports = function (grunt) {
             static:{
               expand: true,
               cwd: '<%= app.static %>',
-              src: ['**/js/*', '**/css/*', '**/fonts/*'],
-              dest: '<%= app.dist %>/widget'
-            },
-            widgetStatic: {
-                expand: true,
-                cwd: '<%= app.static %>/widget',
-                src: ['**/*.*'],
-                dest: '<%= app.dist %>/widget'
+              src: ['**/js/*', '**/css/*', '**/fonts/*' , '**/widget/*'],
+              dest: '<%= app.dist %>/widget/static/'
             },
             deployPlatform: {
               expand : true,
@@ -73,7 +67,7 @@ module.exports = function (grunt) {
               cwd : '<%= app.dist%>',
               src : ['**/*.*','!widget/**'],
               dest: settings.cdn.sharedStatic
-            },
+            }
         }
       });
 
@@ -86,7 +80,6 @@ module.exports = function (grunt) {
         'uglify:widget',
         'copy:libs',
         'copy:static',
-        'copy:widgetStatic',
         'copy:deployPlatform',
         'copy:deployStaticResources'
     ]);

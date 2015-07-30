@@ -3,7 +3,9 @@ embed able web component provide facility to browse your call center IVR in web 
 
 
 ## How To use
-<script src="https://cdn.ubicall.com/widget/widget.js" async></script>
+```javascript
+<script src="https://cdn.ubicall.com/widget/widget.min.js" async></script>
 <script type="text/javascript">
-  ubiWidget.init({containerId : 'YOUR CONTAINER ID' , licence_key : 'YOUR LICENSE KEY'});
+  ubiWidget.init({licence_key : 'YOUR LICENSE KEY'});
 </script>
+```
