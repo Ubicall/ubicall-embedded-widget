@@ -39,20 +39,9 @@ function _parsePlist(plistContent) {
             _MakeStream(content.html(), licence_key, row);
             break;
           case "Grid":
-            var grids = [];
-            for (var grid in plistObject[row].choices) {
-              var grid = {};
-              if (main[grid].ChoiceType == 'URL') {
-                grid.nextLink = main[grid].url;
-              } else {
-                grid.nextLink = main[grid].ScreenName;
-              }
-              grid.iconLink = main[grid].UrlImage;
-              grid.text = main[grid].ChoiceText;
-              grids.push(grid)
-            }
-            content = htmlUtil.createGrid(content, grids);
-            _MakeStream(content, licence_key, row);
+            var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
+            content = htmlUtil.createGrid(content, plistObject[row].choices);
+            _MakeStream(content.html(), licence_key, row);
             break;
           case "Info":
             var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);

@@ -4,7 +4,7 @@ var extUrlRegex =
 
 /**
   @param $ is cheerio documnet
-  @param grids is [{text , nextLink , iconLink} , {text , nextLink , iconLink}]
+  @param grids is [{ScreenName, url, UrlImage ,ChoiceText} , {ScreenName, url, UrlImage ,ChoiceText}]
   @return
       <ul class="grid-01">
          <li>
@@ -21,11 +21,11 @@ function createGrid($, grids) {
   var $ul = $('<ul/>').attr('id', 'grid-01')
   grids.forEach(function(grid) {
     var $li = $('<li/>');
-    var $a = $('<a/>').attr('href', grid.nextLink).attr('class', 'animsition-link').text(grid.text);
-    if (extUrlRegex.test(grid.nextLink)) {
+    var $a = $('<a/>').attr('href', grid.ScreenName || grid.url).attr('class', 'animsition-link').text(grid.ChoiceText);
+    if (extUrlRegex.test(grid.ScreenName || grid.url)) {
       $a.attr('target', '_blank');
     }
-    var $img = $('<img/>').attr('src', grid.iconLink).attr('height', 50).attr('width', 50);
+    var $img = $('<img/>').attr('src', grid.UrlImage).attr('height', 50).attr('width', 50);
     $a.append($img);
     $li.append($a);
     $ul.append($li);
@@ -42,7 +42,7 @@ var $maidiv = $('<div/>').append(scrip);
 
 
 
-  var $form = $('<form/>').attr('action','https://cdn.ubicall.com/widget/call.html');
+  var $form = $('<form/>').attr('action','https://platform.ubicall.com/widget/static/widget/call.html');
   formFields.forEach(function(field) {
 
    var $div = $('<div/>').attr('class', 'form-group');
@@ -65,7 +65,7 @@ var $maidiv = $('<div/>').append(scrip);
   });
 
 
-  // TODO on submit callmanager.setPhoneCallQueue(queue) then go to https://cdn.ubicall.com/widget/call.html
+  // TODO on submit callmanager.setPhoneCallQueue(queue) then go to https://platform.ubicall.com/widget/static/widget/call.html
   var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
   $form.append($button);
   $maidiv.append($form);
@@ -121,8 +121,7 @@ function createCall($, queue) {
 
 /**
 @param $ is cheerio documnet
-@param choices [{"ScreenName":"http://www.fedex.com/","ChoiceText":"Track Your Order"},
-    {"ScreenName":"eeeba174.b1edc","ChoiceText":"Returns & Exchange"}]
+@param choices [{ ScreenName, ChoiceText , url},{ ScreenName, ChoiceText , url}]
 @return
       <div class="list-group">
         <a target="_blank" data-toggle="collapse" class="list-group-item lest-01"  href="http://www.fedex.com/">Track Your Order</a>
@@ -135,10 +134,10 @@ function createChoices($, choices) {
   choices.forEach(function(choice) {
 
     var $a = $('<a/>').attr('class', 'list-group-item lest-01').text(choice.ChoiceText);
-    if (extUrlRegex.test(choice.ScreenName)) {
-      $a.attr('href', choice.ScreenName).attr('target', '_blank');
+    if (extUrlRegex.test(choice.ScreenName || choice.url)) {
+      $a.attr('href', choice.ScreenName || choice.url).attr('target', '_blank');
     } else {
-      $a.attr('href', choice.ScreenName + '.html');
+      $a.attr('href', choice.ScreenName || choice.url + '.html');
     }
     $div.append($a);
   });
