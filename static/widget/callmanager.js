@@ -4,7 +4,7 @@ var ubiCallManager = ubiCallManager || (function() {
 
   var GEO = GEO || _getGeoInfo();
   var LICENSE = LICENSE || _getLicenceKey();
-  var phoneCallSubmitQueue;
+  var phoneCallSubmitQueue , formData;
   _initGeo();
 
   //will use jquery q
@@ -112,7 +112,8 @@ var ubiCallManager = ubiCallManager || (function() {
         voiceuser_id: _getSipInfo().username,
         license_key: LICENSE,
         qid: queue || phoneCallSubmitQueue,
-        ipaddress: GEO.ip || ''
+        ipaddress: GEO.ip || '',
+        call_data : formData || ''
       },
       success: function(response) {
         if (response.status == 200) {
@@ -137,7 +138,8 @@ var ubiCallManager = ubiCallManager || (function() {
         voiceuser_id: phone,
         license_key: LICENSE,
         qid: phoneCallSubmitQueue,
-        ipaddress: GEO.ip
+        ipaddress: GEO.ip,
+        call_data : formData || ''
       },
       success: function(response) {
         if (response.status == 200) {
@@ -157,11 +159,16 @@ var ubiCallManager = ubiCallManager || (function() {
     phoneCallSubmitQueue = queue;
   }
 
+  function setFormDate(data){
+    formData = data;
+  }
+
   return {
     setLicenceKey : setLicenceKey,
     scheduleSipCall: scheduleSipCall,
     setPhoneCallQueue : setPhoneCallQueue,
     schedulePhoneCall: schedulePhoneCall,
-    getSipInfo : _getSipInfo
+    getSipInfo : _getSipInfo,
+    setFormDate : setFormDate
   }
 }());

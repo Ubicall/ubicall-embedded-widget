@@ -26,9 +26,15 @@ content = htmlUtil.createForm(content,
             "isMandatory":true,
             "Keyboard":"1",
             "Placeholder":"Policy Number"
+         },
+         {
+            "FieldLabel":"Enter Your Policy Number",
+            "FieldType":"Text Field",
+            "isMandatory":true,
+            "Keyboard":"1",
+            "Placeholder":"Policy Number"
          }
       ]
-
     );
 /*
 var content = htmlUtil.setTitle($, 'INFO SCRENN') ;

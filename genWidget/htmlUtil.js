@@ -34,22 +34,21 @@ function createGrid($, grids) {
   return $;
 }
 
-function createForm($, formFields, queue) {
+function createForm($, formFields,queue) {
 
-  var scrip = " <script> $(document) .ready(function(){       $('form').submit(function(){      var inpval = $('inpval').val();     var inpName=$('inpName').val();     localStorage.setItem('formKay', inpname);     localStorage.setItem('formVal', inpval);                   return false;        });});</script>";
+var scrip = " <script> $(document) .ready(function(){$.fn.serializeObject = function(){    var o = {};    var a = this.serializeArray();    $.each(a, function() {        if (o[this.name] !== undefined) {            if (!o[this.name].push) {                o[this.name] = [o[this.name]];            }            o[this.name].push(this.value || '');        } else {            o[this.name] = this.value || '';        }    });    return o;};       $('form').submit(function(){       var data =JSON.stringify($('form').serializeObject()));    ubiCallManager.setFormDate(data);    ubiCallManager.setPhoneCallQueue("+queue+");                                                   });});</script>";
 
-  var $maidiv = $('<div/>').append(scrip);
+var $maidiv = $('<div/>').append(scrip);
 
 
 
-  var $form = $('<form/>');
+  var $form = $('<form/>').attr('action','https://cdn.ubicall.com/widget/call.html');
   formFields.forEach(function(field) {
 
-    var $div = $('<div/>').attr('class', 'form-group');
-    var $label = $('<label/>').text(field.FieldLabel);
+   var $div = $('<div/>').attr('class', 'form-group');
+     var $label= $('<label/>').text(field.FieldLabel);
 
-    var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', field.Placeholder).attr('id', 'inpval');
-    var $Hinput = $('<input/>').attr('id', 'inpName').attr('type', 'hidden').attr('value', field.FieldLabel);
+     var $input=$('<input/>').attr('class', 'form-control').attr('placeholder',field.Placeholder).attr('name',field.FieldLabel);
 
     if (field.isMandatory == true) {
       $input.attr('required', 'required');
@@ -95,10 +94,10 @@ function createInfo($, content) {
 @param queue queue id
 @return
   <div>
-      <a href="https://cdn.ubicall.com/widget/waiting.html">
+      <a href="https://cdn.ubicall.com/widget/static/widget/waiting.html">
           <button class="btn btn-default" click="ubiCallManager.scheduleSipCall(@param queue)">Receive web VoIP call</button>
       </a>
-      <a href="https://cdn.ubicall.com/widget/submitCall.html">
+      <a href="https://platform.ubicall.com/widget/static/widget/submitCall.html">
         <button class="btn btn-default" type="submit">Receive a call on Cell phone</button>
       </a>
   </div>
@@ -106,11 +105,11 @@ function createInfo($, content) {
 function createCall($, queue) {
   var $div = $('<div/>');
 
-  var $a = $('<a/>').attr('href', 'https://cdn.ubicall.com/widget/waiting.html');
+  var $a = $('<a/>').attr('href', 'https://platform.ubicall.com/widget/static/widget/waiting.html');
   var $butA = $('<button/>').attr('class', 'btn btn-default')
     .attr('click' , 'ubiCallManager.scheduleSipCall('+queue+')').text('Receive web VoIP call');
   $a.append($butA);
-  var $b = $('<a/>').attr('click' , 'ubiCallManager.setPhoneCallQueue('+queue+')').attr('href', 'https://cdn.ubicall.com/widget/submitCall.html');
+  var $b = $('<a/>').attr('click' , 'ubiCallManager.setPhoneCallQueue('+queue+')').attr('href', 'https://platform.ubicall.com/widget/static/widget/submitCall.html');
   var $butB = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone');
   $b.append($butB);
   $div.append($a);
