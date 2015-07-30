@@ -153,3 +153,6 @@ bower_components
 
 ## simulate static host as /var
 .var
+
+## contain log files
+.log

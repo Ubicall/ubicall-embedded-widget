@@ -1,6 +1,7 @@
 module.exports = {
   platformTemplatesPath : '/var/www/widget/li/',
-  serverPort : 7575,
+  port : 7575,
+  host : '127.0.0.1',
   mainTemplate : './views/template.html',
   plistHostRegex : /https:\/\/designer.ubicall.com/,
   cdn : {
