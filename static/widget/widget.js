@@ -13,7 +13,7 @@ var ubiWidget = ubiWidget || (function() {
   function _createUbiWidget(ubiWidget, partyId) {
     var iframeSource;
     if (partyId) {
-      iframeSource = 'https://platform.ubicall.com/widget/li/' + partyId;
+      iframeSource = 'https://platform.ubicall.com/widget/li/' + partyId + '/MainScreen.html';
     } else {
       iframeSource = 'https://www.ubicall.com/40x.html';
     }
