@@ -1,6 +1,29 @@
-var extUrlRegex =
-  new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+/**
+@param $ is cheerio documnet
+@param choices [{ ScreenName, ChoiceText , url},{ ScreenName, ChoiceText , url}]
+@return
+      <div class="list-group">
+        <a target="_blank" data-toggle="collapse" class="list-group-item lest-01"  href="http://www.fedex.com/">Track Your Order</a>
+        <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
+      </div>
+**/
+function createChoices($, choices) {
 
+  var $div = $('<div/>').attr('class', 'list-group')
+  choices.forEach(function(choice) {
+
+    var $a = $('<a/>').attr('class', 'list-group-item lest-01').text(choice.ChoiceText);
+    if (choice.url) {
+      $a.attr('href', choice.url).attr('target', '_blank');
+    } else {
+      $a.attr('href', choice.ScreenName + '.html');
+    }
+    $div.append($a);
+  });
+
+  $('#pages').html($div);
+  return $;
+}
 
 /**
   @param $ is cheerio documnet
@@ -21,10 +44,13 @@ function createGrid($, grids) {
   var $ul = $('<ul/>').attr('id', 'grid-01')
   grids.forEach(function(grid) {
     var $li = $('<li/>');
-    var $a = $('<a/>').attr('href', grid.ScreenName || grid.url).attr('class', 'animsition-link').text(grid.ChoiceText);
-    if (extUrlRegex.test(grid.ScreenName || grid.url)) {
-      $a.attr('target', '_blank');
+    var $a = $('<a/>').attr('class', 'animsition-link').text(grid.ChoiceText);
+    if (grid.url) {
+      $a.attr('href', grid.url).attr('target', '_blank');
+    } else {
+      $a.attr('href', grid.ScreenName + '.html');
     }
+
     var $img = $('<img/>').attr('src', grid.UrlImage).attr('height', 50).attr('width', 50);
     $a.append($img);
     $li.append($a);
@@ -34,21 +60,21 @@ function createGrid($, grids) {
   return $;
 }
 
-function createForm($, formFields,queue) {
+function createForm($, formFields, queue) {
 
-var scrip = " <script> $(document) .ready(function(){$.fn.serializeObject = function(){    var o = {};    var a = this.serializeArray();    $.each(a, function() {        if (o[this.name] !== undefined) {            if (!o[this.name].push) {                o[this.name] = [o[this.name]];            }            o[this.name].push(this.value || '');        } else {            o[this.name] = this.value || '';        }    });    return o;};       $('form').submit(function(){       var data =JSON.stringify($('form').serializeObject()));    ubiCallManager.setFormDate(data);    ubiCallManager.setPhoneCallQueue("+queue+");                                                   });});</script>";
+  var scrip = " <script> $(document) .ready(function(){$.fn.serializeObject = function(){    var o = {};    var a = this.serializeArray();    $.each(a, function() {        if (o[this.name] !== undefined) {            if (!o[this.name].push) {                o[this.name] = [o[this.name]];            }            o[this.name].push(this.value || '');        } else {            o[this.name] = this.value || '';        }    });    return o;};       $('form').submit(function(){       var data =JSON.stringify($('form').serializeObject()));    ubiCallManager.setFormDate(data);    ubiCallManager.setPhoneCallQueue(" + queue + ");                                                   });});</script>";
 
-var $maidiv = $('<div/>').append(scrip);
+  var $maidiv = $('<div/>').append(scrip);
 
 
 
-  var $form = $('<form/>').attr('action','https://platform.ubicall.com/widget/static/widget/call.html');
+  var $form = $('<form/>').attr('action', 'https://platform.ubicall.com/widget/static/widget/call.html');
   formFields.forEach(function(field) {
 
-   var $div = $('<div/>').attr('class', 'form-group');
-     var $label= $('<label/>').text(field.FieldLabel);
+    var $div = $('<div/>').attr('class', 'form-group');
+    var $label = $('<label/>').text(field.FieldLabel);
 
-     var $input=$('<input/>').attr('class', 'form-control').attr('placeholder',field.Placeholder).attr('name',field.FieldLabel);
+    var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', field.Placeholder).attr('name', field.FieldLabel);
 
     if (field.isMandatory == true) {
       $input.attr('required', 'required');
@@ -107,9 +133,9 @@ function createCall($, queue) {
 
   var $a = $('<a/>').attr('href', 'https://platform.ubicall.com/widget/static/widget/waiting.html');
   var $butA = $('<button/>').attr('class', 'btn btn-default')
-    .attr('click' , 'ubiCallManager.scheduleSipCall('+queue+')').text('Receive web VoIP call');
+    .attr('click', 'ubiCallManager.scheduleSipCall(' + queue + ')').text('Receive web VoIP call');
   $a.append($butA);
-  var $b = $('<a/>').attr('click' , 'ubiCallManager.setPhoneCallQueue('+queue+')').attr('href', 'https://platform.ubicall.com/widget/static/widget/submitCall.html');
+  var $b = $('<a/>').attr('click', 'ubiCallManager.setPhoneCallQueue(' + queue + ')').attr('href', 'https://platform.ubicall.com/widget/static/widget/submitCall.html');
   var $butB = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone');
   $b.append($butB);
   $div.append($a);
@@ -118,34 +144,6 @@ function createCall($, queue) {
   $('#pages').html($div);
   return $;
 }
-
-/**
-@param $ is cheerio documnet
-@param choices [{ ScreenName, ChoiceText , url},{ ScreenName, ChoiceText , url}]
-@return
-      <div class="list-group">
-        <a target="_blank" data-toggle="collapse" class="list-group-item lest-01"  href="http://www.fedex.com/">Track Your Order</a>
-        <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
-      </div>
-**/
-function createChoices($, choices) {
-
-  var $div = $('<div/>').attr('class', 'list-group')
-  choices.forEach(function(choice) {
-
-    var $a = $('<a/>').attr('class', 'list-group-item lest-01').text(choice.ChoiceText);
-    if (extUrlRegex.test(choice.ScreenName || choice.url)) {
-      $a.attr('href', choice.ScreenName || choice.url).attr('target', '_blank');
-    } else {
-      $a.attr('href', choice.ScreenName || choice.url + '.html');
-    }
-    $div.append($a);
-  });
-
-  $('#pages').html($div);
-  return $;
-}
-
 
 module.exports = {
   setTitle: function($, title) {
@@ -156,5 +154,5 @@ module.exports = {
   createChoices: createChoices,
   createInfo: createInfo,
   createCall: createCall,
-  createForm:createForm
+  createForm: createForm
 }
