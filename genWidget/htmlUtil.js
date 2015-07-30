@@ -120,7 +120,7 @@ function createInfo($, content) {
 @param queue queue id
 @return
   <div>
-      <a href="https://cdn.ubicall.com/widget/static/widget/waiting.html">
+      <a href="https://platform.ubicall.com/widget/static/widget/waiting.html">
           <button class="btn btn-default" click="ubiCallManager.scheduleSipCall(@param queue)">Receive web VoIP call</button>
       </a>
       <a href="https://platform.ubicall.com/widget/static/widget/submitCall.html">
