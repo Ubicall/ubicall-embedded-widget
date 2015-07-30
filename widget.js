@@ -24,17 +24,17 @@ platformApp.use(bodyParser.urlencoded({
 
 platformApp.post('/api/widget', function(req, res) {
   if (req.body.plistUrl && settings.plistHostRegex.test(req.body.plistUrl)) {
-    if (genWidget.generate(req.body.plistUrl)) {
+    genWidget.generate(req.body.plistUrl).then(function(){
       log.info("Widget generated successfully from " + req.body.plistUrl)
       res.status(200).json({
         message: "Widget generated successfully"
       });
-    } else {
-      log.error("Error generating widget from " + req.body.plistUrl)
+    }).otherwise(function(err){
+      log.error("Error generating widget from " + req.body.plistUrl + ' ' + err)
       res.status(500).json({
         message: "Error generating widget , plist may be courrpted"
       });
-    }
+    });
   } else {
     log.error("Unauthorized plist server " + req.body.url)
     res.status(401).json({
