@@ -44,6 +44,12 @@ module.exports = function (grunt) {
         },
 
         copy: {
+          static:{
+                expand: true,
+                cwd: '<%= app.static %>',
+                src: ['**/widget/*.*'],
+                dest: '<%= app.dist %>/widget/'
+            },
             deployPlatform: {
               expand : true,
               cwd : '<%= app.dist%>/widget',
@@ -60,10 +66,8 @@ module.exports = function (grunt) {
     grunt.registerTask('prebuild', 'Clean then build to dist', [
         'clean',
         'uglify:widget',
-        'copy:libs',
         'copy:static',
         'copy:deployPlatform',
-        'copy:deployStaticResources'
     ]);
 
     grunt.registerTask('default', [
