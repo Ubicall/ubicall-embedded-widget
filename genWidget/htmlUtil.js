@@ -68,7 +68,7 @@ function createForm($, formFields, queue) {
 
 
 
-  var $form = $('<form/>').attr('action', 'https://platform.ubicall.com/widget/static/widget/call.html');
+  var $form = $('<form/>').attr('action', 'https://platform.ubicall.com/widget/call.html');
   formFields.forEach(function(field) {
 
     var $div = $('<div/>').attr('class', 'form-group');
@@ -91,7 +91,7 @@ function createForm($, formFields, queue) {
   });
 
 
-  // TODO on submit callmanager.setPhoneCallQueue(queue) then go to https://platform.ubicall.com/widget/static/widget/call.html
+  // TODO on submit callmanager.setPhoneCallQueue(queue) then go to https://platform.ubicall.com/widget/call.html
   var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
   $form.append($button);
   $maidiv.append($form);
@@ -120,10 +120,10 @@ function createInfo($, content) {
 @param queue queue id
 @return
   <div>
-      <a href="https://platform.ubicall.com/widget/static/widget/waiting.html">
+      <a href="https://platform.ubicall.com/widget/waiting.html">
           <button class="btn btn-default" click="ubiCallManager.scheduleSipCall(@param queue)">Receive web VoIP call</button>
       </a>
-      <a href="https://platform.ubicall.com/widget/static/widget/submitCall.html">
+      <a href="https://platform.ubicall.com/widget/submitCall.html">
         <button class="btn btn-default" type="submit">Receive a call on Cell phone</button>
       </a>
   </div>
@@ -131,11 +131,11 @@ function createInfo($, content) {
 function createCall($, queue) {
   var $div = $('<div/>');
 
-  var $a = $('<a/>').attr('href', 'https://platform.ubicall.com/widget/static/widget/waiting.html');
+  var $a = $('<a/>').attr('href', 'https://platform.ubicall.com/widget/waiting.html');
   var $butA = $('<button/>').attr('class', 'btn btn-default')
     .attr('click', 'ubiCallManager.scheduleSipCall(' + queue + ')').text('Receive web VoIP call');
   $a.append($butA);
-  var $b = $('<a/>').attr('click', 'ubiCallManager.setPhoneCallQueue(' + queue + ')').attr('href', 'https://platform.ubicall.com/widget/static/widget/submitCall.html');
+  var $b = $('<a/>').attr('click', 'ubiCallManager.setPhoneCallQueue(' + queue + ')').attr('href', 'https://platform.ubicall.com/widget/submitCall.html');
   var $butB = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone');
   $b.append($butB);
   $div.append($a);
