@@ -41,14 +41,14 @@ function createChoices($, choices) {
        </ul>
  **/
 function createGrid($, grids) {
-  var $ul = $('<ul/>').attr('id', 'grid-01')
+  var $ul = $('<ul/>').attr('class', 'grid-01')
   grids.forEach(function(grid) {
     var $li = $('<li/>');
-    var $a = $('<a/>').attr('class', 'animsition-link').text(grid.ChoiceText);
+    var $a = $('<a/>').text(grid.ChoiceText);
     if (grid.url) {
       $a.attr('href', grid.url).attr('target', '_blank');
     } else {
-      $a.attr('href', grid.ScreenName + '.html');
+      $a.attr('href', grid.ScreenName + '.html').attr('class', 'animsition-link');
     }
 
     var $img = $('<img/>').attr('src', grid.UrlImage).attr('height', 50).attr('width', 50);
