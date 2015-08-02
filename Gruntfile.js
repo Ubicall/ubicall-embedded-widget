@@ -44,29 +44,11 @@ module.exports = function (grunt) {
         },
 
         copy: {
-            libs: {
-                expand: true,
-                cwd: 'bower_components',
-                src: ['**/*bower.json', '**/*.min.js', '**/*.min.css', '**/*.min.js.map', '**/*.min.map', '**/fonts/*'],
-                dest: '<%= app.dist %>/'
-            },
-            static:{
-              expand: true,
-              cwd: '<%= app.static %>',
-              src: ['**/js/*', '**/css/*', '**/fonts/*' , '**/widget/*'],
-              dest: '<%= app.dist %>/widget/static/'
-            },
             deployPlatform: {
               expand : true,
               cwd : '<%= app.dist%>/widget',
               src : ['**/*.*'],
               dest: settings.cdn.widget
-            },
-            deployStaticResources: {
-              expand : true,
-              cwd : '<%= app.dist%>',
-              src : ['**/*.*','!widget/**'],
-              dest: settings.cdn.sharedStatic
             }
         }
       });
