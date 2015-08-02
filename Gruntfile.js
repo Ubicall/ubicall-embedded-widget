@@ -37,8 +37,8 @@ module.exports = function (grunt) {
             },
             widget: {
                 files: {
-                    '<%= app.dist %>/widget/widget.min.js': ['static/widget/widget.js'],
-                    '<%= app.dist %>/widget/callmanager.min.js': ['static/widget/callmanager.js'],
+                    '<%= app.dist %>/widget.min.js': ['<%= app.static %>/widget.js'],
+                    '<%= app.dist %>/callmanager.min.js': ['<%= app.static %>/callmanager.js'],
                 }
             }
         },
@@ -47,12 +47,12 @@ module.exports = function (grunt) {
           static:{
                 expand: true,
                 cwd: '<%= app.static %>',
-                src: ['**/widget/*.*'],
-                dest: '<%= app.dist %>/widget/'
+                src: ['**/*.*'],
+                dest: '<%= app.dist %>'
             },
             deployPlatform: {
               expand : true,
-              cwd : '<%= app.dist%>/widget',
+              cwd : '<%= app.dist%>',
               src : ['**/*.*'],
               dest: settings.cdn.widget
             }
