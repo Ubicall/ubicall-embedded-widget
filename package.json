@@ -5,7 +5,7 @@
   "description": "ubi widget that are embeddable on 3rd party sites",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha -w"
   },
   "author": "bguiz",
   "license": "GPLv3",
@@ -32,6 +32,8 @@
     "grunt-cli": "^0.1.13",
     "load-grunt-config": "^0.17.2",
     "load-grunt-tasks": "^3.2.0",
+    "mocha": "^2.2.5",
+    "should": "^7.0.2",
     "time-grunt": "^1.2.1"
   }
 }
