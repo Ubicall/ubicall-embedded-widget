@@ -46,7 +46,11 @@ var ubiCallManager = ubiCallManager || (function() {
         _saveGeoInfo(geo)
       },
       error: function(xhr){
-        console.log("unable to get geo data , retry with another service provider")
+        if(xhr.statusText == 'timeout'){
+          xhr.abort();
+        }
+        _saveGeoInfo({ip : '127.0.0.1'});
+        console.log("unable to get geo data");
       },
       timeout: 3000 // sets timeout to 3 seconds
     });
@@ -95,7 +99,7 @@ var ubiCallManager = ubiCallManager || (function() {
           voiceuser_id: SIP.username,
           license_key: LICENSE,
           qid: queue || phoneCallSubmitQueue,
-          ipaddress: GEO.ip || '',
+          ipaddress: GEO && GEO.ip ? GEO.ip : '',
           call_data : formData || ''
         },
         success: function(response) {
@@ -109,8 +113,8 @@ var ubiCallManager = ubiCallManager || (function() {
           console.log("error in sechduling web call");
         }
       });
-    }).fail(function () {
-      console.log("Executed if the async work fails");
+    }).fail(function (error) {
+      console.log(error);
     });
   }
 
@@ -124,7 +128,7 @@ var ubiCallManager = ubiCallManager || (function() {
           voiceuser_id: phone,
           license_key: LICENSE,
           qid: phoneCallSubmitQueue,
-          ipaddress: GEO.ip,
+          ipaddress: GEO && GEO.ip ? GEO.ip : '',
           call_data : formData || ''
         },
         success: function(response) {
@@ -140,7 +144,7 @@ var ubiCallManager = ubiCallManager || (function() {
         }
       });
     }).fail(function(){
-      console.log("Executed if the async work fails");
+      console.log("error in sechduling phone call");
     });
   }
 
