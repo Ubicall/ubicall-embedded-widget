@@ -80,12 +80,13 @@ var ubiCallManager = ubiCallManager || (function() {
       url: "https://ws.ubicall.com/webservice/get_web_acc.php",
       contentType: "application/json",
       data: {
-        sdk_name: 0,
-        sdk_version: 0,
-        deviceuid: 0,
-        device_token: 0,
-        device_model: 0,
-        device_version: 0,
+        sdk_name: '0000',
+        sdk_version: '0000',
+        deviceuid: '0000',
+        device_token: '0000',
+        device_model: '0000',
+        device_name:'0000',
+        device_version: '0000',
         licence_key: LICENSE
       },
       success: function(response) {
