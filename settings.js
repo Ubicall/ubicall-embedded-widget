@@ -5,7 +5,6 @@ module.exports = {
   mainTemplate : './views/template.html',
   plistHostRegex : /https:\/\/designer.ubicall.com/,
   cdn : {
-    sharedStatic : '/var/www/static/widget/',
     widget : '/var/www/widget/'
   }
 }

@@ -3,10 +3,10 @@
 
 <head>
   <meta charset="utf-8" />
-  <link href="https://cdn.ubicall.com/static/widget/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://platform.ubicall.com/widget/static/css/style-fonts.css" rel="stylesheet">
-  <link href="https://platform.ubicall.com/widget/static/css/plist.css" rel="stylesheet">
-  <link href="https://cdn.ubicall.com/static/widget/animsition/dist/css/animsition.min.css" rel="stylesheet">
+  <link href="https://cdn.ubicall.com/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.ubicall.com/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+  <link href="https://cdn.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet">
+  <link href="https://cdn.ubicall.com/static/animsition/dist/css/animsition.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -28,7 +28,7 @@
 
     <div id="pages-phone">
 
-      <img src="https://cdn.ubicall.com/widget/images/time-icon.png" class="phone-icon" alt="" />
+      <img src="https://cdn.ubicall.com/static/ubicall/images/time-icon.png" class="phone-icon" alt="" />
 
       <h2>Average Waiting Time</h2>
 
@@ -53,7 +53,7 @@
             <input type="text" id="phone" name="phone" class="form-control" placeholder="Please enter your phone number">
           </div>
           <button type="submit" class="btn btn-default btn-02"
-            click="submitPhoneCall();location.href = 'https://platform.ubicall.com/widget/static/widget/waiting.html';">Call Me</button>
+            click="submitPhoneCall();location.href = 'https://platform.ubicall.com/widget/waiting.html';">Call Me</button>
           <button type="submit" class="btn btn-default btn-03" click="javascript:history.go(-1)">Cancel</button>
         </div>
 
@@ -69,9 +69,8 @@
 
     <!-- js -->
 
-    <script src="https://cdn.ubicall.com/static/widget/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.ubicall.com/static/widget/animsition/dist/js/jquery.animsition.min.js"></script>
-    <script src="https://platform.ubicall.com/widget/static/js/cust.js"></script>
+    <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.ubicall.com/static/animsition/dist/js/jquery.animsition.min.js"></script>
     <script src="https://platform.ubicall.com/widget/callmanager.min.js"></script>
     <script>
       $(document).ready(function() {
@@ -87,25 +86,24 @@
 
         $(".animsition").animsition({
 
-          inClass: 'fade-in-right-sm',
-          outClass: 'fade-out-right-sm',
-          inDuration: 300,
-          outDuration: 300,
-          linkElement: '.animsition-link',
-          loading: true,
-          loadingParentElement: 'body', //animsition wrapper element
-          loadingClass: 'animsition-loading',
-          unSupportCss: ['animation-duration',
-            '-webkit-animation-duration',
-            '-o-animation-duration'
-          ],
-          overlay: false,
+          inClass               :   'fade-in-right-sm',
+          outClass              :   'fade-out-right-sm',
+          inDuration            :    300,
+          outDuration           :    300,
+          linkElement           :   '.animsition-link',
+          loading               :    true,
+          loadingParentElement  :   'body', //animsition wrapper element
+          loadingClass          :   'animsition-loading',
+          unSupportCss          : [ 'animation-duration',
+                                    '-webkit-animation-duration',
+                                    '-o-animation-duration'
+                                  ],
+          overlay               :   false,
 
-          overlayClass: 'animsition-overlay-slide',
-          overlayParentElement: 'body'
+          overlayClass          :   'animsition-overlay-slide',
+          overlayParentElement  :   'body'
         });
       });
-
       function submitPhoneCall(){
         var phoneNumber = $('#phone').text();
         var time;

@@ -37,36 +37,24 @@ module.exports = function (grunt) {
             },
             widget: {
                 files: {
-                    '<%= app.dist %>/widget/widget.min.js': ['static/widget/widget.js'],
-                    '<%= app.dist %>/widget/callmanager.min.js': ['static/widget/callmanager.js'],
+                    '<%= app.dist %>/widget.min.js': ['<%= app.static %>/widget.js'],
+                    '<%= app.dist %>/callmanager.min.js': ['<%= app.static %>/callmanager.js'],
                 }
             }
         },
 
         copy: {
-            libs: {
+          static:{
                 expand: true,
-                cwd: 'bower_components',
-                src: ['**/*bower.json', '**/*.min.js', '**/*.min.css', '**/*.min.js.map', '**/*.min.map', '**/fonts/*'],
-                dest: '<%= app.dist %>/'
-            },
-            static:{
-              expand: true,
-              cwd: '<%= app.static %>',
-              src: ['**/js/*', '**/css/*', '**/fonts/*' , '**/widget/*'],
-              dest: '<%= app.dist %>/widget/static/'
+                cwd: '<%= app.static %>',
+                src: ['**/*.*'],
+                dest: '<%= app.dist %>'
             },
             deployPlatform: {
               expand : true,
-              cwd : '<%= app.dist%>/widget',
+              cwd : '<%= app.dist%>',
               src : ['**/*.*'],
               dest: settings.cdn.widget
-            },
-            deployStaticResources: {
-              expand : true,
-              cwd : '<%= app.dist%>',
-              src : ['**/*.*','!widget/**'],
-              dest: settings.cdn.sharedStatic
             }
         }
       });
@@ -78,10 +66,8 @@ module.exports = function (grunt) {
     grunt.registerTask('prebuild', 'Clean then build to dist', [
         'clean',
         'uglify:widget',
-        'copy:libs',
         'copy:static',
         'copy:deployPlatform',
-        'copy:deployStaticResources'
     ]);
 
     grunt.registerTask('default', [
