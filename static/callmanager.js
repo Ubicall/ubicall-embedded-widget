@@ -91,7 +91,7 @@ var ubiCallManager = ubiCallManager || (function() {
       },
       success: function(response) {
         if (response.status == 200) {
-          _saveSipInfo(status.data);
+          _saveSipInfo(response.data);
         } else {
           console.log("error un able to get your sip credentials ");
         }
