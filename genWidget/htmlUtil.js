@@ -124,26 +124,29 @@ function createInfo($, content) {
 @param queue queue id
 @return
   <div>
-      <a href="https://platform.ubicall.com/widget/waiting.html">
-          <button class="btn btn-default" click="ubiCallManager.scheduleSipCall(@param queue)">Receive web VoIP call</button>
-      </a>
-      <a href="https://platform.ubicall.com/widget/submitCall.html">
-        <button class="btn btn-default" type="submit">Receive a call on Cell phone</button>
-      </a>
+
+      <button class="btn btn-default"
+        click="ubiCallManager.scheduleSipCall(@param queue, 'https://platform.ubicall.com/widget/waiting.html')">
+          Receive web VoIP call
+      </button>
+
+      <button class="btn btn-default"
+        click="ubiCallManager.schedulePhoneCall(@param queue, 'https://platform.ubicall.com/widget/submitCall.html')">
+          Receive a call on Cell phone
+      </button>
+
   </div>
 **/
 function createCall($, queue) {
   var $div = $('<div/>');
 
-  var $a = $('<a/>').attr('href', 'https://platform.ubicall.com/widget/waiting.html');
-  var $butA = $('<button/>').attr('class', 'btn btn-default')
-    .attr('onclick', 'ubiCallManager.scheduleSipCall(' + queue + ')').text('Receive web VoIP call');
-  $a.append($butA);
-  var $b = $('<a/>').attr('onclick', 'ubiCallManager.setPhoneCallQueue(' + queue + ')').attr('href', 'https://platform.ubicall.com/widget/submitCall.html');
-  var $butB = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone');
-  $b.append($butB);
-  $div.append($a);
-  $div.append($b);
+  var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call')
+    .attr('onclick', 'ubiCallManager.scheduleSipCall(' + queue + ',"https://platform.ubicall.com/widget/waiting.html")');
+  var $buttonb = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone')
+    .attr('onclick', 'ubiCallManager.setPhoneCallQueue(' + queue + ',"https://platform.ubicall.com/widget/submitCall.html")');
+
+  $div.append($buttona);
+  $div.append($buttonb);
 
   $('#pages').html($div);
   return $;

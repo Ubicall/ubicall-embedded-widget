@@ -89,7 +89,7 @@ var ubiCallManager = ubiCallManager || (function() {
     return deferred.promise();
   }
 
-  function scheduleSipCall(queue) {
+  function scheduleSipCall(queue , next) {
     sipSign().done(function () {
       $.ajax({
         type: "get",
@@ -105,20 +105,25 @@ var ubiCallManager = ubiCallManager || (function() {
         success: function(response) {
           if (response.status == 200) {
             console.log("sechduling call");
+            window.location.href = next ;
           } else {
             console.log("error in sechduling web call");
+            return false;
           }
         },
         error: function(xhr) {
           console.log("error in sechduling web call");
+          return false;
         }
       });
     }).fail(function (error) {
       console.log(error);
+      return false;
     });
+    return false;
   }
 
-  function schedulePhoneCall(phone , time) {
+  function schedulePhoneCall(phone , time, next) {
     sipSign().done(function () {
       $.ajax({
         type: "get",
@@ -135,17 +140,22 @@ var ubiCallManager = ubiCallManager || (function() {
           if (response.status == 200) {
             console.log("sechduling call");
             phoneCallSubmitQueue = null;
+            window.location.href = next ;
           } else {
             console.log("error in sechduling phone call");
+            return false;
           }
         },
         error: function(xhr) {
           console.log("error in sechduling phone call");
+          return false;
         }
       });
     }).fail(function(){
       console.log("error in sechduling phone call");
+      return false;
     });
+    return false;
   }
 
   function setPhoneCallQueue(queue){
