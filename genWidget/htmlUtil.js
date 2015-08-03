@@ -32,11 +32,15 @@ function createChoices($, choices) {
       <ul class="grid-01">
          <li>
            <a href="e00b2cb8.70e9f8.html" class="animsition-link">
-             <img src="https://designer.ubicall.com/uploads/fdab76ef5814558d0e5fae788d9a7bd1.png" height="50" width="50"> Shipping & Returns</a>
+             <img src="https://designer.ubicall.com/uploads/fdab76ef5814558d0e5fae788d9a7bd1.png" height="50" width="50">
+              Shipping & Returns
+          </a>
          </li>
          <li>
            <a href="df63be64.823108.html" class="animsition-link">
-             <img src="https://designer.ubicall.com/uploads/509deebc910aee6633a8d7f6d0e33358.png" height="50" width="50"> FAQ's</a>
+             <img src="https://designer.ubicall.com/uploads/509deebc910aee6633a8d7f6d0e33358.png" height="50" width="50">
+             FAQ's
+          </a>
          </li>
        </ul>
  **/
@@ -44,7 +48,7 @@ function createGrid($, grids) {
   var $ul = $('<ul/>').attr('class', 'grid-01')
   grids.forEach(function(grid) {
     var $li = $('<li/>');
-    var $a = $('<a/>').text(grid.ChoiceText);
+    var $a = $('<a/>');
     if (grid.url) {
       $a.attr('href', grid.url).attr('target', '_blank');
     } else {
@@ -52,7 +56,7 @@ function createGrid($, grids) {
     }
 
     var $img = $('<img/>').attr('src', grid.UrlImage).attr('height', 50).attr('width', 50);
-    $a.append($img);
+    $a.append($img).text(grid.ChoiceText);
     $li.append($a);
     $ul.append($li);
   });
