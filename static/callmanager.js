@@ -16,7 +16,9 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   function _getLicenceKey() {
-    return localStorage.getItem('lic') || window.frameElement.getAttribute("lic");
+    var le = localStorage.getItem('lic') || window.location.href.split('/li/')[1].split('/')[0];
+    console.log('licence key is ' + le);
+    return le;
   }
 
   function _saveSipInfo(sip) {
