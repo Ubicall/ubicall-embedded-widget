@@ -1,3 +1,6 @@
+
+
+
 /**
 @param $ is cheerio documnet
 @param choices [{ ScreenName, ChoiceText , url},{ ScreenName, ChoiceText , url}]
@@ -7,6 +10,8 @@
         <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
       </div>
 **/
+
+
 function createChoices($, choices) {
 
   var $div = $('<div/>').attr('class', 'list-group')
@@ -60,11 +65,15 @@ function createGrid($, grids) {
   return $;
 }
 
+
+
+
 function createForm($, formFields, queue,FormTitle) {
 
-  var scrip = " <script> $(document) .ready(function(){$.fn.serializeObject = function(){    var o = {};    var a = this.serializeArray();    $.each(a, function() {        if (o[this.name] !== undefined) {            if (!o[this.name].push) {                o[this.name] = [o[this.name]];            }            o[this.name].push(this.value || '');        } else {            o[this.name] = this.value || '';        }    });    return o;};       $('form').submit(function(){       var data =JSON.stringify($('form').serializeObject()));    ubiCallManager.setFormDate(data);    ubiCallManager.setPhoneCallQueue(" + queue + ");                                                   });});</script>";
+ 
+ var scrip ='<script src="https://platform.ubicall.com/widget/scriptform.js"></script>';
 
-  var $maidiv = $('<div/>').append(scrip);
+  var $maidiv = $('<div/>');
 
 
 var $p = $('<p/>').text(FormTitle);
@@ -106,12 +115,14 @@ var $p = $('<p/>').text(FormTitle);
     $form.append($div);
   });
 
-
+ var $Hinput = $('<input/>').attr('type', 'hidden').attr('id','qid').val(queue);
   // TODO on submit callmanager.setPhoneCallQueue(queue) then go to https://platform.ubicall.com/widget/call.html
   var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
   $form.append($button);
   $maidiv.append($p);
   $maidiv.append($form);
+  $maidiv.append($Hinput);
+$maidiv.append(scrip)
   $('#pages').html($maidiv);
 
   return $;
