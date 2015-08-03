@@ -3,26 +3,17 @@ var ubiCallManager = ubiCallManager || (function() {
 
 
   var GEO = GEO || _getGeoInfo();
-  var LICENSE = LICENSE || _getLicenceKey();
+  var LICENSE = LICENSE || window.location.href.split('/li/')[1].split('/')[0];
   var phoneCallSubmitQueue , formData;
-  _initGeo();
+  if(!GEO){
+      _initGeo();
+  }
 
   //will use jquery q
   sipSign();
 
-  function setLicenceKey(lic) {
-    localStorage.setItem('lic', lic);
-    window.frameElement.setAttribute("lic" , lic)
-  }
-
-  function _getLicenceKey() {
-    var le = localStorage.getItem('lic') || window.location.href.split('/li/')[1].split('/')[0];
-    console.log('licence key is ' + le);
-    return le;
-  }
-
   function _saveSipInfo(sip) {
-    localStorage.removeItem('sip');
+    _removeSipInfo('sip');
     localStorage.setItem('sip', sip);
   }
 
@@ -35,8 +26,8 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   function _saveGeoInfo(geo) {
-    localStorage.removeItem('geo');
-    localStorage.setItem('geo', sip);
+    _removeGeoInfo('geo');
+    localStorage.setItem('geo', JSON.stringify(geo));
   }
 
   function _removeGeoInfo() {
@@ -57,7 +48,7 @@ var ubiCallManager = ubiCallManager || (function() {
       },
       error: function(xhr){
         console.log("unable to get geo data , retry with another service provider")
-        __geoFallBack()
+        __geoFallBack();
       },
       timeout: 3000 // sets timeout to 3 seconds
     });
@@ -103,10 +94,6 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   function scheduleSipCall(queue) {
-    var lic_key = _getLicenceKey();
-    _getNumber({
-      license_key: lic_key
-    });
     $.ajax({
       type: "get",
       url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
@@ -132,7 +119,6 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   function schedulePhoneCall(phone , time) {
-    var lic_key = _getLicenceKey();
     $.ajax({
       type: "get",
       url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
@@ -167,11 +153,10 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   return {
-    setLicenceKey : setLicenceKey,
     scheduleSipCall: scheduleSipCall,
-    setPhoneCallQueue : setPhoneCallQueue,
     schedulePhoneCall: schedulePhoneCall,
-    getSipInfo : _getSipInfo,
-    setFormDate : setFormDate
+    setPhoneCallQueue : setPhoneCallQueue,
+    setFormDate : setFormDate,
+    getSipInfo : _getSipInfo
   }
 }());
