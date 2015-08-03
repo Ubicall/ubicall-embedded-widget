@@ -3,15 +3,12 @@ var ubiCallManager = ubiCallManager || (function() {
 
 
   var GEO = GEO || _getGeoInfo();
-  var SIP = SIP || _getSipInfo();
+  var SIP = _getSipInfo();
   var LICENSE = LICENSE || window.location.href.split('/li/')[1].split('/')[0];
   var phoneCallSubmitQueue , formData;
-  if(!GEO){
-      _initGeo();
-  }
 
-  if(!SIP){
-      sipSign();
+  if ( !GEO ) {
+      _initGeo();
   }
 
   function _saveSipInfo(sip) {
@@ -50,24 +47,13 @@ var ubiCallManager = ubiCallManager || (function() {
       },
       error: function(xhr){
         console.log("unable to get geo data , retry with another service provider")
-        __geoFallBack();
       },
       timeout: 3000 // sets timeout to 3 seconds
     });
   }
 
-  function __geoFallBack(){
-    $.ajax({
-      url: 'https://l2.io/ip',
-      type: 'POST',
-      dataType: 'jsonp',
-      success: function(ip) {
-        _saveGeoInfo({ip:ip});
-      }
-    });
-  }
-
   function sipSign(){
+    var deferred = $.Deferred();
     $.ajax({
       type: "get",
       url: "https://ws.ubicall.com/webservice/get_web_acc.php",
@@ -85,64 +71,76 @@ var ubiCallManager = ubiCallManager || (function() {
       success: function(response) {
         if (response.status == 200) {
           _saveSipInfo(response.data);
+          deferred.resolve(response.data);
         } else {
           console.log("error un able to get your sip credentials ");
+          deferred.reject("error un able to get your sip credentials ");
         }
       },
       error: function(xhr) {
         console.log("error un able to get your sip credentials ");
+        deferred.reject("error un able to get your sip credentials ");
       }
     });
+    return deferred.promise();
   }
 
   function scheduleSipCall(queue) {
-    $.ajax({
-      type: "get",
-      url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
-      contentType: "application/json",
-      data: {
-        voiceuser_id: SIP.username,
-        license_key: LICENSE,
-        qid: queue || phoneCallSubmitQueue,
-        ipaddress: GEO.ip || '',
-        call_data : formData || ''
-      },
-      success: function(response) {
-        if (response.status == 200) {
-          console.log("sechduling call");
-        } else {
+    sipSign().done(function () {
+      $.ajax({
+        type: "get",
+        url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
+        contentType: "application/json",
+        data: {
+          voiceuser_id: SIP.username,
+          license_key: LICENSE,
+          qid: queue || phoneCallSubmitQueue,
+          ipaddress: GEO.ip || '',
+          call_data : formData || ''
+        },
+        success: function(response) {
+          if (response.status == 200) {
+            console.log("sechduling call");
+          } else {
+            console.log("error in sechduling web call");
+          }
+        },
+        error: function(xhr) {
           console.log("error in sechduling web call");
         }
-      },
-      error: function(xhr) {
-        console.log("error in sechduling web call");
-      }
+      });
+    }).fail(function () {
+      console.log("Executed if the async work fails");
     });
   }
 
   function schedulePhoneCall(phone , time) {
-    $.ajax({
-      type: "get",
-      url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
-      contentType: "application/json",
-      data: {
-        voiceuser_id: phone,
-        license_key: LICENSE,
-        qid: phoneCallSubmitQueue,
-        ipaddress: GEO.ip,
-        call_data : formData || ''
-      },
-      success: function(response) {
-        if (response.status == 200) {
-          console.log("sechduling call");
-          phoneCallSubmitQueue = null;
-        } else {
+    sipSign().done(function () {
+      $.ajax({
+        type: "get",
+        url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
+        contentType: "application/json",
+        data: {
+          voiceuser_id: phone,
+          license_key: LICENSE,
+          qid: phoneCallSubmitQueue,
+          ipaddress: GEO.ip,
+          call_data : formData || ''
+        },
+        success: function(response) {
+          if (response.status == 200) {
+            console.log("sechduling call");
+            phoneCallSubmitQueue = null;
+          } else {
+            console.log("error in sechduling phone call");
+          }
+        },
+        error: function(xhr) {
           console.log("error in sechduling phone call");
         }
-      },
-      error: function(xhr) {
-        console.log("error in sechduling phone call");
-      }
+      });
+    }).fail(function(){
+      console.log("Executed if the async work fails");
     });
   }
 
