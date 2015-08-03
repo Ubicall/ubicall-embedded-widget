@@ -38,7 +38,7 @@ module.exports = function (grunt) {
             widget: {
                 files: {
                     '<%= app.dist %>/widget.min.js': ['<%= app.static %>/widget.js'],
-                    '<%= app.dist %>/callmanager.min.js': ['<%= app.static %>/callmanager.js'],
+                    '<%= app.dist %>/callmanager.js': ['<%= app.static %>/callmanager.js'],
                 }
             }
         },
