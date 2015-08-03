@@ -3,18 +3,20 @@ var ubiCallManager = ubiCallManager || (function() {
 
 
   var GEO = GEO || _getGeoInfo();
+  var SIP = SIP || _getSipInfo();
   var LICENSE = LICENSE || window.location.href.split('/li/')[1].split('/')[0];
   var phoneCallSubmitQueue , formData;
   if(!GEO){
       _initGeo();
   }
 
-  //will use jquery q
-  sipSign();
+  if(!SIP){
+      sipSign();
+  }
 
   function _saveSipInfo(sip) {
     _removeSipInfo('sip');
-    localStorage.setItem('sip', sip);
+    localStorage.setItem('sip', JSON.stringify(sip));
   }
 
   function _removeSipInfo() {
@@ -22,7 +24,7 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   function _getSipInfo() {
-    localStorage.getItem('sip');
+    return JSON.parse(localStorage.getItem('sip'));
   }
 
   function _saveGeoInfo(geo) {
@@ -35,7 +37,7 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   function _getGeoInfo() {
-    localStorage.getItem('geo');
+    return JSON.parse(localStorage.getItem('geo'));
   }
 
   function _initGeo() {
@@ -82,7 +84,7 @@ var ubiCallManager = ubiCallManager || (function() {
       },
       success: function(response) {
         if (response.status == 200) {
-          _saveSipInfo(JSON.stringify(response.data));
+          _saveSipInfo(response.data);
         } else {
           console.log("error un able to get your sip credentials ");
         }
@@ -99,7 +101,7 @@ var ubiCallManager = ubiCallManager || (function() {
       url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
       contentType: "application/json",
       data: {
-        voiceuser_id: _getSipInfo().username,
+        voiceuser_id: SIP.username,
         license_key: LICENSE,
         qid: queue || phoneCallSubmitQueue,
         ipaddress: GEO.ip || '',
