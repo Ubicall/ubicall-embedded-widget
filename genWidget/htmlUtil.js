@@ -137,9 +137,9 @@ function createCall($, queue) {
 
   var $a = $('<a/>').attr('href', 'https://platform.ubicall.com/widget/waiting.html');
   var $butA = $('<button/>').attr('class', 'btn btn-default')
-    .attr('click', 'ubiCallManager.scheduleSipCall(' + queue + ')').text('Receive web VoIP call');
+    .attr('onclick', 'ubiCallManager.scheduleSipCall(' + queue + ')').text('Receive web VoIP call');
   $a.append($butA);
-  var $b = $('<a/>').attr('click', 'ubiCallManager.setPhoneCallQueue(' + queue + ')').attr('href', 'https://platform.ubicall.com/widget/submitCall.html');
+  var $b = $('<a/>').attr('onclick', 'ubiCallManager.setPhoneCallQueue(' + queue + ')').attr('href', 'https://platform.ubicall.com/widget/submitCall.html');
   var $butB = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone');
   $b.append($butB);
   $div.append($a);
