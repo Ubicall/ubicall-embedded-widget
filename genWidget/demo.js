@@ -21,20 +21,19 @@ var content = htmlUtil.setTitle($, 'choice SCRENN') ;
 content = htmlUtil.createForm(content,
    [
          {
-            "FieldLabel":"Enter Your Policy Number",
-            "FieldType":"Text Field",
+            "FieldLabel":"hi",
+            "FieldType":"Selector",
             "isMandatory":true,
             "Keyboard":"1",
-            "Placeholder":"Policy Number"
-         },
-         {
-            "FieldLabel":"Enter Your Policy Number",
-            "FieldType":"Text Field",
-            "isMandatory":true,
-            "Keyboard":"1",
-            "Placeholder":"Policy Number"
+            "Placeholder":"hi",
+            "Values":[
+               "aaa",
+               "2222",
+               "111"
+            ]
          }
       ]
+      ,4,'hhhhhh'
     );
 /*
 var content = htmlUtil.setTitle($, 'INFO SCRENN') ;

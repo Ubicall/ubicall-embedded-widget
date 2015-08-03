@@ -60,14 +60,14 @@ function createGrid($, grids) {
   return $;
 }
 
-function createForm($, formFields, queue) {
+function createForm($, formFields, queue,FormTitle) {
 
   var scrip = " <script> $(document) .ready(function(){$.fn.serializeObject = function(){    var o = {};    var a = this.serializeArray();    $.each(a, function() {        if (o[this.name] !== undefined) {            if (!o[this.name].push) {                o[this.name] = [o[this.name]];            }            o[this.name].push(this.value || '');        } else {            o[this.name] = this.value || '';        }    });    return o;};       $('form').submit(function(){       var data =JSON.stringify($('form').serializeObject()));    ubiCallManager.setFormDate(data);    ubiCallManager.setPhoneCallQueue(" + queue + ");                                                   });});</script>";
 
   var $maidiv = $('<div/>').append(scrip);
 
 
-
+var $p = $('<p/>').text(FormTitle);
   var $form = $('<form/>').attr('action', 'https://platform.ubicall.com/widget/call.html');
   formFields.forEach(function(field) {
 
@@ -79,11 +79,27 @@ function createForm($, formFields, queue) {
     if (field.isMandatory == true) {
       $input.attr('required', 'required');
     }
-    if (field.Keyboard == '1') {
+    if(field.FieldType== 'Date')
+    {
+       $input.attr('type', 'date');
+    }
+    else if(field.FieldType== 'Selector')
+    {
+  $input = $('<select/>').attr('class', 'form-control').attr('name', field.FieldLabel);
+  field.Values.forEach(function(op) {
+ $option = $('<option/>').text(op).val(op);
+  $input.append($option);
+});
+
+ }
+    else{
+    if (field.Keyboard == '0') {
       $input.attr('type', 'number');
     } else {
       $input.attr('type', 'text');
-    }
+    
+}
+}
 
     $div.append($label);
     $div.append($input);
@@ -94,6 +110,7 @@ function createForm($, formFields, queue) {
   // TODO on submit callmanager.setPhoneCallQueue(queue) then go to https://platform.ubicall.com/widget/call.html
   var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
   $form.append($button);
+  $maidiv.append($p);
   $maidiv.append($form);
   $('#pages').html($maidiv);
 
