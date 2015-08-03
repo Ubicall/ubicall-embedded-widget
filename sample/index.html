@@ -3,369 +3,337 @@
 
 <head>
 
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="author" content="Ubicall" />
-<meta name="robots" content="index, follow" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Ubicall" />
+  <meta name="robots" content="index, follow" />
 
-<title>Ubicall - Smart Customer Service on Mobile</title>
+  <title>Ubicall - Smart Customer Service on Mobile</title>
 
-<meta name="description" content="Ubicall is a cloud-based mobile platform that transforms your users customer support experience while reducing your own cost of operations." />
+  <meta name="description" content="Ubicall is a cloud-based mobile platform that transforms your users customer support experience while reducing your own cost of operations." />
 
-<meta name="keywords" content="Ubicall, Smart, Customers, Support, Service, Mobile, Call, Contact, Center, Visual, IVR, Form, Filling, Queuing, Callback, Online, Cloud-based, Agents" />
+  <meta name="keywords" content="Ubicall, Smart, Customers, Support, Service, Mobile, Call, Contact, Center, Visual, IVR, Form, Filling, Queuing, Callback, Online, Cloud-based, Agents" />
 
-<link rel="icon" href="img/favicon.ico" />
-<link href="https://cdn.ubicall.com/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="http://ubicall.com/css/jquery-ui.min.css" rel="stylesheet" />
-<link href="https://cdn.ubicall.com/static/ubicall/css/style-fonts.css" rel="stylesheet" />
-<link href="https://cdn.ubicall.com/static/ubicall/css/website/ubicall.css" rel="stylesheet" />
+  <link rel="icon" href="https://cdn.ubicall.com/static/ubicall/images/favicon.ico" />
+  <link href="https://cdn.ubicall.com/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.ubicall.com/static/jqueryui/themes/base/all.css" rel="stylesheet" />
+  <link href="https://cdn.ubicall.com/static/ubicall/css/website/ubicall.css" rel="stylesheet" />
+  <link href="https://cdn.ubicall.com/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
-<!--[if lt IE 9]>
-<script src="js/ie8-responsive-file-warning.js"></script>
-<![endif]-->
-<script src="http://ubicall.com/js/ie-emulation-modes-warning.js"></script>
-<!--[if lt IE 9]>
-<script src="js/html5shiv.min.js"></script>
-<script src="js/respond.min.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="https://cdn.ubicall.com/static/html5shiv/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.ubicall.com/static/respond/dest/respond.min.js"></script>
 <![endif]-->
 
 </head>
 
 <body>
 
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-61937136-2', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
-<?php
-include_once 'class/db_connector.php';
-$db   = new db_connector();
-$conn  = $db -> connect();
-
-include_once 'class/newsletter_manager.php';
-$newsletter   = new emails_manager();
-$newsletter->conn = $conn;
-
-?>
-
-<!-- Header -->
-
-<div id="home-header">
-
-<!-- Menu -->
-
-<nav class="navbar navbar-default">
-<div class="container">
-<div class="navbar-header">
-<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-<span class="sr-only">Ubicall</span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-</button>
-<a class="navbar-brand" href="index.php"><img src="img/ubicall-logo.png" alt="Ubicall Logo" /></a>
-</div>
-<div id="navbar" class="navbar-collapse collapse">
-<ul class="nav navbar-nav navbar-right">
-<li><a href="products.php">Products</a></li>
-<!-- <li><a href="#" class="dropdown-toggle" data-hover="dropdown">Products <b class="caret"></b></a>
-<ul class="dropdown-menu" role="menu">
-<li><a href="#">Mobile SDK</a></li>
-<li><a href="#">Web Widget</a></li>
-<li><a href="#">Cloud Based Call Center</a></li>
-</ul>
-</li> -->
-<li><a href="#" class="dropdown-toggle js-activated" data-hover="dropdown" data-toggle="dropdown">Features <b class="caret"></b></a>
-<ul class="dropdown-menu" role="menu">
-<li><a href="end-user-feature.php">End-User Features</a></li>
-<li><a href="admin-features.php">Admin Features</a></li>
-</ul>
-</li>
-<li><a href="how-it-works.php">How it works</a></li>
-<!-- <li><a href="pricing.php">Pricing</a></li> -->
-<li class="signup"><a href="signup.php">Sign Up for a Demo</a></li>
-<li class="login"><a href="admin/">Login</a></li>
-</ul>
-</div>
-</div>
-</nav>
-
-<div class="modal fade" id="Login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-<form>
-<div class="modal-content">
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-<h4 class="modal-title" id="myModalLabel">Ubicall Login</h4>
-</div>
-<div class="modal-body">
-<div class="form-group">
-<label>Email Address</label>
-<input class="form-control" type="email" id="Email" name="Email" required />
-<br /><label>Password</label>
-<input class="form-control" type="password" id="Password" name="Password" required />
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-<button type="submit" class="btn btn-primary">Login</button>
-</div>
-</div>
-</form>
-</div>
-</div>
-
-<!-- Menu End -->
-
-<div class="container">
-<div class="row">
-
-<div class="col-md-4 header-text">
-<h1>Transforming the Customer Support Experience</h1>
-<p>Harness the power of smartphones to get closer to your customer</p>
-<div class="header-but"><a href="signup.php">Free Trial</a></div>
-</div>
-
-<div class="col-md-8">
-<div class="video-02">
-<img src="https://cdn.ubicall.com/static/ubicall/images/ipad.png" alt="" />
-<a class="play-button" data-toggle="modal" data-target="#Video" data-theVideo="https://www.youtube.com/embed/1DaMnt9QKHA"></a>
-</div>
-
-<div class="header-but-02">
-<a data-toggle="modal" data-target="#Video" data-theVideo="https://www.youtube.com/embed/1DaMnt9QKHA">Ubicall Video</a>
-</div>
-
-<div class="modal fade" id="Video" tabindex="-1" role="dialog" aria-labelledby="videoModal" aria-hidden="true">
-<div class="modal-dialog modal-dialog-video">
-<div class="modal-content">
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-<h4 class="modal-title" id="myModalLabel">Ubicall Video</h4>
-</div>
-<div class="modal-body">
-<div class="video-area">
-<iframe width="100%" height="400" src="" frameborder="0" allowfullscreen></iframe>
-</video>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<script>
- function autoPlayYouTubeModal() {
-      var trigger = $("body").find('[data-toggle="modal"]');
-      trigger.click(function () {
-          var theModal = $(this).data("target"),
-              videoSRC = $(this).attr("data-theVideo"),
-              videoSRCauto = videoSRC + "?autoplay=1";
-          $(theModal + ' iframe').attr('src', videoSRCauto);
-          $(theModal + ' button.close').click(function () {
-              $(theModal + ' iframe').attr('src', videoSRC);
-          });
-      });
-  }
-</script>
-
-</div>
-
-</div>
-</div>
-
-</div>
-
-<!-- Header End -->
-
-
-<div class="clear"></div>
-
-
-<!-- Pages -->
-
-<div id="pages">
-<div class="container">
-
-<div class="page-text">World's First Ubiquitous Customer Support Experience</div>
-
-
-<div class="col-md-4 section-02">
-<img src="https://cdn.ubicall.com/static/ubicall/images/pic-01.png" alt="" />
-<h2>Transform End-User<br />Experience</h2>
-<p>Increase customer satisfaction through Ubicall’s Interactive Visual Response (Visual IVR), smart form-filling, self-queueing technology and more...</p>
-</div>
-
-<div class="col-md-4 section-02">
-<img src="https://cdn.ubicall.com/static/ubicall/images/pic-02.png" alt="" />
-<h2>Reduce Operations<br />Cost</h2>
-<p>Save up to 20% of the average call time by alleviating the agent from the data collection part of the call.</p>
-</div>
-
-<div class="col-md-4 section-02">
-<img src="https://cdn.ubicall.com/static/ubicall/images/pic-03.png" alt="" />
-<h2>Design &amp; Launch<br />in Minutes</h2>
-<p>Own your customer’s experience by designing your own IVR and agent routing mechanism through our code-free (drag-and-drop) admin dashboard.</p>
-</div>
-
-</div>
-
-</div>
-</div>
-
-<!-- Pages End -->
-
-
-<div class="clear"></div>
-
-
-<!-- Footer -->
-
-<div id="footer">
-<div class="container">
-
-<div class="row">
-
-<div class="col-md-4 footer-logo">
-<img src="https://cdn.ubicall.com/static/ubicall/images/logo-footer.png" alt="Ubicall Footer Logo" />
-</div>
-
-<div class="col-md-4 subscribe">
-<p>Get Launch Updates</p>
-<form action="" method="post">
-<input type="email" class="subscribe-text" name="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-       placeholder="Email..." onFocus="if(this.placeholder=='Email...')this.placeholder='';" onBlur="if(this.placeholder=='')this.placeholder='Email...';" required>
-<input id="hi" type="hidden" data-toggle="modal" data-target=".bs-example-modal-sm-01">
-<input id="hi2" type="hidden" data-toggle="modal" data-target=".bs-example-modal-sm-02">
-<input class="gobtn" id="Subscribe" type="submit" name="subscribe" value="Subscribe">
-</form>
-
-<div id="modal-01" class="modal fade bs-example-modal-sm-01" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-sm">
-<div class="modal-content alert alert-success">
-<h2>Thank You</h2>
-<p>For subscribing in our news letter</p>
-</div>
-</div>
-</div>
-
-<div id="modal-02" class="modal fade bs-example-modal-sm-02" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-sm">
-<div class="modal-content alert alert-warning">
-<h2>Sorry,</h2>
-<p>Your email already exists!</p>
-</div>
-</div>
-</div>
-
-
-</div> <!-- End Form -->
-
-<div class="col-md-4 social-page">
-<p>Stay in Touch</p>
-<div class="social">
-<a href="https://www.facebook.com/ubicall" target="_blank" title="Ubicall on Facebook"><i class="fa fa-facebook"></i></a>
-<a href="https://twitter.com/ubicall" target="_blank" title="Ubicall on Twitter"><i class="fa fa-twitter"></i></a>
-<a href="https://www.linkedin.com/company/ubicall" target="_blank" title="Ubicall on LinkedIn"><i class="fa fa-linkedin"></i></a>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-<div class="clear"></div>
-
-<div id="copyright">
-<div class="container">
-
-<div class="row">
-
-<div class="col-md-6">
-Ubicall &copy; Copyright 2015 &reg; <img src="https://cdn.ubicall.com/static/ubicall/images/rackspace-logo.png" alt="Powered By Rackspace" />
-</div>
-
-<div class="col-md-6 footer-links">
-<a href="contact.php">Contact Us</a> | <a href="faq.php">FAQ's</a> | <a href="terms.php">Terms of Service</a> | <a href="policy.php">Privacy Policy</a>
-</div>
-
-</div>
-
-</div>
-</div>
-
-<!-- Footer End -->
-
-
-
-<!-- PopUp -->
-
-<div class="usrp-fb-1 toggleModal">
-<i class="fa fa-medkit"></i>
-<button class="usrp-fb-title" id="opener">Help</button>
-</div>
-
-<div id="dialog" title="Help">
-
-</div>
-
-<!-- PopUp End -->
-
-
-
-<!-- js -->
-
-<script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.ubicall.com/static/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.ubicall.com/static/jqueryui/jquery-ui.min.js"></script>
-<script src="http://ubicall.com/js/custom.js"></script>
-<script src="http://ubicall.com/js/bootstrap-hover-dropdown.js"></script>
-<script src="https://platform.ubicall.com/widget/widget.min.js"></script>
-<script type="text/javascript">
-  ubiWidget.init({containerId : 'dialog' , licence_key : '25h9lqhc5i08'});
-</script>
-<script>
-    $(document).ready(function() {
-      $('.js-activated').dropdownHover().dropdown();
-    });
-</script>
-
-<script>
-$(document).ready(function(){
-  autoPlayYouTubeModal();
-});
-</script>
-
-<script>
-  $(function() {
-    $( "#dialog" ).dialog({
-      autoOpen: false,
-      show: {
-        effect: "blind",
-        duration: 300
-      },
-      hide: {
-        effect: "blind",
-        duration: 300
-      }
-    });
-
-    $( "#opener" ).click(function() {
-      $( "#dialog" ).dialog( "open" );
-    });
-	$( "#dialog" ).dialog({ dialogClass: 'fixed-dialog' });
-  });
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-61937136-2', 'auto');
+    ga('send', 'pageview');
   </script>
 
-<!-- js End -->
+    <!-- Header -->
+
+    <div id="home-header">
+
+      <!-- Menu -->
+
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Ubicall</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.php">
+              <img src="https://cdn.ubicall.com/static/ubicall/images/ubicall-logo.png" alt="Ubicall Logo" />
+            </a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="products.php">Products</a></li>
+              <li><a href="#" class="dropdown-toggle js-activated" data-hover="dropdown" data-toggle="dropdown">Features <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="end-user-feature.php">End-User Features</a></li>
+                  <li><a href="admin-features.php">Admin Features</a></li>
+                </ul>
+              </li>
+              <li><a href="how-it-works.php">How it works</a></li>
+              <li class="signup"><a href="signup.php">Sign Up for a Demo</a></li>
+              <li class="login"><a href="admin/">Login</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="modal fade" id="Login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <form>
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Ubicall Login</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <input class="form-control" type="email" id="Email" name="Email" required />
+                  <br />
+                  <label>Password</label>
+                  <input class="form-control" type="password" id="Password" name="Password" required />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Login</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Menu End -->
+
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-4 header-text">
+            <h1>Transforming the Customer Support Experience</h1>
+            <p>Harness the power of smartphones to get closer to your customer</p>
+            <div class="header-but"><a href="signup.php">Free Trial</a></div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="video-02">
+              <img src="https://cdn.ubicall.com/static/ubicall/images/ipad.png" alt="" />
+              <a class="play-button" data-toggle="modal" data-target="#Video" data-theVideo="https://www.youtube.com/embed/1DaMnt9QKHA"></a>
+            </div>
+
+            <div class="header-but-02">
+              <a data-toggle="modal" data-target="#Video" data-theVideo="https://www.youtube.com/embed/1DaMnt9QKHA">Ubicall Video</a>
+            </div>
+
+            <div class="modal fade" id="Video" tabindex="-1" role="dialog" aria-labelledby="videoModal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-video">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Ubicall Video</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="video-area">
+                      <iframe width="100%" height="400" src="" frameborder="0" allowfullscreen></iframe>
+                      </video>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <script>
+              function autoPlayYouTubeModal() {
+                var trigger = $("body").find('[data-toggle="modal"]');
+                trigger.click(function() {
+                  var theModal = $(this).data("target"),
+                    videoSRC = $(this).attr("data-theVideo"),
+                    videoSRCauto = videoSRC + "?autoplay=1";
+                  $(theModal + ' iframe').attr('src', videoSRCauto);
+                  $(theModal + ' button.close').click(function() {
+                    $(theModal + ' iframe').attr('src', videoSRC);
+                  });
+                });
+              }
+            </script>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Header End -->
+
+
+    <div class="clear"></div>
+
+
+    <!-- Pages -->
+
+    <div id="pages">
+      <div class="container">
+
+        <div class="page-text">World's First Ubiquitous Customer Support Experience</div>
+
+
+        <div class="col-md-4 section-02">
+          <img src="https://cdn.ubicall.com/static/ubicall/images/pic-01.png" alt="" />
+          <h2>Transform End-User
+            <br />Experience</h2>
+          <p>Increase customer satisfaction through Ubicall’s Interactive Visual Response (Visual IVR), smart form-filling, self-queueing technology and more...</p>
+        </div>
+
+        <div class="col-md-4 section-02">
+          <img src="https://cdn.ubicall.com/static/ubicall/images/pic-02.png" alt="" />
+          <h2>Reduce Operations
+            <br />Cost</h2>
+          <p>Save up to 20% of the average call time by alleviating the agent from the data collection part of the call.</p>
+        </div>
+
+        <div class="col-md-4 section-02">
+          <img src="https://cdn.ubicall.com/static/ubicall/images/pic-03.png" alt="" />
+          <h2>Design &amp; Launch
+            <br />in Minutes</h2>
+          <p>Own your customer’s experience by designing your own IVR and agent routing mechanism through our code-free (drag-and-drop) admin dashboard.</p>
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+
+    <!-- Pages End -->
+
+
+    <div class="clear"></div>
+
+
+    <!-- Footer -->
+
+    <div id="footer">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-md-4 footer-logo">
+            <img src="https://cdn.ubicall.com/static/ubicall/images/logo-footer.png" alt="Ubicall Footer Logo" />
+          </div>
+
+          <div class="col-md-4 subscribe">
+            <p>Get Launch Updates</p>
+            <form action="" method="post">
+              <input type="email" class="subscribe-text" name="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Email..." onFocus="if(this.placeholder=='Email...')this.placeholder='';" onBlur="if(this.placeholder=='')this.placeholder='Email...';"
+              required>
+              <input id="hi" type="hidden" data-toggle="modal" data-target=".bs-example-modal-sm-01">
+              <input id="hi2" type="hidden" data-toggle="modal" data-target=".bs-example-modal-sm-02">
+              <input class="gobtn" id="Subscribe" type="submit" name="subscribe" value="Subscribe">
+            </form>
+
+            <div id="modal-01" class="modal fade bs-example-modal-sm-01" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content alert alert-success">
+                  <h2>Thank You</h2>
+                  <p>For subscribing in our news letter</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="modal-02" class="modal fade bs-example-modal-sm-02" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content alert alert-warning">
+                  <h2>Sorry,</h2>
+                  <p>Your email already exists!</p>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- End Form -->
+
+          <div class="col-md-4 social-page">
+            <p>Stay in Touch</p>
+            <div class="social">
+              <a href="https://www.facebook.com/ubicall" target="_blank" title="Ubicall on Facebook"><i class="fa fa-facebook"></i></a>
+              <a href="https://twitter.com/ubicall" target="_blank" title="Ubicall on Twitter"><i class="fa fa-twitter"></i></a>
+              <a href="https://www.linkedin.com/company/ubicall" target="_blank" title="Ubicall on LinkedIn"><i class="fa fa-linkedin"></i></a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div id="copyright">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-md-6">
+            Ubicall &copy; Copyright 2015 &reg;
+            <img src="https://cdn.ubicall.com/static/ubicall/images/rackspace-logo.png" alt="Powered By Rackspace" />
+          </div>
+
+          <div class="col-md-6 footer-links">
+            <a href="contact.php">Contact Us</a> | <a href="faq.php">FAQ's</a> | <a href="terms.php">Terms of Service</a> | <a href="policy.php">Privacy Policy</a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer End -->
+
+
+
+    <!-- PopUp -->
+
+    <div class="usrp-fb-1 toggleModal">
+      <i class="fa fa-medkit"></i>
+      <button class="usrp-fb-title" id="opener">Help</button>
+    </div>
+
+    <div id="dialog" title="Help">
+
+    </div>
+
+    <!-- PopUp End -->
+
+
+
+    <!-- js -->
+
+    <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.ubicall.com/static/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.ubicall.com/static/jqueryui/jquery-ui.min.js"></script>
+    <script src="http://ubicall.com/js/bootstrap-hover-dropdown.js"></script>
+    <script src="https://cdn.ubicall.com/static/ubicall/js/website/custom.js"></script>
+    <script src="https://platform.ubicall.com/widget/widget.min.js"></script>
+    <script>
+      ubiWidget.init({
+        containerId: 'dialog',
+        licence_key: '25h9lqhc5i08'
+      });
+    </script>
+
+    <!-- js End -->
 
 
 </body>
+
 </html>
