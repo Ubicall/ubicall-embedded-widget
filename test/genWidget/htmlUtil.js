@@ -17,7 +17,7 @@ describe('htmlUtil functionality used to convert plist component to html ones', 
     it('should return ul with nested li contain anchor with href as nextLink has text as text and nested image with source as iconLink', function () {
 
         $ = htmlUtil.setTitle($, 'Grid Screen') ;
-        $ = htmlUtil.createGrid($, [{
+        var grids = [{
           ChoiceText: 'Shipping Returns',
           url: 'http://www.fedex.com/',
           UrlImage: 'https://designer.ubicall.com/uploads/fdab76ef5814558d0e5fae788d9a7bd1.png'
@@ -25,18 +25,21 @@ describe('htmlUtil functionality used to convert plist component to html ones', 
           ChoiceText: "FAQ's",
           ScreenName: 'df63be64.823108',
           UrlImage: 'https://designer.ubicall.com/uploads/509deebc910aee6633a8d7f6d0e33358.png'
-        }]);
+        }];
+        $ = htmlUtil.createGrid($, grids);
 
       ('Grid Screen').should.be.exactly($("#header .header").text());
 
       (2).should.be.exactly($('#pages ul').children().length);
 
-      ("http://www.fedex.com/").should.be.exactly($('#pages ul :nth-child(1) a').attr('href'));
+      (grids[0].url).should.be.exactly($('#pages ul :nth-child(1) a').attr('href'));
       ("_blank").should.be.exactly($('#pages ul :nth-child(1) a').attr('target'));
-      ("Shipping Returns").should.be.exactly($('#pages ul :nth-child(1) a').text());
+      (grids[0].ChoiceText).should.be.exactly($('#pages ul :nth-child(1) a').text());
+      (grids[0].UrlImage).should.be.exactly($('#pages ul :nth-child(1) a img').attr('src'));
 
-      ("df63be64.823108.html").should.be.exactly($('#pages ul :nth-child(2) a').attr('href'));
-      ("FAQ's").should.be.exactly($('#pages ul :nth-child(2) a').text());
+      (grids[1].ScreenName+'.html').should.be.exactly($('#pages ul :nth-child(2) a').attr('href'));
+      (grids[1].ChoiceText).should.be.exactly($('#pages ul :nth-child(2) a').text());
+      (grids[1].UrlImage).should.be.exactly($('#pages ul :nth-child(2) a img').attr('src'));
 
       // console.log(beautify_html($('#pages').html()));
     });

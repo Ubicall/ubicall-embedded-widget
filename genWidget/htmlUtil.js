@@ -56,7 +56,7 @@ function createGrid($, grids) {
     }
 
     var $img = $('<img/>').attr('src', grid.UrlImage).attr('height', 50).attr('width', 50);
-    $a.append($img).text(grid.ChoiceText);
+    $a.append($img).append(grid.ChoiceText);
     $li.append($a);
     $ul.append($li);
   });
