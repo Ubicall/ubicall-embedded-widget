@@ -65,7 +65,30 @@ function createGrid($, grids) {
   return $;
 }
 
+/**
+  @param $ is form documnet
+  @param form is [{FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard} , {FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard}]
+  @return
+      <div id="pages">
+            <div>
+                <p>hhhhhh</p>
+                <form action="https://platform.ubicall.com/widget/call.html">
+                    <div class="form-group">
+                        <label>hi</label>
+                        <select class="form-control" name="hi">
+                            <option value="aaa">aaa</option>
+                            <option value="2222">2222</option>
+                            <option value="111">111</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <input type="hidden" id="qid" value="4">
+                <script src="https://platform.ubicall.com/widget/scriptform.js"></script>
+            </div>
+        </div>
 
+ **/
 
 
 function createForm($, formFields, queue,FormTitle) {
@@ -77,7 +100,7 @@ function createForm($, formFields, queue,FormTitle) {
 
 
 var $p = $('<p/>').text(FormTitle);
-  var $form = $('<form/>').attr('action', 'https://platform.ubicall.com/widget/call.html');
+  var $form = $('<form/>').attr('id','callForm').attr('action', 'https://platform.ubicall.com/widget/call.html');
   formFields.forEach(function(field) {
 
     var $div = $('<div/>').attr('class', 'form-group');
@@ -118,10 +141,11 @@ var $p = $('<p/>').text(FormTitle);
  var $Hinput = $('<input/>').attr('type', 'hidden').attr('id','qid').val(queue);
   // TODO on submit callmanager.setPhoneCallQueue(queue) then go to https://platform.ubicall.com/widget/call.html
   var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
+  $form.append($Hinput);
   $form.append($button);
   $maidiv.append($p);
   $maidiv.append($form);
-  $maidiv.append($Hinput);
+  
 $maidiv.append(scrip)
   $('#pages').html($maidiv);
 
