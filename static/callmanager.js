@@ -75,13 +75,13 @@ var ubiCallManager = ubiCallManager || (function() {
       url: "https://ws.ubicall.com/webservice/get_web_acc.php",
       contentType: "application/json",
       data: {
-        sdk_name: '0000',
-        sdk_version: '0000',
+        sdk_name: '0000', // web sdk
+        sdk_version: '0.2',
         deviceuid: '0000',
         device_token: '0000',
-        device_model: '0000',
-        device_name:'0000',
-        device_version: '0000',
+        device_model: navigator.platform,
+        device_name: navigator.userAgent, // browser
+        device_version: navigator.appVersion, //browser version
         licence_key: LICENSE
       },
       success: function(response) {
@@ -108,6 +108,7 @@ var ubiCallManager = ubiCallManager || (function() {
         url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
         contentType: "application/json",
         data: {
+          pstn: 2, // flag mean this is usuall web call
           voiceuser_id: SIP.username,
           license_key: LICENSE,
           qid: queue || phoneCallSubmitQueue,
@@ -142,6 +143,7 @@ var ubiCallManager = ubiCallManager || (function() {
         url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
         contentType: "application/json",
         data: {
+          pstn: 3 , // flag mean this is usuall web call
           voiceuser_id: phone,
           license_key: LICENSE,
           qid: phoneCallSubmitQueue,

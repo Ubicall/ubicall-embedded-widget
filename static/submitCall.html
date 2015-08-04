@@ -49,11 +49,11 @@
           </div>
           <input type="text" class="form-control input-phone" placeholder="Hours" id="hou" readonly> -
           <input type="text" class="form-control input-phone" placeholder="Minutes" id="min" readonly>
-          <div class="form-group">
+          <div class="phoneNumber form-group">
             <input type="text" id="phone" name="phone" class="form-control" placeholder="Please enter your phone number">
           </div>
-          <button type="submit" class="btn btn-default btn-02" click="submitPhoneCall()">Call Me</button>
-          <button type="submit" class="btn btn-default btn-03" click="javascript:history.go(-1)">Cancel</button>
+          <button type="submit" class="btn btn-default btn-02" onclick="submitPhoneCall()">Call Me</button>
+          <button type="submit" class="btn btn-default btn-03" onclick="javascript:history.go(-1)">Cancel</button>
         </div>
 
       </div>
@@ -104,12 +104,16 @@
         });
       });
       function submitPhoneCall(){
-        var phoneNumber = $('#phone').text();
+        var phoneNumber = $('#phone').val();
         var time;
         if ($('#sele-time').is(':checked')) {
           time = $('#hou').text() + ':' + $('#min').text();
         }
-        ubiCallManager.submitPhoneCall(phoneNumber,time,'https://platform.ubicall.com/widget/waiting.html')
+        if(phoneNumber){
+            ubiCallManager.schedulePhoneCall(phoneNumber,time,'https://platform.ubicall.com/widget/waiting.html');
+        }else {
+          $('.phoneNumber').addClass('has-error');
+        }
       }
     </script>
 
