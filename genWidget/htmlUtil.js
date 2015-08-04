@@ -112,6 +112,7 @@ function createForm($, formFields, queue) {
 @param $ is cheerio documnet
 @param content ' content for info screen '
 @return
+  <p> @param content</p>
 **/
 function createInfo($, content) {
   var $p = $('<p/>').text(content);

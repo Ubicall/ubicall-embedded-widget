@@ -4,11 +4,23 @@ var ubiCallManager = ubiCallManager || (function() {
 
   var GEO = GEO || _getGeoInfo();
   var SIP = _getSipInfo();
-  var LICENSE = LICENSE || window.location.href.split('/li/')[1].split('/')[0];
+  var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('/')[0];
   var phoneCallSubmitQueue , formData;
+
+  if( LICENSE ){
+    _saveLicenceKey(LICENSE);
+  }
 
   if ( !GEO ) {
       _initGeo();
+  }
+
+  function _saveLicenceKey(lic) {
+    localStorage.setItem('lic', lic);
+  }
+
+  function _getLicenceKey() {
+    return localStorage.getItem('lic');
   }
 
   function _saveSipInfo(sip) {
