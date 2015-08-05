@@ -127,14 +127,15 @@ function createInfo($, content) {
   <div>
 
       <button class="btn btn-default"
-        click="ubiCallManager.scheduleSipCall(@param queue, 'https://platform.ubicall.com/widget/waiting.html')">
+        click="ubiCallManager.scheduleSipCall(@param queue)">
           Receive web VoIP call
       </button>
 
-      <button class="btn btn-default"
-        click="ubiCallManager.setPhoneCallQueue(@param queue, 'https://platform.ubicall.com/widget/submitCall.html')">
-          Receive a call on Cell phone
-      </button>
+      <a onclick='ubiCallManager.setPhoneCallQueue(@param queue)' href='https://platform.ubicall.com/widget/submitCall.html'>
+        <button class="btn btn-default" >
+            Receive a call on Cell phone
+        </button>
+      </a>
 
   </div>
 **/
@@ -142,7 +143,7 @@ function createCall($, queue) {
   var $div = $('<div/>');
 
   var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call')
-    .attr('onclick', 'ubiCallManager.scheduleSipCall(' + queue + ',"https://platform.ubicall.com/widget/waiting.html")');
+    .attr('onclick', 'ubiCallManager.scheduleSipCall(' + queue +')');
 
   var $b = $('<a/>').attr('onclick', 'ubiCallManager.setPhoneCallQueue(' + queue + ')')
     .attr('href','https://platform.ubicall.com/widget/submitCall.html');

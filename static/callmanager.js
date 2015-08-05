@@ -7,6 +7,16 @@ var ubiCallManager = ubiCallManager || (function() {
   var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('/')[0];
   var phoneCallSubmitQueue , formData;
 
+  // when use divs intstead of seperated pages next js snippet will be used
+  // $('html, body').animate({ scrollTop: $('#answer-16670537').offset().top }, 'fast');
+  function _sipScheduledPage(){
+    window.location.href = 'https://platform.ubicall.com/widget/waiting.html';
+  }
+
+  function _phoneScheduledPage(){
+    window.location.href = 'https://platform.ubicall.com/widget/phoneCallSchedule.html'
+  }
+
   if( LICENSE ){
     _saveLicenceKey(LICENSE);
   }
@@ -101,7 +111,7 @@ var ubiCallManager = ubiCallManager || (function() {
     return deferred.promise();
   }
 
-  function scheduleSipCall(queue , next) {
+  function scheduleSipCall(queue) {
     sipSign().done(function () {
       $.ajax({
         type: "get",
@@ -118,7 +128,7 @@ var ubiCallManager = ubiCallManager || (function() {
         success: function(response) {
           if (response.status == 200) {
             console.log("sechduling call");
-            window.location.href = next ;
+            _sipScheduledPage();
           } else {
             console.log("error in sechduling web call");
             return false;
@@ -136,7 +146,7 @@ var ubiCallManager = ubiCallManager || (function() {
     return false;
   }
 
-  function schedulePhoneCall(phone , time, next) {
+  function schedulePhoneCall(phone , time) {
     sipSign().done(function () {
       $.ajax({
         type: "get",
@@ -154,7 +164,7 @@ var ubiCallManager = ubiCallManager || (function() {
           if (response.status == 200) {
             console.log("sechduling call");
             phoneCallSubmitQueue = null;
-            window.location.href = next ;
+            _phoneScheduledPage();
           } else {
             console.log("error in sechduling phone call");
             return false;

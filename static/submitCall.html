@@ -110,7 +110,7 @@
           time = $('#hou').text() + ':' + $('#min').text();
         }
         if(phoneNumber){
-            ubiCallManager.schedulePhoneCall(phoneNumber,time,'https://platform.ubicall.com/widget/waiting.html');
+            ubiCallManager.schedulePhoneCall(phoneNumber,time);
         }else {
           $('.phoneNumber').addClass('has-error');
         }
