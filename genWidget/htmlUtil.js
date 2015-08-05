@@ -164,6 +164,7 @@ $maidiv.append(scrip)
 @param $ is cheerio documnet
 @param content ' content for info screen '
 @return
+  <p> @param content</p>
 **/
 function createInfo($, content) {
   var $p = $('<p/>').text(content);
@@ -176,25 +177,32 @@ function createInfo($, content) {
 @param queue queue id
 @return
   <div>
-      <a href="https://platform.ubicall.com/widget/waiting.html">
-          <button class="btn btn-default" click="ubiCallManager.scheduleSipCall(@param queue)">Receive web VoIP call</button>
+
+      <button class="btn btn-default"
+        click="ubiCallManager.scheduleSipCall(@param queue)">
+          Receive web VoIP call
+      </button>
+
+      <a onclick='ubiCallManager.setPhoneCallQueue(@param queue)' href='https://platform.ubicall.com/widget/submitCall.html'>
+        <button class="btn btn-default" >
+            Receive a call on Cell phone
+        </button>
       </a>
-      <a href="https://platform.ubicall.com/widget/submitCall.html">
-        <button class="btn btn-default" type="submit">Receive a call on Cell phone</button>
-      </a>
+
   </div>
 **/
 function createCall($, queue) {
   var $div = $('<div/>');
 
-  var $a = $('<a/>').attr('href', 'https://platform.ubicall.com/widget/waiting.html');
-  var $butA = $('<button/>').attr('class', 'btn btn-default')
-    .attr('click', 'ubiCallManager.scheduleSipCall(' + queue + ')').text('Receive web VoIP call');
-  $a.append($butA);
-  var $b = $('<a/>').attr('click', 'ubiCallManager.setPhoneCallQueue(' + queue + ')').attr('href', 'https://platform.ubicall.com/widget/submitCall.html');
+  var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call')
+    .attr('onclick', 'ubiCallManager.scheduleSipCall(' + queue +')');
+
+  var $b = $('<a/>').attr('onclick', 'ubiCallManager.setPhoneCallQueue(' + queue + ')')
+    .attr('href','https://platform.ubicall.com/widget/submitCall.html');
   var $butB = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone');
   $b.append($butB);
-  $div.append($a);
+
+  $div.append($buttona);
   $div.append($b);
 
   $('#pages').html($div);
