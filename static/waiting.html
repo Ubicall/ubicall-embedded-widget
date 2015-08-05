@@ -8,6 +8,7 @@
   <link href="https://cdn.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet">
   <link href="https://cdn.ubicall.com/static/animsition/dist/css/animsition.min.css" rel="stylesheet">
 
+  <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
   <script src="https://cdn.ubicall.com/static/swfobject/swfobject/swfobject.js"></script>
   <script src="https://platform.ubicall.com/widget/callmanager.js"></script>
   <script language="javascript" content-type="text/javascript">
@@ -26,7 +27,6 @@
       // TODO should show error and fall back to home screen
     }
 
-
     var params = {
       allowScriptAccess: 'always'
     };
@@ -35,7 +35,8 @@
       if (currentCall.uuid) {
         $("#flash")[0].hangup(currentCall.uuid);
       } else {
-        $('#info').append('error , not call to hangup');
+        error('no call to hangup');
+        $('#answer').addClass('hide');
         $('#hangup').addClass('hide');
       }
     }
@@ -44,8 +45,9 @@
       if (currentCall.uuid) {
         $("#flash")[0].answer(currentCall.uuid);
       } else {
-        $('#info').append('error , not call to answer');
+        error('no call to answer');
         $('#answer').addClass('hide');
+        $('#hangup').addClass('hide');
       }
     }
 
@@ -70,15 +72,19 @@
     }
 
     function onDisconnected() {
-      $("#info").text("Disconnected");
+      error("Disconnected");
       setTimeout(function() {
-        $("#info").text("Connecting...");
+        info("Connecting...");
         $("#flash")[0].connect();
       }, 5000);
     }
 
     function onHangup(uuid, cause) {
       //TODO  should go to home screen , is user can submit if he is satisfied with call after hangup.
+      ok('are you statisfied ? will be redirected to home screen in 4 seconds');
+      setTimeout(function() {
+        logout(sessionUser);
+      }, 5000);
     }
 
     function onDebug(message) {
@@ -87,8 +93,8 @@
 
     function onConnected(sessionid) {
       rtmpSession = sessionid;
-      $("#info").text("connectd to communication server");
-      login( cred.username + '@' + cred.domain , cred.password );
+      ok("connectd to communication server");
+      login(cred.username + '@' + cred.domain, cred.password);
     }
 
     function login(user, pass) {
@@ -101,23 +107,43 @@
 
     function onLogin(status, user, domain) {
       if (status != "success") {
-        $("#info").text("unable to login to communication server, will be redirected to home screen...");
-        // TODO should go to home screen
+        error("unable to login to communication server, will be redirected to home screen in 4 seconds...");
+        setTimeout(function() {
+          logout(sessionUser);
+        }, 5000);
       } else {
         sessionUser = user + '@' + domain;
         $("#flash")[0].register(sessionUser, "");
-        $("#info").text("logged in communication server , will be call soon");
+        ok("logged in communication server , will be call soon");
       }
     }
 
     function onLogout(user, domain) {
-      // TODO should go to home screen
+      UbiCallManager.goToHomeScreen();
     }
 
     function onInit() {
       var mics = eval($("#flash")[0].micList());
       var current_mic = $("#flash")[0].getMic();
-      $("#info").text("connecting with communication server...");
+      ok("connecting with communication server...");
+    }
+
+    function ok(message) {
+      $("#info").removeClass('hide');
+      $("#info").addClass('alert alert-success');
+      $("#info").text(message);
+    }
+
+    function error(message) {
+      $("#info").removeClass('hide');
+      $("#info").addClass('alert alert-danger');
+      $("#info").text(message);
+    }
+
+    function info(message) {
+      $("#info").removeClass('hide');
+      $("#info").addClass('alert alert-info');
+      $("#info").text(message);
     }
 
     $(document).ready(function() {
@@ -149,17 +175,18 @@
   <div class="animsition">
     <div id="pages">
 
-      <div class="info">
+      <div id="info" class="hide alert alert-success" role="alert">
 
       </div>
+
       <button id="answer" onclick="answer()" class="list-group-item call-call hide">Answer</button>
       <button id="hangup" onclick="hangup()" class="list-group-item call-end hide">Hangup</button>
 
       <div id="flash">
         <h1>Alternative content</h1>
         <p>
-          <a href="http://www.adobe.com/go/getflashplayer">
-            <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+          <a href="https://www.adobe.com/go/getflashplayer">
+            <img src="https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
           </a>
         </p>
       </div>
