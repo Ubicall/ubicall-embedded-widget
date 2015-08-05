@@ -1,5 +1,5 @@
 'use strict';
-var ubiCallManager = ubiCallManager || (function() {
+var UbiCallManager = UbiCallManager || (function() {
 
 
   var GEO = GEO || _getGeoInfo();
