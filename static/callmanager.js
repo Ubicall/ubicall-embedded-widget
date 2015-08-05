@@ -3,25 +3,43 @@ var ubiCallManager = ubiCallManager || (function() {
 
 
   var GEO = GEO || _getGeoInfo();
-  var LICENSE = LICENSE || _getLicenceKey();
+  var SIP = _getSipInfo();
+  var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('/')[0];
   var phoneCallSubmitQueue , formData;
-  _initGeo();
 
-  //will use jquery q
-  sipSign();
+  // when use divs intstead of seperated pages next js snippet will be used
+  // $('html, body').animate({ scrollTop: $('#answer-16670537').offset().top }, 'fast');
+  function _sipScheduledPage(){
+    window.location.href = 'https://platform.ubicall.com/widget/waiting.html';
+  }
 
-  function setLicenceKey(lic) {
+  function _phoneScheduledPage(){
+    window.location.href = 'https://platform.ubicall.com/widget/phoneCallSchedule.html'
+  }
+
+  function _unableToScheduleCall(){
+    window.location.href = 'https://platform.ubicall.com/widget/callNotSent.html'
+  }
+
+  if( LICENSE ){
+    _saveLicenceKey(LICENSE);
+  }
+
+  if ( !GEO ) {
+      _initGeo();
+  }
+
+  function _saveLicenceKey(lic) {
     localStorage.setItem('lic', lic);
-    window.frameElement.setAttribute("lic" , lic)
   }
 
   function _getLicenceKey() {
-    return localStorage.getItem('lic') || window.frameElement.getAttribute("lic");
+    return localStorage.getItem('lic');
   }
 
   function _saveSipInfo(sip) {
-    localStorage.removeItem('sip');
-    localStorage.setItem('sip', sip);
+    _removeSipInfo('sip');
+    localStorage.setItem('sip', JSON.stringify(sip));
   }
 
   function _removeSipInfo() {
@@ -29,12 +47,12 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   function _getSipInfo() {
-    localStorage.getItem('sip');
+    return JSON.parse(localStorage.getItem('sip'));
   }
 
   function _saveGeoInfo(geo) {
-    localStorage.removeItem('geo');
-    localStorage.setItem('geo', sip);
+    _removeGeoInfo('geo');
+    localStorage.setItem('geo', JSON.stringify(geo));
   }
 
   function _removeGeoInfo() {
@@ -42,7 +60,7 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   function _getGeoInfo() {
-    localStorage.getItem('geo');
+    return JSON.parse(localStorage.getItem('geo'));
   }
 
   function _initGeo() {
@@ -54,104 +72,115 @@ var ubiCallManager = ubiCallManager || (function() {
         _saveGeoInfo(geo)
       },
       error: function(xhr){
-        console.log("unable to get geo data , retry with another service provider")
-        __geoFallBack()
+        if(xhr.statusText == 'timeout'){
+          xhr.abort();
+        }
+        _saveGeoInfo({ip : '127.0.0.1'});
+        console.log("unable to get geo data");
       },
       timeout: 3000 // sets timeout to 3 seconds
     });
   }
 
-  function __geoFallBack(){
-    $.ajax({
-      url: 'https://l2.io/ip',
-      type: 'POST',
-      dataType: 'jsonp',
-      success: function(ip) {
-        _saveGeoInfo({ip:ip});
-      }
-    });
-  }
-
   function sipSign(){
+    var deferred = $.Deferred();
     $.ajax({
       type: "get",
       url: "https://ws.ubicall.com/webservice/get_web_acc.php",
       contentType: "application/json",
       data: {
-        sdk_name: 0000,
-        sdk_version: 0000,
-        deviceuid: 0000,
-        device_token: 0000,
-        device_model: 0000,
-        device_version: 0000,
+        sdk_name: '0000', // web sdk
+        sdk_version: '0.2',
+        deviceuid: '0000',
+        device_token: '0000',
+        device_model: navigator.platform,
+        device_name: navigator.userAgent, // browser
+        device_version: navigator.appVersion, //browser version
         licence_key: LICENSE
       },
       success: function(response) {
         if (response.status == 200) {
-          _saveSipInfo(status.data);
+          _saveSipInfo(response.data);
+          deferred.resolve(response.data);
         } else {
           console.log("error un able to get your sip credentials ");
+          deferred.reject("error un able to get your sip credentials ");
         }
       },
       error: function(xhr) {
         console.log("error un able to get your sip credentials ");
+        deferred.reject("error un able to get your sip credentials ");
       }
     });
+    return deferred.promise();
   }
 
   function scheduleSipCall(queue) {
-    var lic_key = _getLicenceKey();
-    _getNumber({
-      license_key: lic_key
-    });
-    $.ajax({
-      type: "get",
-      url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
-      contentType: "application/json",
-      data: {
-        voiceuser_id: _getSipInfo().username,
-        license_key: LICENSE,
-        qid: queue || phoneCallSubmitQueue,
-        ipaddress: GEO.ip || '',
-        call_data : formData || ''
-      },
-      success: function(response) {
-        if (response.status == 200) {
-          console.log("sechduling call");
-        } else {
+    sipSign().done(function () {
+      $.ajax({
+        type: "get",
+        url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
+        contentType: "application/json",
+        data: {
+          pstn: 2, // flag mean this is usuall web call
+          voiceuser_id: SIP.username,
+          license_key: LICENSE,
+          qid: queue || phoneCallSubmitQueue,
+          ipaddress: GEO && GEO.ip ? GEO.ip : '',
+          call_data : formData || ''
+        },
+        success: function(response) {
+          if (response.status == 200) {
+            console.log("sechduling call");
+            _sipScheduledPage();
+          } else {
+            console.log("error in sechduling web call");
+            _unableToScheduleCall();
+          }
+        },
+        error: function(xhr) {
           console.log("error in sechduling web call");
+          _unableToScheduleCall();
         }
-      },
-      error: function(xhr) {
-        console.log("error in sechduling web call");
-      }
+      });
+    }).fail(function (error) {
+      console.log(error);
+      _unableToScheduleCall();
     });
   }
 
   function schedulePhoneCall(phone , time) {
-    var lic_key = _getLicenceKey();
-    $.ajax({
-      type: "get",
-      url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
-      contentType: "application/json",
-      data: {
-        voiceuser_id: phone,
-        license_key: LICENSE,
-        qid: phoneCallSubmitQueue,
-        ipaddress: GEO.ip,
-        call_data : formData || ''
-      },
-      success: function(response) {
-        if (response.status == 200) {
-          console.log("sechduling call");
-          phoneCallSubmitQueue = null;
-        } else {
+    sipSign().done(function () {
+      $.ajax({
+        type: "get",
+        url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
+        contentType: "application/json",
+        data: {
+          pstn: 3 , // flag mean this is usuall web call
+          voiceuser_id: phone,
+          license_key: LICENSE,
+          qid: phoneCallSubmitQueue,
+          ipaddress: GEO && GEO.ip ? GEO.ip : '',
+          call_data : formData || ''
+        },
+        success: function(response) {
+          if (response.status == 200) {
+            console.log("sechduling call");
+            phoneCallSubmitQueue = null;
+            _phoneScheduledPage();
+          } else {
+            console.log("error in sechduling phone call");
+            _unableToScheduleCall();
+          }
+        },
+        error: function(xhr) {
           console.log("error in sechduling phone call");
+          _unableToScheduleCall();
         }
-      },
-      error: function(xhr) {
-        console.log("error in sechduling phone call");
-      }
+      });
+    }).fail(function(){
+      console.log("error in sechduling phone call");
+      _unableToScheduleCall();
     });
   }
 
@@ -164,11 +193,10 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   return {
-    setLicenceKey : setLicenceKey,
     scheduleSipCall: scheduleSipCall,
-    setPhoneCallQueue : setPhoneCallQueue,
     schedulePhoneCall: schedulePhoneCall,
-    getSipInfo : _getSipInfo,
-    setFormDate : setFormDate
+    setPhoneCallQueue : setPhoneCallQueue,
+    setFormDate : setFormDate,
+    getSipInfo : _getSipInfo
   }
 }());
