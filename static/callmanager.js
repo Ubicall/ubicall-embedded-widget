@@ -5,8 +5,9 @@ var UbiCallManager = UbiCallManager || (function() {
   var GEO = GEO || _getGeoInfo();
   var SIP = _getSipInfo();
   var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('/')[0];
-  // TODO should stored in shared strorage , page navigation load script again [till we put all widget in single page , load only once]
-  var phoneCallSubmitQueue , formData;
+  // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
+  var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
+  var FORM_DATA = FORM_DATA || _getFormDate();
 
   // when use divs intstead of seperated pages next js snippet will be used
   // $('html, body').animate({ scrollTop: $('#answer-16670537').offset().top }, 'fast');
@@ -31,7 +32,13 @@ var UbiCallManager = UbiCallManager || (function() {
   }
 
   if ( !GEO ) {
-      _initGeo();
+    $.when(_initGeo(), _getIp()).done(function(_geo, ip) {
+      GEO = _geo ;
+      if (ip) {
+          GEO.ip = ip;
+      }
+      _saveGeoInfo(GEO);
+    });
   }
 
   function _saveLicenceKey(lic) {
@@ -56,7 +63,6 @@ var UbiCallManager = UbiCallManager || (function() {
   }
 
   function _saveGeoInfo(geo) {
-    _removeGeoInfo('geo');
     localStorage.setItem('geo', JSON.stringify(geo));
   }
 
@@ -69,22 +75,37 @@ var UbiCallManager = UbiCallManager || (function() {
   }
 
   function _initGeo() {
+    var deferred = $.Deferred();
+    var geo;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        geo.latitude = position.coords.latitude;
+        geo.longitude = position.coords.longitude;
+        deferred.resolve(geo);
+      }, function(error) {
+        geo.error = error;
+        deferred.resolve(geo);
+      });
+    } else {
+      deferred.resolve({});
+    }
+    return deferred.promise();
+  }
+
+  function _getIp() {
+    var deferred = $.Deferred();
     $.ajax({
-      url: 'https://freegeoip.net/json',
-      type: 'POST',
-      dataType: 'jsonp',
-      success: function(geo) {
-        _saveGeoInfo(geo)
+      dataType: "json",
+      url: "http://jsonip.com?callback=?",
+      success: function(response) {
+        deferred.resolve(response.ip);
       },
-      error: function(xhr){
-        if(xhr.statusText == 'timeout'){
-          xhr.abort();
-        }
-        _saveGeoInfo({ip : '127.0.0.1'});
-        console.log("unable to get geo data");
+      error: function(xhr) {
+        deferred.resolve();
       },
-      timeout: 3000 // sets timeout to 3 seconds
+      timeout: 2000
     });
+    return deferred.promise();
   }
 
   function sipSign(){
@@ -130,13 +151,17 @@ var UbiCallManager = UbiCallManager || (function() {
           pstn: 2, // flag mean this is usuall web call
           voiceuser_id: SIP.username,
           license_key: LICENSE,
-          qid: queue || phoneCallSubmitQueue,
+          qid: queue || PHONE_SUBMIT_QUEUE,
+          json : FORM_DATA || '',
           ipaddress: GEO && GEO.ip ? GEO.ip : '',
-          call_data : formData || ''
+          long : GEO && GEO.longitude ? GEO.longitude : '',
+          lat : GEO && GEO.latitude ? GEO.latitude : ''
         },
         success: function(response) {
           if (response.status == 200) {
             console.log("sechduling call");
+            _clearPhoneCallQueue();
+            _clearFormDate();
             _sipScheduledPage();
           } else {
             console.log("error in sechduling web call");
@@ -164,14 +189,17 @@ var UbiCallManager = UbiCallManager || (function() {
           pstn: 3 , // flag mean this is usuall web call
           voiceuser_id: phone,
           license_key: LICENSE,
-          qid: phoneCallSubmitQueue,
+          qid: PHONE_SUBMIT_QUEUE,
+          json : FORM_DATA || '',
           ipaddress: GEO && GEO.ip ? GEO.ip : '',
-          call_data : formData || ''
+          long : GEO && GEO.longitude ? GEO.longitude : '',
+          lat : GEO && GEO.latitude ? GEO.latitude : ''
         },
         success: function(response) {
           if (response.status == 200) {
             console.log("sechduling call");
-            phoneCallSubmitQueue = null;
+            _clearPhoneCallQueue();
+            _clearFormDate();
             _phoneScheduledPage();
           } else {
             console.log("error in sechduling phone call");
@@ -190,11 +218,31 @@ var UbiCallManager = UbiCallManager || (function() {
   }
 
   function setPhoneCallQueue(queue){
-    phoneCallSubmitQueue = queue;
+    PHONE_SUBMIT_QUEUE = queue;
+    localStorage.setItem('queue', queue);
+  }
+
+  function _getPhoneCallQueue(){
+    return localStorage.getItem('queue');
+  }
+
+  function _clearPhoneCallQueue(){
+    PHONE_SUBMIT_QUEUE = null;
+    localStorage.removeItem('queue');
   }
 
   function setFormDate(data){
-    formData = data;
+    FORM_DATA = data;
+    localStorage.setItem('formData', JSON.stringify(data));
+  }
+
+  function _getFormDate(data){
+    return JSON.parse(localStorage.getItem('formData'));
+  }
+
+  function _clearFormDate(){
+    FORM_DATA = null;
+    localStorage.removeItem('formData');
   }
 
   return {
