@@ -7,6 +7,150 @@
   <link href="https://cdn.ubicall.com/static/font-awesome/css/font-awesome.css" rel="stylesheet">
   <link href="https://cdn.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet">
   <link href="https://cdn.ubicall.com/static/animsition/dist/css/animsition.min.css" rel="stylesheet">
+
+  <script src="https://cdn.ubicall.com/static/swfobject/swfobject/swfobject.js"></script>
+  <script language="javascript" content-type="text/javascript">
+    var flashvars = {
+      rtmp_url: 'rtmp://104.239.164.247/phone'
+    };
+
+    var params = {
+      allowScriptAccess: 'always'
+    };
+
+    function hangup(uuid) {
+      $("#flash")[0].hangup(uuid);
+    }
+
+    function answer(uuid) {
+      $("#flash")[0].answer(uuid);
+    }
+
+    function onCallState(uuid, state) {
+      $("#call_" + uuid).children('.call_state').text(state);
+    }
+
+    function onIncomingCall(uuid, name, number, account, evt) {
+      if (name == "") {
+        name = "Unknown Name";
+      }
+      if (number == "") {
+        number = "Unknown Number";
+      }
+
+      add_call(uuid, name, number);
+
+      $("#incoming_call").data("uuid", uuid);
+      $("#incoming_name").text(name);
+      $("#incoming_number").text(number);
+      $("#incoming_account").text(account);
+      $("#incoming_call").dialog('open');
+    }
+
+    function onDisconnected() {
+      $("#status").text("Disconnected");
+      $("#sessionid").text("");
+      setTimeout(function() {
+        $("#status").text("Connecting...");
+        $("#flash")[0].connect();
+      }, 5000);
+    }
+
+    function onMakeCall(uuid, number, account) {
+      add_call(uuid, "", number, account);
+    }
+
+    function onHangup(uuid, cause) {
+      if ($("#incoming_call").data("uuid") == uuid) {
+        $("#incoming_call").dialog('close');
+      }
+
+      $("#call_" + uuid).children(".hangupcause").text(cause);
+
+      setTimeout(function() {
+        remove_call(uuid);
+      }, 1000);
+    }
+
+    function onDebug(message) {
+      $("#log").append(message + "<br/>");
+    }
+
+    function checkMic() {
+      try {
+        if ($("#flash")[0].isMuted()) {
+          $("#no_mic").show();
+          $("#input_source").hide();
+          return false;
+        } else {
+          $("#no_mic").hide();
+          $("#input_source").show();
+          return true;
+        }
+      } catch (err) {
+        return false;
+      }
+    }
+
+    function onConnected(sessionid) {
+      $("#sessionid").text(sessionid);
+      $(".call", "#call_container").remove();
+      $(".account", "#account_container").remove();
+      $("#status").text("Connected");
+
+      if (!checkMic()) {
+        $("#security").dialog('open');
+      }
+    }
+
+    function login(user, pass) {
+      $("#flash")[0].login(user, pass);
+    }
+
+    function logout(account) {
+      $("#flash")[0].logout(account);
+    }
+
+    function onLogin(status, user, domain) {
+      if (status != "success") {
+        softAlert("Authentication failed!", "onAuth");
+      } else {
+        //$("#status").html("Connected as <span class='user'>" + user + "</span>@<span class='domain'>" + domain + "</span>");
+        var u = user + '@' + domain;
+        $("#flash")[0].register(u, $.query.get('code'));
+        add_account(user, domain);
+      }
+    }
+
+    function onLogout(user, domain) {
+      remove_account(user, domain);
+    }
+
+    function onInit() {
+      var mics = eval($("#flash")[0].micList());
+      var sources = $("#input_source");
+      var current_mic = $("#flash")[0].getMic();
+      sources.children().remove();
+
+      $("#status").text("Connecting...");
+
+      for (i = 0; i < mics.length; i++) {
+        var a = (i == current_mic) ? "selected" : "";
+        sources.append("<option value='" + i + "' " + a + " >" + mics[i] + "</option");
+      }
+    }
+
+    $(document).ready(function() {
+      swfobject.embedSWF("freeswitch.swf", "flash", "250", "150", "9.0.0", "expressInstall.swf", flashvars, params, []);
+
+      if (swfobject.ua.ie) {
+        $("#flash").css("top", "-500px");
+        $("#flash").css("left", "-500px");
+      } else {
+        $("#flash").css("visibility", "hidden");
+      }
+    });
+  </script>
 </head>
 
 <body>
@@ -34,22 +178,22 @@
 
       $(".animsition").animsition({
 
-        inClass               :   'fade-in-right-sm',
-        outClass              :   'fade-out-right-sm',
-        inDuration            :    300,
-        outDuration           :    300,
-        linkElement           :   '.animsition-link',
-        loading               :    true,
-        loadingParentElement  :   'body', //animsition wrapper element
-        loadingClass          :   'animsition-loading',
-        unSupportCss          : [ 'animation-duration',
-                                  '-webkit-animation-duration',
-                                  '-o-animation-duration'
-                                ],
-        overlay               :   false,
+        inClass: 'fade-in-right-sm',
+        outClass: 'fade-out-right-sm',
+        inDuration: 300,
+        outDuration: 300,
+        linkElement: '.animsition-link',
+        loading: true,
+        loadingParentElement: 'body', //animsition wrapper element
+        loadingClass: 'animsition-loading',
+        unSupportCss: ['animation-duration',
+          '-webkit-animation-duration',
+          '-o-animation-duration'
+        ],
+        overlay: false,
 
-        overlayClass          :   'animsition-overlay-slide',
-        overlayParentElement  :   'body'
+        overlayClass: 'animsition-overlay-slide',
+        overlayParentElement: 'body'
       });
     });
   </script>
