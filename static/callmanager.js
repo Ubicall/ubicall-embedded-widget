@@ -76,7 +76,7 @@ var UbiCallManager = UbiCallManager || (function() {
 
   function _initGeo() {
     var deferred = $.Deferred();
-    var geo;
+    var geo = {};
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
         geo.latitude = position.coords.latitude;
