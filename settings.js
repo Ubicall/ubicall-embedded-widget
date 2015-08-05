@@ -7,4 +7,5 @@ module.exports = {
   cdn : {
     widget : '/var/www/widget/'
   }
+
 }

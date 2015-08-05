@@ -5,6 +5,7 @@ var ubiCallManager = ubiCallManager || (function() {
   var GEO = GEO || _getGeoInfo();
   var SIP = _getSipInfo();
   var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('/')[0];
+  // TODO should stored in shared strorage , page navigation load script again [till we put all widget in single page , load only once]
   var phoneCallSubmitQueue , formData;
 
   // when use divs intstead of seperated pages next js snippet will be used

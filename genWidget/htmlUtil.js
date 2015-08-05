@@ -1,3 +1,6 @@
+
+
+
 /**
 @param $ is cheerio documnet
 @param choices [{ ScreenName, ChoiceText , url},{ ScreenName, ChoiceText , url}]
@@ -7,6 +10,8 @@
         <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
       </div>
 **/
+
+
 function createChoices($, choices) {
 
   var $div = $('<div/>').attr('class', 'list-group')
@@ -64,44 +69,75 @@ function createGrid($, grids) {
   return $;
 }
 
-function createForm($, formFields, queue) {
+/**
+  @param $ is form documnet
+  @param formFields [{FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard} , {FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard}]
+  @param queue where to submit this form data
+  @param FormTitle 'what this form about'
+  @return
+    <div>
+        <p>@param FormTitle</p>
+        <form action="https://platform.ubicall.com/widget/call.html">
+            <div class="form-group">
+                <label>Gender</label>
+                <select class="form-control" name="Gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <input type="hidden" id="qid" value="@param queue">
+        <script src="https://platform.ubicall.com/widget/scriptform.js"></script>
+    </div>
+ **/
+function createForm($, formFields, queue, FormTitle) {
+ var scrip = '<script src="https://platform.ubicall.com/widget/form.js"></script>';
+ var $maidiv = $('<div/>');
 
-  var scrip = " <script> $(document) .ready(function(){$.fn.serializeObject = function(){    var o = {};    var a = this.serializeArray();    $.each(a, function() {        if (o[this.name] !== undefined) {            if (!o[this.name].push) {                o[this.name] = [o[this.name]];            }            o[this.name].push(this.value || '');        } else {            o[this.name] = this.value || '';        }    });    return o;};       $('form').submit(function(){       var data =JSON.stringify($('form').serializeObject()));    ubiCallManager.setFormDate(data);    ubiCallManager.setPhoneCallQueue(" + queue + ");                                                   });});</script>";
+ var $p = $('<p/>').text(FormTitle);
+ var $form = $('<form/>').attr('id', 'callForm').attr('action', 'https://platform.ubicall.com/widget/call.html');
+ formFields.forEach(function(field) {
 
-  var $maidiv = $('<div/>').append(scrip);
+   var $div = $('<div/>').attr('class', 'form-group');
+   var $label = $('<label/>').text(field.FieldLabel);
 
+   var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', field.Placeholder).attr('name', field.FieldLabel);
 
+   if (field.isMandatory == true) {
+     $input.attr('required', 'required');
+   }
+   if (field.FieldType == 'Date') {
+     $input.attr('type', 'date');
+   } else if (field.FieldType == 'Selector') {
+     $input = $('<select/>').attr('class', 'form-control').attr('name', field.FieldLabel);
+     field.Values.forEach(function(op) {
+       $option = $('<option/>').text(op).val(op);
+       $input.append($option);
+     });
+   } else {
+     if (field.Keyboard == '0') {
+       $input.attr('type', 'number');
+     } else {
+       $input.attr('type', 'text');
+     }
+   }
+   $div.append($label);
+   $div.append($input);
+   $form.append($div);
+ });
 
-  var $form = $('<form/>').attr('action', 'https://platform.ubicall.com/widget/call.html');
-  formFields.forEach(function(field) {
+ var $Hinput = $('<input/>').attr('type', 'hidden').attr('id', 'qid').val(queue);
+ var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
+ $form.append($Hinput);
+ $form.append($button);
+ $maidiv.append($p);
+ $maidiv.append($form);
 
-    var $div = $('<div/>').attr('class', 'form-group');
-    var $label = $('<label/>').text(field.FieldLabel);
+ $maidiv.append(scrip)
+ $('#pages').html($maidiv);
 
-    var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', field.Placeholder).attr('name', field.FieldLabel);
-
-    if (field.isMandatory == true) {
-      $input.attr('required', 'required');
-    }
-    if (field.Keyboard == '1') {
-      $input.attr('type', 'number');
-    } else {
-      $input.attr('type', 'text');
-    }
-
-    $div.append($label);
-    $div.append($input);
-    $form.append($div);
-  });
-
-
-  // TODO on submit callmanager.setPhoneCallQueue(queue) then go to https://platform.ubicall.com/widget/call.html
-  var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
-  $form.append($button);
-  $maidiv.append($form);
-  $('#pages').html($maidiv);
-
-  return $;
+ return $;
 }
 
 

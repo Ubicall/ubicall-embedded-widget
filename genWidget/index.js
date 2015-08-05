@@ -35,7 +35,7 @@ function _parsePlist(plistContent) {
             break;
           case "Form":
             var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-            content = htmlUtil.createForm(content, plistObject[row].FormFields , plistObject[row].QueueDestination.id);
+            content = htmlUtil.createForm(content, plistObject[row].FormFields , plistObject[row].QueueDestination.id,plistObject[row].FormTitle);
             _MakeStream(content.html(), licence_key, row);
             break;
           case "Grid":
