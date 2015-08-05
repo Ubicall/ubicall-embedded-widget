@@ -17,6 +17,10 @@ var ubiCallManager = ubiCallManager || (function() {
     window.location.href = 'https://platform.ubicall.com/widget/phoneCallSchedule.html'
   }
 
+  function _unableToScheduleCall(){
+    window.location.href = 'https://platform.ubicall.com/widget/callNotSent.html'
+  }
+
   if( LICENSE ){
     _saveLicenceKey(LICENSE);
   }
@@ -131,19 +135,18 @@ var ubiCallManager = ubiCallManager || (function() {
             _sipScheduledPage();
           } else {
             console.log("error in sechduling web call");
-            return false;
+            _unableToScheduleCall();
           }
         },
         error: function(xhr) {
           console.log("error in sechduling web call");
-          return false;
+          _unableToScheduleCall();
         }
       });
     }).fail(function (error) {
       console.log(error);
-      return false;
+      _unableToScheduleCall();
     });
-    return false;
   }
 
   function schedulePhoneCall(phone , time) {
@@ -167,19 +170,18 @@ var ubiCallManager = ubiCallManager || (function() {
             _phoneScheduledPage();
           } else {
             console.log("error in sechduling phone call");
-            return false;
+            _unableToScheduleCall();
           }
         },
         error: function(xhr) {
           console.log("error in sechduling phone call");
-          return false;
+          _unableToScheduleCall();
         }
       });
     }).fail(function(){
       console.log("error in sechduling phone call");
-      return false;
+      _unableToScheduleCall();
     });
-    return false;
   }
 
   function setPhoneCallQueue(queue){
