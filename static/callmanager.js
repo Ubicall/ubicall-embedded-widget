@@ -15,11 +15,15 @@ var ubiCallManager = ubiCallManager || (function() {
   }
 
   function _phoneScheduledPage(){
-    window.location.href = 'https://platform.ubicall.com/widget/phoneCallSchedule.html'
+    window.location.href = 'https://platform.ubicall.com/widget/phoneCallSchedule.html';
   }
 
   function _unableToScheduleCall(){
-    window.location.href = 'https://platform.ubicall.com/widget/callNotSent.html'
+    window.location.href = 'https://platform.ubicall.com/widget/callNotSent.html';
+  }
+
+  function goToHomeScreen(){
+    window.location.href = 'https://platform.ubicall.com/widget/li/' + LICENSE + '/MainScreen.html'
   }
 
   if( LICENSE ){
