@@ -202,6 +202,7 @@ var ubiCallManager = ubiCallManager || (function() {
     schedulePhoneCall: schedulePhoneCall,
     setPhoneCallQueue : setPhoneCallQueue,
     setFormDate : setFormDate,
-    getSipInfo : _getSipInfo
+    getSipInfo : _getSipInfo,
+    goToHomeScreen : goToHomeScreen
   }
 }());
