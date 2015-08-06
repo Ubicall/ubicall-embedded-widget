@@ -10,24 +10,44 @@
         <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
       </div>
 **/
+function setTitle(title)
+{
+   var header =' <div id="header">        <a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a>        <a href="#plist-01"><i class="fa fa-home fa-right"></i></a>        <h3>'+ title +'</h3>      </div>      ';
 
+    return header;
+}
 
-function createChoices($, choices) {
+function srch() {
+ var search='<div id="search">        <div class="form-01">          <form>            <div id="imaginary_container">              <div class="input-group stylish-input-group">                <input type="text" class="form-control" placeholder="Search">                <span class="input-group-addon">                  <button type="submit">                    <span class="fa fa-search"></span>                  </button>                </span>              </div>            </div>          </form>      </div>      </div>';
+}
 
-  var $div = $('<div/>').attr('class', 'list-group')
+function createChoices($,pageId, choices,title) {
+
+  var header= setTitle(title);
+  var search = srch();
+
+  var $divlist= $('<div/>').attr('class', 'list-group');
   choices.forEach(function(choice) {
 
     var $a = $('<a/>').attr('class', 'list-group-item lest-01').text(choice.ChoiceText);
     if (choice.url) {
       $a.attr('href', choice.url).attr('target', '_blank');
     } else {
-      $a.attr('href', choice.ScreenName + '.html');
+      $a.attr('href', '#'+choice.ScreenName );
     }
-    $div.append($a);
+    $divlist.append($a);
   });
+  var $divpages = $('<div/>').attr('class', 'pages');
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id',pageId);
 
-  $('#pages').html($div);
-  return $;
+   $divpages.append($divlist);
+   $content.append(header);
+   $content.append(search);
+   $content.append($divpages);
+   $page.append($content);
+ $('body').append($page);
+  return $
 }
 
 /**
@@ -49,7 +69,11 @@ function createChoices($, choices) {
          </li>
        </ul>
  **/
-function createGrid($, grids) {
+function createGrid($,pageId, grids,title) {
+var header= setTitle(title);
+  var search =srch();
+
+
   var $ul = $('<ul/>').attr('class', 'grid-01')
   grids.forEach(function(grid) {
     var $li = $('<li/>');
@@ -57,7 +81,7 @@ function createGrid($, grids) {
     if (grid.url) {
       $a.attr('href', grid.url).attr('target', '_blank');
     } else {
-      $a.attr('href', grid.ScreenName + '.html').attr('class', 'animsition-link');
+      $a.attr('href', '#'+grid.ScreenName ).attr('class', 'animsition-link');
     }
 
     var $img = $('<img/>').attr('src', grid.UrlImage).attr('height', 50).attr('width', 50);
@@ -65,8 +89,20 @@ function createGrid($, grids) {
     $li.append($a);
     $ul.append($li);
   });
-  $('#pages').html($ul);
-  return $;
+
+    var $divpages = $('<div/>').attr('class', 'pages');
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id',pageId);
+
+   $divpages.append($ul);
+   $content.append(header);
+   $content.append(search);
+   $content.append($divpages);
+   $page.append($content);
+
+  $('body').append($page);
+  return $
+ 
 }
 
 /**
@@ -91,9 +127,13 @@ function createGrid($, grids) {
         <script src="https://platform.ubicall.com/widget/scriptform.js"></script>
     </div>
  **/
-function createForm($, formFields, queue, FormTitle) {
+function createForm($,pageId, formFields, queue, FormTitle,title) {
+
+    var header= setTitle(title);
+  var search =srch();
+
  var scrip = '<script src="https://platform.ubicall.com/widget/form.js"></script>';
- var $maidiv = $('<div/>');
+ var $maidiv = $('<div/>').attr('class','pages');
 
  var $p = $('<p/>').text(FormTitle);
  var $form = $('<form/>').attr('id', 'callForm').attr('action', 'https://platform.ubicall.com/widget/call.html');
@@ -125,6 +165,7 @@ function createForm($, formFields, queue, FormTitle) {
    $div.append($label);
    $div.append($input);
    $form.append($div);
+
  });
 
  var $Hinput = $('<input/>').attr('type', 'hidden').attr('id', 'qid').val(queue);
@@ -135,9 +176,19 @@ function createForm($, formFields, queue, FormTitle) {
  $maidiv.append($form);
 
  $maidiv.append(scrip)
- $('#pages').html($maidiv);
+ 
 
- return $;
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id',pageId);
+
+   $content.append(header);
+   $content.append(search);
+   $content.append($maidiv);
+   $page.append($content);
+
+ $('body').append($page);
+  return $
+
 }
 
 
@@ -150,10 +201,25 @@ function createForm($, formFields, queue, FormTitle) {
 @return
   <p> @param content</p>
 **/
-function createInfo($, content) {
+function createInfo($,pageId, content,title) {
+
+   var header= setTitle(title);
+  var search =srch();
+
   var $p = $('<p/>').text(content);
-  $('#pages').html($p);
-  return $;
+  
+
+   var $divpages = $('<div/>').attr('class', 'pages');
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id',pageId);
+
+   $divpages.append($p);
+   $content.append(header);
+   $content.append(search);
+   $content.append($divpages);
+   $page.append($content);
+  $('body').append($page);
+  return $
 }
 
 /**
@@ -175,7 +241,12 @@ function createInfo($, content) {
 
   </div>
 **/
-function createCall($, queue) {
+
+function createCall($,pageId, queue,title) {
+
+  var header= setTitle(title);
+  var search =srch();
+
   var $div = $('<div/>');
 
   var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call')
@@ -189,15 +260,24 @@ function createCall($, queue) {
   $div.append($buttona);
   $div.append($b);
 
-  $('#pages').html($div);
-  return $;
+var $divpages = $('<div/>').attr('class', 'pages');
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id',pageId);
+
+   $divpages.append($page);
+   $content.append(header);
+   $content.append(search);
+   $content.append($divpages);
+   $page.append($content);
+
+    $('body').append($page);
+  return $
 }
 
+
+
 module.exports = {
-  setTitle: function($, title) {
-    $("#header .header").text(title);
-    return $;
-  },
+
   createGrid: createGrid,
   createChoices: createChoices,
   createInfo: createInfo,

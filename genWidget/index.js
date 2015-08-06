@@ -21,6 +21,7 @@ function generate(plistUrl) {
 }
 
 function _parsePlist(plistContent) {
+  var content='';
   return when.promise(function(resolve,reject){
     var plistObject = plist.parse(plistContent);
     var licence_key = plistObject.key;
@@ -29,33 +30,37 @@ function _parsePlist(plistContent) {
         var stype = plistObject[row].ScreenType;
         switch (stype) {
           case "Choice":
-            var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-            content = htmlUtil.createChoices(content, plistObject[row].choices);
-            _MakeStream(content.html(), licence_key, row);
+         
+            content + = htmlUtil.createChoices($,row, plistObject[row].choices,plistObject[row].ScreenTitle);
+
             break;
           case "Form":
-            var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-            content = htmlUtil.createForm(content, plistObject[row].FormFields , plistObject[row].QueueDestination.id,plistObject[row].FormTitle);
-            _MakeStream(content.html(), licence_key, row);
+            
+            content + = htmlUtil.createForm($,row, plistObject[row].FormFields , plistObject[row].QueueDestination.id,plistObject[row].FormTitle,plistObject[row].ScreenTitle);
+        
             break;
+
           case "Grid":
-            var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-            content = htmlUtil.createGrid(content, plistObject[row].choices);
-            _MakeStream(content.html(), licence_key, row);
+            
+            content = htmlUtil.createGrid($,row, plistObject[row].choices,plistObject[row].ScreenTitle);
+            
             break;
           case "Info":
-            var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-            content = htmlUtil.createInfo(content, plistObject[row].ContentText);
-            _MakeStream(content.html(), licence_key, row);
+       
+            content += htmlUtil.createInfo($,row, plistObject[row].ContentText,plistObject[row].ScreenTitle);
+          
             break;
           case "Call":
-            var content = htmlUtil.setTitle($, plistObject[row].QueueDestination.name);
-            content = htmlUtil.createCall(content, plistObject[row].QueueDestination.id);
-            _MakeStream(content.html(), licence_key, row);
+         
+          
+            content += htmlUtil.createCall($,row, plistObject[row].QueueDestination.id,plistObject[row].QueueDestination.name);
+           
             break;
         }
       }
     }
+
+     _MakeStream($.html(), licence_key, licence_key);
     return resolve({});
   });
 }
