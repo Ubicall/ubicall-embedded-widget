@@ -202,7 +202,7 @@ var UbiCallManager = UbiCallManager || (function() {
       url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
       contentType: "application/json",
       data: {
-        pstn: 3, // flag mean this is phone call call
+        pstn: 3, // flag mean this is pstn phone call
         voiceuser_id: phone,
         license_key: LICENSE,
         qid: PHONE_SUBMIT_QUEUE,

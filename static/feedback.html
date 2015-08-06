@@ -33,13 +33,13 @@
 
         <div class="face-img">
           <!-- 1 happy , 2 so lala , 3 unhappy-->
-          <a href="#" onclick="iam(1)">
+          <a href="#" onclick="helpers.iam(1)">
             <img src="https://cdn.ubicall.com/static/ubicall/images/face-01.png" alt="">
           </a>
-          <a href="#" onclick="iam(2)">
+          <a href="#" onclick="helpers.iam(2)">
             <img src="https://cdn.ubicall.com/static/ubicall/images/face-02.png" alt="">
           </a>
-          <a href="#" onclick="iam(3)">
+          <a href="#" onclick="helpers.iam(3)">
             <img src="https://cdn.ubicall.com/static/ubicall/images/face-03.png" alt="">
           </a>
         </div>
@@ -47,7 +47,7 @@
           <textarea id="feedback-message" type="text" class="form-control" name="Feedback" placeholder="Anything to add? (Option)"></textarea>
 
           <button type="submit" class="btn btn-default btn-03" onclick="UbiCallManager.goToHomeScreen()">No, Thanks</button>
-          <button type="submit" class="btn btn-default btn-02" onclick="sendFeedBack()">Send Feedback</button>
+          <button type="submit" class="btn btn-default btn-02" onclick="helpers.sendFeedBack()">Send Feedback</button>
 
       </div>
 
@@ -60,6 +60,7 @@
   <script src="https://platform.ubicall.com/widget/callmanager.js"></script>
 
   <script>
+    var helpers = helpers || {} ;
     $(document).ready(function() {
 
       $(".animsition").animsition({
@@ -83,11 +84,10 @@
       });
 
       var feedback = {};
-
-      function iam(you){
+      helpers.iam = function(you){
         feedback.feel = you;
       }
-      function sendFeedBack(){
+      helpers.sendFeedBack = function(){
         feedback.text = $('#feedback-message').val();
         UbiCallManager.submitFeedback(feedback)
       }
