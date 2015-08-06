@@ -24,7 +24,7 @@
         rtmp_url: 'rtmp://' + cred.domain + '/phone'
       };
     } else {
-      // TODO should show error and fall back to home screen
+      UbiCallManager.fallBackToErrorPage();
     }
 
     var params = {
@@ -36,14 +36,16 @@
         $("#flash")[0].hangup(currentCall.uuid);
       } else {
         error('no call to hangup');
-        $('#answer').addClass('hide');
-        $('#hangup').addClass('hide');
       }
+      $('#answer').addClass('hide');
+      $('#hangup').addClass('hide');
     }
 
     function answer() {
       if (currentCall.uuid) {
         $("#flash")[0].answer(currentCall.uuid);
+        $('#answer').addClass('disabled');
+        $('#answer').prop('disabled', true);
       } else {
         error('no call to answer');
         $('#answer').addClass('hide');
@@ -80,15 +82,23 @@
     }
 
     function onHangup(uuid, cause) {
-      //TODO  should go to home screen , is user can submit if he is satisfied with call after hangup.
-      ok('are you statisfied ? will be redirected to home screen in 4 seconds');
-      setTimeout(function() {
-        logout(sessionUser);
-      }, 5000);
+      callEnded();
     }
 
     function onDebug(message) {
       console.log("freeswitch debug : " + message)
+      if (message == "Closing media streams") { // call ended from otherside
+        callEnded();
+      }
+    }
+
+    // logout from FS
+    // clear sip data
+    // go to feedback page
+    function callEnded(){
+      logout(sessionUser);
+      UbiCallManager.clearSipInfo();
+      UbiCallManager.goToFeedBackScreen();
     }
 
     function onConnected(sessionid) {
@@ -110,16 +120,16 @@
         error("unable to login to communication server, will be redirected to home screen in 4 seconds...");
         setTimeout(function() {
           logout(sessionUser);
-        }, 5000);
+          UbiCallManager.goToHomeScreen();
+        }, 4000);
       } else {
         sessionUser = user + '@' + domain;
         $("#flash")[0].register(sessionUser, "");
-        ok("logged in communication server , will be call soon");
+        ok("logged in communication server , will be called soon :)");
       }
     }
 
     function onLogout(user, domain) {
-      UbiCallManager.goToHomeScreen();
     }
 
     function onInit() {
@@ -170,7 +180,7 @@
     <a href="#" onclick="UbiCallManager.goToHomeScreen()">
       <i class="fa fa-home fa-right"></i>
     </a>
-    <h3 class="header">wait for call </h3>
+    <h3 class="header">Wait For Your Call</h3>
   </div>
   <div class="animsition">
     <div id="pages">
@@ -179,8 +189,14 @@
 
       </div>
 
-      <button id="answer" onclick="answer()" class="list-group-item call-call hide">Answer</button>
-      <button id="hangup" onclick="hangup()" class="list-group-item call-end hide">Hangup</button>
+      <div>
+          <button id="answer" onclick="answer()" class="col-xs-6 col-md-6 btn btn-success hide" >
+            Answer
+          </button>
+          <button id="hangup" onclick="hangup()" class="col-xs-6 col-md-6  btn btn-danger hide">
+            Hangup
+          </button>
+      </div>
 
       <div id="flash">
         <h1>Alternative content</h1>

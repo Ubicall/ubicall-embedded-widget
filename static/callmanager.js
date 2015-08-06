@@ -23,6 +23,10 @@ var UbiCallManager = UbiCallManager || (function() {
     window.location.href = 'https://platform.ubicall.com/widget/unexpected.html';
   }
 
+  function goToFeedBackScreen(){
+    window.location.href = 'https://platform.ubicall.com/widget/feedback.html';
+  }
+
   function goToHomeScreen(){
     window.location.href = 'https://platform.ubicall.com/widget/li/' + LICENSE + '/MainScreen.html'
   }
@@ -71,6 +75,18 @@ var UbiCallManager = UbiCallManager || (function() {
 
   function _getGeoInfo() {
     return JSON.parse(localStorage.getItem('geo'));
+  }
+
+  function _setCallId(id){
+    localStorage.setItem('callID' , id);
+  }
+
+  function _getCallId(id){
+    localStorage.getItem('callID');
+  }
+
+  function _removeCallId(id){
+    localStorage.removeItem('callID');
   }
 
   function _initGeo() {
@@ -159,6 +175,8 @@ var UbiCallManager = UbiCallManager || (function() {
         success: function(response) {
           if (response.status == 200) {
             console.log("sechduling call");
+            // sample response : {"status":200,"data":[{"call":"processing","call_id":604}]}
+            _setCallId(response.data[0].call_id);
             _clearPhoneCallQueue();
             _clearFormDate();
             _sipScheduledPage();
@@ -211,6 +229,26 @@ var UbiCallManager = UbiCallManager || (function() {
     });
 }
 
+  function submitFeedback(feedback){
+    var callId = _getCallId();
+    if(callId && (feedback.text || (feedback.feel && feedback.feel != 1))){
+      $.ajax({
+        type: "get",
+        url: "https://ws.ubicall.com/webservice/get_feedback.php",
+        contentType: "application/json",
+        data: {
+          call_id: callId ,
+          feedback: feedback.feel || 1,
+          feedback_text: feedback.text
+        }
+      });
+    } else {
+      console.log('no thing inportant to feedback it');
+    }
+    _removeCallId();
+    goToHomeScreen();
+  }
+
   function setPhoneCallQueue(queue){
     PHONE_SUBMIT_QUEUE = queue;
     localStorage.setItem('queue', queue);
@@ -245,6 +283,10 @@ var UbiCallManager = UbiCallManager || (function() {
     setPhoneCallQueue : setPhoneCallQueue,
     setFormDate : setFormDate,
     getSipInfo : _getSipInfo,
-    goToHomeScreen : goToHomeScreen
+    clearSipInfo : _removeSipInfo,
+    goToHomeScreen : goToHomeScreen,
+    goToFeedBackScreen : goToFeedBackScreen,
+    fallBackToErrorPage : _someThingGoWrong,
+    submitFeedback : submitFeedback
   }
 }());
