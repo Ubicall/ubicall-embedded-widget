@@ -19,8 +19,8 @@ var UbiCallManager = UbiCallManager || (function() {
     window.location.href = 'https://platform.ubicall.com/widget/phoneCallSchedule.html';
   }
 
-  function _unableToScheduleCall(){
-    window.location.href = 'https://platform.ubicall.com/widget/callNotSent.html';
+  function _someThingGoWrong(){
+    window.location.href = 'https://platform.ubicall.com/widget/unexpected.html';
   }
 
   function goToHomeScreen(){
@@ -50,7 +50,6 @@ var UbiCallManager = UbiCallManager || (function() {
   }
 
   function _saveSipInfo(sip) {
-    _removeSipInfo('sip');
     localStorage.setItem('sip', JSON.stringify(sip));
   }
 
@@ -142,14 +141,14 @@ var UbiCallManager = UbiCallManager || (function() {
   }
 
   function scheduleSipCall(queue) {
-    sipSign().done(function () {
+    sipSign().done(function (_sip) {
       $.ajax({
         type: "get",
         url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
         contentType: "application/json",
         data: {
           pstn: 2, // flag mean this is usuall web call
-          voiceuser_id: SIP.username,
+          voiceuser_id: _sip.username,
           license_key: LICENSE,
           qid: queue || PHONE_SUBMIT_QUEUE,
           json : FORM_DATA || '',
@@ -165,57 +164,52 @@ var UbiCallManager = UbiCallManager || (function() {
             _sipScheduledPage();
           } else {
             console.log("error in sechduling web call");
-            _unableToScheduleCall();
+            _someThingGoWrong();
           }
         },
         error: function(xhr) {
           console.log("error in sechduling web call");
-          _unableToScheduleCall();
+          _someThingGoWrong();
         }
       });
     }).fail(function (error) {
       console.log(error);
-      _unableToScheduleCall();
+      _someThingGoWrong();
     });
   }
 
-  function schedulePhoneCall(phone , time) {
-    sipSign().done(function () {
-      $.ajax({
-        type: "get",
-        url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
-        contentType: "application/json",
-        data: {
-          pstn: 3 , // flag mean this is usuall web call
-          voiceuser_id: phone,
-          license_key: LICENSE,
-          qid: PHONE_SUBMIT_QUEUE,
-          json : FORM_DATA || '',
-          ipaddress: GEO && GEO.ip ? GEO.ip : '',
-          long : GEO && GEO.longitude ? GEO.longitude : '',
-          lat : GEO && GEO.latitude ? GEO.latitude : ''
-        },
-        success: function(response) {
-          if (response.status == 200) {
-            console.log("sechduling call");
-            _clearPhoneCallQueue();
-            _clearFormDate();
-            _phoneScheduledPage();
-          } else {
-            console.log("error in sechduling phone call");
-            _unableToScheduleCall();
-          }
-        },
-        error: function(xhr) {
+  function schedulePhoneCall(phone, time) {
+    $.ajax({
+      type: "get",
+      url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
+      contentType: "application/json",
+      data: {
+        pstn: 3, // flag mean this is phone call call
+        voiceuser_id: phone,
+        license_key: LICENSE,
+        qid: PHONE_SUBMIT_QUEUE,
+        json: FORM_DATA || '',
+        ipaddress: GEO && GEO.ip ? GEO.ip : '',
+        long: GEO && GEO.longitude ? GEO.longitude : '',
+        lat: GEO && GEO.latitude ? GEO.latitude : ''
+      },
+      success: function(response) {
+        if (response.status == 200) {
+          console.log("sechduling call");
+          _clearPhoneCallQueue();
+          _clearFormDate();
+          _phoneScheduledPage();
+        } else {
           console.log("error in sechduling phone call");
-          _unableToScheduleCall();
+          _someThingGoWrong();
         }
-      });
-    }).fail(function(){
-      console.log("error in sechduling phone call");
-      _unableToScheduleCall();
+      },
+      error: function(xhr) {
+        console.log("error in sechduling phone call");
+        _someThingGoWrong();
+      }
     });
-  }
+}
 
   function setPhoneCallQueue(queue){
     PHONE_SUBMIT_QUEUE = queue;
