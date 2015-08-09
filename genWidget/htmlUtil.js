@@ -163,11 +163,11 @@ function createInfo($, content) {
   <div>
 
       <button class="btn btn-default"
-        click="ubiCallManager.scheduleSipCall(@param queue)">
+        click="UbiCallManager.scheduleSipCall(@param queue)">
           Receive web VoIP call
       </button>
 
-      <a onclick='ubiCallManager.setPhoneCallQueue(@param queue)' href='https://platform.ubicall.com/widget/submitCall.html'>
+      <a onclick='UbiCallManager.setPhoneCallQueue(@param queue)' href='https://platform.ubicall.com/widget/submitCall.html'>
         <button class="btn btn-default" >
             Receive a call on Cell phone
         </button>
@@ -179,9 +179,9 @@ function createCall($, queue) {
   var $div = $('<div/>');
 
   var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call')
-    .attr('onclick', 'ubiCallManager.scheduleSipCall(' + queue +')');
+    .attr('onclick', 'UbiCallManager.scheduleSipCall(' + queue +')');
 
-  var $b = $('<a/>').attr('onclick', 'ubiCallManager.setPhoneCallQueue(' + queue + ')')
+  var $b = $('<a/>').attr('onclick', 'UbiCallManager.setPhoneCallQueue(' + queue + ')')
     .attr('href','https://platform.ubicall.com/widget/submitCall.html');
   var $butB = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone');
   $b.append($butB);
