@@ -39,6 +39,7 @@
       }
       $('#answer').addClass('hide');
       $('#hangup').addClass('hide');
+      $('#agent-img').addClass('hide');
     }
 
     function answer() {
@@ -50,6 +51,7 @@
         error('no call to answer');
         $('#answer').addClass('hide');
         $('#hangup').addClass('hide');
+        $('#agent-img').addClass('hide');
       }
     }
 
@@ -71,6 +73,7 @@
       currentCall.started = false;
       $('#answer').removeClass('hide');
       $('#hangup').removeClass('hide');
+      $('#agent-img').removeClass('hide');
     }
 
     function onDisconnected() {
@@ -185,17 +188,18 @@
   <div class="animsition">
     <div id="pages">
 
-      <div id="info" class="hide alert alert-success" role="alert">
+      <div class="phone-02">
+        <div id="info" class="hide alert alert-success" role="alert"></div>
+        <div id="agent-img" class="hide phone-img">
+          <img src="https://cdn.ubicall.com/static/ubicall/images/home-pic-01.jpg" alt="" />
+        </div>
 
-      </div>
-
-      <div>
-          <button id="answer" onclick="answer()" class="col-xs-6 col-md-6 btn btn-success hide" >
-            Answer
-          </button>
-          <button id="hangup" onclick="hangup()" class="col-xs-6 col-md-6  btn btn-danger hide">
-            Hangup
-          </button>
+        <button id="answer" onclick="answer()" class="col-xs-6 col-md-6 btn btn-success hide btn-02" >
+          Answer
+        </button>
+        <button id="hangup" onclick="hangup()" class="col-xs-6 col-md-6  btn btn-danger hide btn-04">
+          Hangup
+        </button>
       </div>
 
       <div id="flash">
