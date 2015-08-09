@@ -12,7 +12,7 @@
 **/
 function setTitle(title)
 {
-   var header =' <div id="header">        <a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a>        <a href="#plist-01"><i class="fa fa-home fa-right"></i></a>        <h3>'+ title +'</h3>      </div>      ';
+   var header =' <div id="header">        <a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a>        <a href="#MainScreen"><i class="fa fa-home fa-right"></i></a>        <h3>'+ title +'</h3>      </div>      ';
 
     return header;
 }
@@ -46,7 +46,7 @@ function createChoices($,pageId, choices,title) {
    $content.append(search);
    $content.append($divpages);
    $page.append($content);
- $('body').append($page);
+ $('#MDiv').append($page);
   return $
 }
 
@@ -100,7 +100,7 @@ var header= setTitle(title);
    $content.append($divpages);
    $page.append($content);
 
-  $('body').append($page);
+  $('#MDiv').append($page);
   return $
  
 }
@@ -186,7 +186,7 @@ function createForm($,pageId, formFields, queue, FormTitle,title) {
    $content.append($maidiv);
    $page.append($content);
 
- $('body').append($page);
+ $('#MDiv').append($page);
   return $
 
 }
@@ -218,7 +218,7 @@ function createInfo($,pageId, content,title) {
    $content.append(search);
    $content.append($divpages);
    $page.append($content);
-  $('body').append($page);
+  $('#MDiv').append($page);
   return $
 }
 
@@ -270,7 +270,7 @@ var $divpages = $('<div/>').attr('class', 'pages');
    $content.append($divpages);
    $page.append($content);
 
-    $('body').append($page);
+    $('#MDiv').append($page);
   return $
 }
 

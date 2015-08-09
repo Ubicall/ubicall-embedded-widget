@@ -17,26 +17,26 @@ var plistObject = JSON.parse(pObject);
         switch (stype) {
           case "Choice":
          
-           content = htmlUtil.createChoices($,row, plistObject[row].choices,plistObject[row].ScreenTitle);
+           $ = htmlUtil.createChoices($,row, plistObject[row].choices,plistObject[row].ScreenTitle);
 
             break;
           case "Form":
             
-            content += htmlUtil.createForm($,row, plistObject[row].FormFields , plistObject[row].QueueDestination.id,plistObject[row].FormTitle,plistObject[row].ScreenTitle);
+            $ = htmlUtil.createForm($,row, plistObject[row].FormFields , plistObject[row].QueueDestination.id,plistObject[row].FormTitle,plistObject[row].ScreenTitle);
         
             break;
 
           case "Grid":
 
-            content += htmlUtil.createGrid($,row, plistObject[row].choices,plistObject[row].ScreenTitle);
+            $ = htmlUtil.createGrid($,row, plistObject[row].choices,plistObject[row].ScreenTitle);
             break;
 
           case "Info":
-            content += htmlUtil.createInfo($,row, plistObject[row].ContentText,plistObject[row].ScreenTitle);
+            $ = htmlUtil.createInfo($,row, plistObject[row].ContentText,plistObject[row].ScreenTitle);
             break;
 
           case "Call":
-            content += htmlUtil.createCall($,row, plistObject[row].QueueDestination.id,plistObject[row].QueueDestination.name);
+            $ = htmlUtil.createCall($,row, plistObject[row].QueueDestination.id,plistObject[row].QueueDestination.name);
            
             break;
         }
@@ -47,7 +47,7 @@ var plistObject = JSON.parse(pObject);
   
 
 
-console.log(beautify_html(content.html()));
+console.log(beautify_html($.html()));
 
 
 
