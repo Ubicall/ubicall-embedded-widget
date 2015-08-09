@@ -132,8 +132,7 @@ function createForm($,pageId, formFields, queue, FormTitle,title) {
     var header= setTitle(title);
   var search =srch();
 
- var scrip = '<script src="https://platform.ubicall.com/widget/form.js"></script>';
- var $maidiv = $('<div/>').attr('class','pages');
+  var $maidiv = $('<div/>').attr('class','pages');
 
  var $p = $('<p/>').text(FormTitle);
  var $form = $('<form/>').attr('id', 'callForm').attr('action', 'https://platform.ubicall.com/widget/call.html');
@@ -175,7 +174,6 @@ function createForm($,pageId, formFields, queue, FormTitle,title) {
  $maidiv.append($p);
  $maidiv.append($form);
 
- $maidiv.append(scrip)
  
 
     var $content = $('<div/>').attr('data-role', 'content');
@@ -264,7 +262,7 @@ var $divpages = $('<div/>').attr('class', 'pages');
     var $content = $('<div/>').attr('data-role', 'content');
     var $page = $('<div/>').attr('data-role', 'page').attr('id',pageId);
 
-   $divpages.append($page);
+   $divpages.append($div);
    $content.append(header);
    $content.append(search);
    $content.append($divpages);
