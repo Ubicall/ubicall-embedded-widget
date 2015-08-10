@@ -36,11 +36,8 @@ var UbiCallManager = UbiCallManager || (function() {
   }
 
   if ( !GEO ) {
-    $.when(_initGeo(), _getIp()).done(function(_geo, ip) {
+    $.when(_initGeo()).done(function(_geo) {
       GEO = _geo ;
-      if (ip) {
-          GEO.ip = ip;
-      }
       _saveGeoInfo(GEO);
     });
   }
@@ -107,22 +104,6 @@ var UbiCallManager = UbiCallManager || (function() {
     return deferred.promise();
   }
 
-  function _getIp() {
-    var deferred = $.Deferred();
-    $.ajax({
-      dataType: "json",
-      url: "http://jsonip.com?callback=?",
-      success: function(response) {
-        deferred.resolve(response.ip);
-      },
-      error: function(xhr) {
-        deferred.resolve();
-      },
-      timeout: 2000
-    });
-    return deferred.promise();
-  }
-
   function sipSign(){
     var deferred = $.Deferred();
     $.ajax({
@@ -168,7 +149,6 @@ var UbiCallManager = UbiCallManager || (function() {
           license_key: LICENSE,
           qid: queue || PHONE_SUBMIT_QUEUE,
           json : FORM_DATA || '',
-          ipaddress: GEO && GEO.ip ? GEO.ip : '',
           long : GEO && GEO.longitude ? GEO.longitude : '',
           lat : GEO && GEO.latitude ? GEO.latitude : ''
         },
@@ -207,7 +187,6 @@ var UbiCallManager = UbiCallManager || (function() {
         license_key: LICENSE,
         qid: PHONE_SUBMIT_QUEUE,
         json: FORM_DATA || '',
-        ipaddress: GEO && GEO.ip ? GEO.ip : '',
         long: GEO && GEO.longitude ? GEO.longitude : '',
         lat: GEO && GEO.latitude ? GEO.latitude : ''
       },
