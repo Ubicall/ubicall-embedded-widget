@@ -62,13 +62,13 @@ function _search($) {
   var $search_button_icon = $('<span/>').attr('class', 'fa fa-search');
 
   $search_button.append($search_button_icon);
-  $search_span.append(search_button);
+  $search_span.append($search_button);
 
   $div_input_group.append($input);
   $div_input_group.append($search_span);
 
   $div_container.append($div_input_group);
-  $div_search.append($div_container);
+  $search.append($div_container);
 
   return $search;
 }
