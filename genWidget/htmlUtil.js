@@ -5,7 +5,7 @@
         <a onClick="javascript:history.go(-1)">
           <i class="fa fa-chevron-left fa-left"/>
         </a>
-        <a href="#MainScreen">
+        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
           <i class="fa fa-home fa-right"/>
         </a>
         <h3> @param title </h3>
@@ -17,7 +17,7 @@ function setTitle($, title) {
   var $a_back = $('<a/>').attr('onclick', 'javascript:history.go(-1)');
   var $a_back_i = $('<i/>').attr('class', 'fa fa-chevron-left fa-left');
 
-  var $a_home = $('<a/>').attr('onclick', 'UbiCallManager.goToHomeScreen()');
+  var $a_home = $('<a/>').attr('href','#').('onclick', 'UbiCallManager.goToHomeScreen()');
   var $a_home_i = $('<i/>').attr('class', 'fa fa-home fa-right');
 
   var $title = $('<h3/>').text(title);
@@ -86,7 +86,7 @@ function _search($) {
 function createChoices($, pageId, choices, title) {
 
   var header = setTitle($, title);
-  var search = srch();
+  var search = _search();
 
   var $divlist = $('<div/>').attr('class', 'list-group');
   choices.forEach(function(choice) {
@@ -133,7 +133,7 @@ function createChoices($, pageId, choices, title) {
  **/
 function createGrid($, pageId, grids, title) {
   var header = setTitle($, title);
-  var search = srch();
+  var search = _search();
 
 
   var $ul = $('<ul/>').attr('class', 'grid-01')
@@ -175,7 +175,7 @@ function createGrid($, pageId, grids, title) {
   @return
     <div>
         <p>@param FormTitle</p>
-        <form action="https://platform.ubicall.com/widget/call.html">
+        <form action="" method="post" onsubmit="submitCallForm();return false;">
             <div class="form-group">
                 <label>Gender</label>
                 <select class="form-control" name="Gender">
@@ -192,12 +192,12 @@ function createGrid($, pageId, grids, title) {
 function createForm($, pageId, formFields, queue, FormTitle, title) {
 
   var header = setTitle($, title);
-  var search = srch();
+  var search = _search();
 
   var $maidiv = $('<div/>').attr('class', 'pages');
 
   var $p = $('<p/>').text(FormTitle);
-  var $form = $('<form/>').attr('id', 'callForm').attr('action', 'https://platform.ubicall.com/widget/call.html');
+  var $form = $('<form/>').attr('method', 'post').attr('action', '').attr('onsubmit' , 'submitCallForm();return false;');
   formFields.forEach(function(field) {
 
     var $div = $('<div/>').attr('class', 'form-group');
@@ -264,7 +264,7 @@ function createForm($, pageId, formFields, queue, FormTitle, title) {
 function createInfo($, pageId, content, title) {
 
   var header = setTitle($, title);
-  var search = srch();
+  var search = _search();
 
   var $p = $('<p/>').text(content);
 
@@ -305,7 +305,7 @@ function createInfo($, pageId, content, title) {
 function createCall($, pageId, queue, title) {
 
   var header = setTitle($, title);
-  var search = srch();
+  var search = _search();
 
   var $div = $('<div/>');
 

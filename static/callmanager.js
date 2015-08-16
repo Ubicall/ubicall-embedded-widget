@@ -11,6 +11,10 @@ var UbiCallManager = UbiCallManager || (function() {
 
   // when use divs intstead of seperated pages next js snippet will be used
   // $('html, body').animate({ scrollTop: $('#answer-16670537').offset().top }, 'fast');
+  function _goToCallOptions(){
+    $('html, body').animate({ scrollTop: $('#callOptions').offset().top }, 'fast');
+  }
+
   function _sipScheduledPage(){
     window.location.href = 'https://platform.ubicall.com/widget/waiting.html';
   }
@@ -264,6 +268,7 @@ var UbiCallManager = UbiCallManager || (function() {
     getSipInfo : _getSipInfo,
     clearSipInfo : _removeSipInfo,
     goToHomeScreen : goToHomeScreen,
+    goToCallOptions : _goToCallOptions,
     goToFeedBackScreen : goToFeedBackScreen,
     fallBackToErrorPage : _someThingGoWrong,
     submitFeedback : submitFeedback
