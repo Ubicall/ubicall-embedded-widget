@@ -11,13 +11,13 @@
         <h3> @param title </h3>
     </div>';
 **/
-function setTitle($ , title) {
+function setTitle($, title) {
   var $header = $('<div/>').attr('id', 'header');
 
   var $a_back = $('<a/>').attr('onclick', 'javascript:history.go(-1)');
   var $a_back_i = $('<i/>').attr('class', 'fa fa-chevron-left fa-left');
 
-  var $a_home = $('<a/>').attr('href', '#MainScreen');
+  var $a_home = $('<a/>').attr('onclick', 'UbiCallManager.goToHomeScreen()');
   var $a_home_i = $('<i/>').attr('class', 'fa fa-home fa-right');
 
   var $title = $('<h3/>').text(title);
@@ -32,8 +32,46 @@ function setTitle($ , title) {
   return header.html();
 }
 
-function srch() {
-  var search = '<div id="search">        <div class="form-01">          <form>            <div id="imaginary_container">              <div class="input-group stylish-input-group">                <input type="text" class="form-control" placeholder="Search">                <span class="input-group-addon">                  <button type="submit">                    <span class="fa fa-search"></span>                  </button>                </span>              </div>            </div>          </form>      </div>      </div>';
+/**
+@param $ is cheerio documnet
+@return
+    <div id="search">
+      <div class="form-01">
+        <form>
+          <div id="imaginary_container">
+            <div class="input-group stylish-input-group">
+              <input type="text" class="form-control" placeholder="Search">
+              <span class="input-group-addon">
+              <button type="submit">
+                <span class="fa fa-search"></span>
+              </button>
+              </span>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+**/
+function _search($) {
+
+  var $divsrch = $('<div/>').attr('id', 'search');
+  var $divform = $('<div/>').attr('class', 'form-01');
+  var $srchform = $('<form/>');
+  var $divcontainer = $('<div/>').attr('id', 'imaginary_container');
+  var $divinputgroup = $('<div/>').attr('class', 'input-group stylish-input-group');
+  var $inputsrch = $('<input/>').attr('class', 'form-control').attr('placeholder', 'Search').attr('type', 'text');
+  var $spaninputgroup = $('<span/>').attr('class', 'input-group-addon');
+  var $button = $('<button/>').attr('type', 'submit');
+  var $spanfasearch = $('<span/>').attr('class', 'fa fa-search');
+  $button.append($spanfasearch);
+  $spaninputgroup.append($button);
+  $divinputgroup.append($inputsrch);
+  $divinputgroup.append($spaninputgroup);
+  $divcontainer.append($divinputgroup);
+  $srchform.append($divcontainer);
+  $divform.append($srchform);
+  $divsrch.append($divform);
+  return $divsrch;
 }
 
 /**
@@ -47,7 +85,7 @@ function srch() {
 **/
 function createChoices($, pageId, choices, title) {
 
-  var header = setTitle($ , title);
+  var header = setTitle($, title);
   var search = srch();
 
   var $divlist = $('<div/>').attr('class', 'list-group');
@@ -94,7 +132,7 @@ function createChoices($, pageId, choices, title) {
        </ul>
  **/
 function createGrid($, pageId, grids, title) {
-  var header = setTitle($ , title);
+  var header = setTitle($, title);
   var search = srch();
 
 
@@ -153,7 +191,7 @@ function createGrid($, pageId, grids, title) {
  **/
 function createForm($, pageId, formFields, queue, FormTitle, title) {
 
-  var header = setTitle($ , title);
+  var header = setTitle($, title);
   var search = srch();
 
   var $maidiv = $('<div/>').attr('class', 'pages');
@@ -225,7 +263,7 @@ function createForm($, pageId, formFields, queue, FormTitle, title) {
 **/
 function createInfo($, pageId, content, title) {
 
-  var header = setTitle($ , title);
+  var header = setTitle($, title);
   var search = srch();
 
   var $p = $('<p/>').text(content);
@@ -266,7 +304,7 @@ function createInfo($, pageId, content, title) {
 
 function createCall($, pageId, queue, title) {
 
-  var header = setTitle($ , title);
+  var header = setTitle($, title);
   var search = srch();
 
   var $div = $('<div/>');

@@ -16,19 +16,19 @@ var UbiCallManager = UbiCallManager || (function() {
   }
 
   function _phoneScheduledPage(){
-    window.location.href = 'https://platform.ubicall.com/widget/phoneCallSchedule.html';
+    $('html, body').animate({ scrollTop: $('#phoneCallScheduled').offset().top }, 'fast');
   }
 
   function _someThingGoWrong(){
-    window.location.href = 'https://platform.ubicall.com/widget/unexpected.html';
+    $('html, body').animate({ scrollTop: $('#sorry').offset().top }, 'fast');
   }
 
   function goToFeedBackScreen(){
-    window.location.href = 'https://platform.ubicall.com/widget/feedback.html';
+    $('html, body').animate({ scrollTop: $('#callFeedback').offset().top }, 'fast');
   }
 
   function goToHomeScreen(){
-    window.location.href = 'https://platform.ubicall.com/widget/li/' + LICENSE + '/MainScreen.html'
+    $('html, body').animate({ scrollTop: $('#MainScreen').offset().top }, 'fast');
   }
 
   if( LICENSE ){
