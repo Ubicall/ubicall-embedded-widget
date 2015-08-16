@@ -286,8 +286,8 @@ function createInfo($, pageId, content, title) {
 @param queue queue id
 @return
   <div>
-    <button onclick="UbiCallManager.scheduleSipCall(@param queue)" class="btn btn-default">Receive web VoIP call</button>
-    <button onclick="UbiCallManager.setPhoneCallQueue(@param queue)" class="btn btn-default">Receive a call on Cell phone</button>
+    <button onclick="this.disabled=true;UbiCallManager.scheduleSipCall(@param queue);this.disabled=false;" class="btn btn-default">Receive web VoIP call</button>
+    <button onclick="this.disabled=true;UbiCallManager.setPhoneCallQueue(@param queue);UbiCallManager.goTosubmitPhoneCall();this.disabled=false;" class="btn btn-default">Receive a call on Cell phone</button>
   </div>
 **/
 
@@ -299,10 +299,10 @@ function createCall($, pageId, queue, title) {
   var $div = $('<div/>');
 
   var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call')
-    .attr('onclick', 'this.disabled=true;UbiCallManager.scheduleSipCall(' + queue + ')');
+    .attr('onclick', 'this.disabled=true;UbiCallManager.scheduleSipCall(' + queue + ');this.disabled=false');
 
   var $buttonb = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone')
-    .attr('onclick', 'this.disabled=true;UbiCallManager.setPhoneCallQueue(' + queue + ')');
+    .attr('onclick', 'this.disabled=true;UbiCallManager.setPhoneCallQueue(' + queue + ');UbiCallManager.goTosubmitPhoneCall();this.disabled=false');
 
 
   $div.append($buttona);

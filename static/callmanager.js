@@ -9,10 +9,8 @@ var UbiCallManager = UbiCallManager || (function() {
   var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
   var FORM_DATA = FORM_DATA || _getFormDate();
 
-  // when use divs intstead of seperated pages next js snippet will be used
-  // $('html, body').animate({ scrollTop: $('#answer-16670537').offset().top }, 'fast');
   function _goToCallOptions(){
-    $('html, body').animate({ scrollTop: $('#callOptions').offset().top }, 'fast');
+    window.location.hash = 'callOptions';
   }
 
   function _sipScheduledPage(){
@@ -20,19 +18,23 @@ var UbiCallManager = UbiCallManager || (function() {
   }
 
   function _phoneScheduledPage(){
-    $('html, body').animate({ scrollTop: $('#phoneCallScheduled').offset().top }, 'fast');
+    window.location.hash = 'phoneCallScheduled';
+  }
+
+  function _goTosubmitPhoneCall(){
+    window.location.hash = 'submitPhoneCall';
   }
 
   function _someThingGoWrong(){
-    $('html, body').animate({ scrollTop: $('#sorry').offset().top }, 'fast');
+    window.location.hash = 'sorry';
   }
 
   function goToFeedBackScreen(){
-    $('html, body').animate({ scrollTop: $('#callFeedback').offset().top }, 'fast');
+    window.location.hash = 'callFeedback';
   }
 
   function goToHomeScreen(){
-    $('html, body').animate({ scrollTop: $('#MainScreen').offset().top }, 'fast');
+    window.location.hash = 'MainScreen';
   }
 
   if( LICENSE ){
@@ -269,6 +271,7 @@ var UbiCallManager = UbiCallManager || (function() {
     clearSipInfo : _removeSipInfo,
     goToHomeScreen : goToHomeScreen,
     goToCallOptions : _goToCallOptions,
+    goTosubmitPhoneCall : _goTosubmitPhoneCall,
     goToFeedBackScreen : goToFeedBackScreen,
     fallBackToErrorPage : _someThingGoWrong,
     submitFeedback : submitFeedback
