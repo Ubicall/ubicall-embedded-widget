@@ -251,11 +251,11 @@ function createInfo($, pageId, content, title) {
   <div>
 
       <button class="btn btn-default"
-        click="ubiCallManager.scheduleSipCall(@param queue)">
+        click="UbiCallManager.scheduleSipCall(@param queue)">
           Receive web VoIP call
       </button>
 
-      <a onclick='ubiCallManager.setPhoneCallQueue(@param queue)' href='https://platform.ubicall.com/widget/submitCall.html'>
+      <a onclick='UbiCallManager.setPhoneCallQueue(@param queue)' href='https://platform.ubicall.com/widget/submitCall.html'>
         <button class="btn btn-default" >
             Receive a call on Cell phone
         </button>

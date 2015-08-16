@@ -16,6 +16,6 @@ $(document).ready(function() {
   };
   $('#callForm').submit(function() {
       var formData = JSON.stringify($('#callForm').serializeObject()));
-    var qid = $('#callForm #qid').val(); ubiCallManager.setFormDate(formData); ubiCallManager.setPhoneCallQueue(qid);
+    var qid = $('#callForm #qid').val(); UbiCallManager.setFormDate(formData); UbiCallManager.setPhoneCallQueue(qid);
   });
 });
