@@ -168,13 +168,14 @@ function createGrid($, pageId, grids, title) {
 
 /**
   @param $ is form documnet
+  @param pageId is screen id
   @param formFields [{FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard} , {FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard}]
   @param queue where to submit this form data
   @param FormTitle 'what this form about'
   @return
     <div>
         <p>@param FormTitle</p>
-        <form action="" method="post" onsubmit="submitCallForm();return false;">
+        <form id="form-@param pageId" action="" method="post" onsubmit="helpers.submitCallForm('form-@param pageId');return false;">
             <div class="form-group">
                 <label>Gender</label>
                 <select class="form-control" name="Gender">
@@ -185,7 +186,6 @@ function createGrid($, pageId, grids, title) {
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <input type="hidden" id="qid" value="@param queue">
-        <script src="https://platform.ubicall.com/widget/scriptform.js"></script>
     </div>
  **/
 function createForm($, pageId, formFields, queue, FormTitle, title) {
@@ -196,7 +196,8 @@ function createForm($, pageId, formFields, queue, FormTitle, title) {
   var $maidiv = $('<div/>').attr('class', 'pages');
 
   var $p = $('<p/>').text(FormTitle);
-  var $form = $('<form/>').attr('method', 'post').attr('action', '').attr('onsubmit', 'submitCallForm();return false;');
+  var $form = $('<form/>').attr('id','form-' + pageId ).attr('method', 'post').attr('action', '')
+    .attr('onsubmit', 'helpers.submitCallForm("form-' + pageId + '");return false;');
   formFields.forEach(function(field) {
 
     var $div = $('<div/>').attr('class', 'form-group');

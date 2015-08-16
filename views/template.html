@@ -167,34 +167,66 @@
   <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
   <script src="https://cdn.ubicall.com/static/jquery-mobile/js/jquery.mobile-1.4.5.min.js"></script>
   <script src="https://platform.ubicall.com/widget/callmanager.js"></script>
-  <script src="https://platform.ubicall.com/widget/form.js"></script>
 
   <script>
-    var helpers = helpers || {} ;
+    var helpers = helpers || {};
     $(document).ready(function() {
       var feedback = {};
 
+      $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+          if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+              o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+          } else {
+            o[this.name] = this.value || '';
+          }
+        });
+        return o;
+      };
 
-      $("#sele-time").click(function() { $('#hou').prop('readonly', false); $('#min').prop('readonly', false); });
-      $("#asap").click(function() { $('#hou').attr('readonly', 'readonly'); $('#min').attr('readonly', 'readonly'); });
+      helpers.submitCallForm = function(form_id) {
+        if ( !form_id ) {
+          UbiCallManager.fallBackToErrorPage();
+        } else {
+          var formData = JSON.stringify($('#'+form_id).serializeObject());
+          var qid = $('#callForm #qid').val();
+          UbiCallManager.setFormDate(formData);
+          UbiCallManager.setPhoneCallQueue(qid);
+          UbiCallManager.goToCallOptions();
+        }
+      }
 
-      helpers.submitPhoneCall = function(){
+      $("#sele-time").click(function() {
+        $('#hou').prop('readonly', false);
+        $('#min').prop('readonly', false);
+      });
+      $("#asap").click(function() {
+        $('#hou').attr('readonly', 'readonly');
+        $('#min').attr('readonly', 'readonly');
+      });
+
+      helpers.submitPhoneCall = function() {
         var phoneNumber = $('#phone').val();
         var time;
         if ($('#sele-time').is(':checked')) {
           time = $('#hou').text() + ':' + $('#min').text();
         }
-        if(phoneNumber){
-            UbiCallManager.schedulePhoneCall(phoneNumber,time);
-        }else {
+        if (phoneNumber) {
+          UbiCallManager.schedulePhoneCall(phoneNumber, time);
+        } else {
           $('.phoneNumber').addClass('has-error');
         }
       }
 
-      helpers.iam = function(you){
+      helpers.iam = function(you) {
         feedback.feel = you;
       }
-      helpers.sendFeedBack = function(){
+      helpers.sendFeedBack = function() {
         feedback.text = $('#feedback-message').val();
         UbiCallManager.submitFeedback(feedback)
       }
