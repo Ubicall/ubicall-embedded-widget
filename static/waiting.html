@@ -5,10 +5,10 @@
   <meta charset="utf-8">
   <link href="https://cdn.ubicall.com/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.ubicall.com/static/font-awesome/css/font-awesome.css" rel="stylesheet">
-  <link href="https://cdn.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet">
-  <link href="https://cdn.ubicall.com/static/animsition/dist/css/animsition.min.css" rel="stylesheet">
+  <link href="https://cdn.ubicall.com/static/ubicall/css/demo/widget/widget.css" rel="stylesheet">
 
   <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.ubicall.com/static/jquery-mobile/js/jquery.mobile-1.4.5.min.js"></script>
   <script src="https://cdn.ubicall.com/static/swfobject/swfobject/swfobject.js"></script>
   <script src="https://platform.ubicall.com/widget/callmanager.js"></script>
   <script language="javascript" content-type="text/javascript">
@@ -98,7 +98,7 @@
     // logout from FS
     // clear sip data
     // go to feedback page
-    function callEnded(){
+    function callEnded() {
       logout(sessionUser);
       UbiCallManager.clearSipInfo();
       UbiCallManager.goToFeedBackScreen();
@@ -132,8 +132,7 @@
       }
     }
 
-    function onLogout(user, domain) {
-    }
+    function onLogout(user, domain) {}
 
     function onInit() {
       var mics = eval($("#flash")[0].micList());
@@ -176,72 +175,44 @@
 
 <body>
   <!-- Header -->
-  <div id="header">
-    <a onclick="javascript:history.go(-1)">
-      <i class="fa fa-chevron-left fa-left"></i>
-    </a>
-    <a href="#" onclick="UbiCallManager.goToHomeScreen()">
-      <i class="fa fa-home fa-right"></i>
-    </a>
-    <h3 class="header">Wait For Your Call</h3>
-  </div>
-  <div class="animsition">
-    <div id="pages">
 
-      <div class="phone-02">
-        <div id="info" class="hide alert alert-success" role="alert"></div>
-        <div id="agent-img" class="hide phone-img">
-          <img src="https://cdn.ubicall.com/static/ubicall/images/home-pic-01.jpg" alt="" />
+  <div data-role="page" id="waitingCall">
+    <div data-role="content">
+      <div id="header">
+        <a onclick="javascript:history.go(-1)">
+          <i class="fa fa-chevron-left fa-left"></i>
+        </a>
+        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
+          <i class="fa fa-home fa-right"></i>
+        </a>
+        <h3 class="header">Wait For Your Call</h3>
+      </div>
+      <div class="pages">
+        <div class="phone-02">
+          <div id="info" class="hide alert alert-success" role="alert"></div>
+          <div id="agent-img" class="hide phone-img">
+            <img src="https://cdn.ubicall.com/static/ubicall/images/home-pic-01.jpg" alt="" />
+          </div>
+
+          <button id="answer" onclick="answer()" class="col-xs-6 col-md-6 btn btn-success hide btn-02">
+            Answer
+          </button>
+          <button id="hangup" onclick="hangup()" class="col-xs-6 col-md-6  btn btn-danger hide btn-04">
+            Hangup
+          </button>
         </div>
 
-        <button id="answer" onclick="answer()" class="col-xs-6 col-md-6 btn btn-success hide btn-02" >
-          Answer
-        </button>
-        <button id="hangup" onclick="hangup()" class="col-xs-6 col-md-6  btn btn-danger hide btn-04">
-          Hangup
-        </button>
-      </div>
-
-      <div id="flash">
-        <h1>Alternative content</h1>
-        <p>
-          <a href="https://www.adobe.com/go/getflashplayer">
-            <img src="https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
-          </a>
-        </p>
+        <div id="flash">
+          <h1>Alternative content</h1>
+          <p>
+            <a href="https://www.adobe.com/go/getflashplayer">
+              <img src="https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   </div>
-  <!-- Animsition End -->
-  <!-- js -->
-  <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
-  <script src="https://cdn.ubicall.com/static/animsition/dist/js/jquery.animsition.min.js"></script>
-
-  <script>
-    $(document).ready(function() {
-
-      $(".animsition").animsition({
-
-        inClass: 'fade-in-right-sm',
-        outClass: 'fade-out-right-sm',
-        inDuration: 300,
-        outDuration: 300,
-        linkElement: '.animsition-link',
-        loading: true,
-        loadingParentElement: 'body', //animsition wrapper element
-        loadingClass: 'animsition-loading',
-        unSupportCss: ['animation-duration',
-          '-webkit-animation-duration',
-          '-o-animation-duration'
-        ],
-        overlay: false,
-
-        overlayClass: 'animsition-overlay-slide',
-        overlayParentElement: 'body'
-      });
-    });
-  </script>
-  <!-- js End -->
 </body>
 
 </html>

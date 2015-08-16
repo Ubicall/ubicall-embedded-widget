@@ -16,7 +16,7 @@ $(document).ready(function() {
   };
 
   function submitCallForm(evt){
-    var formData = JSON.stringify($('#callForm').serializeObject()));
+    var formData = JSON.stringify($('#callForm').serializeObject());
     var qid = $('#callForm #qid').val(); UbiCallManager.setFormDate(formData); UbiCallManager.setPhoneCallQueue(qid);
     UbiCallManager.goToCallOptions()
   }

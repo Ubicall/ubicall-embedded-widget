@@ -17,7 +17,7 @@ function setTitle($, title) {
   var $a_back = $('<a/>').attr('onclick', 'javascript:history.go(-1)');
   var $a_back_i = $('<i/>').attr('class', 'fa fa-chevron-left fa-left');
 
-  var $a_home = $('<a/>').attr('href','#').('onclick', 'UbiCallManager.goToHomeScreen()');
+  var $a_home = $('<a/>').attr('href','#').attr('onclick', 'UbiCallManager.goToHomeScreen()');
   var $a_home_i = $('<i/>').attr('class', 'fa fa-home fa-right');
 
   var $title = $('<h3/>').text(title);
@@ -27,9 +27,9 @@ function setTitle($, title) {
 
   $header.append($a_back);
   $header.append($a_home);
-  $header.append(title);
+  $header.append($title);
 
-  return header.html();
+  return $header;
 }
 
 /**
@@ -86,7 +86,7 @@ function _search($) {
 function createChoices($, pageId, choices, title) {
 
   var header = setTitle($, title);
-  var search = _search();
+  var search = _search($);
 
   var $divlist = $('<div/>').attr('class', 'list-group');
   choices.forEach(function(choice) {
@@ -108,7 +108,7 @@ function createChoices($, pageId, choices, title) {
   $content.append(search);
   $content.append($divpages);
   $page.append($content);
-  $('body').append($page);
+  $('body').prepend($page);
   return $
 }
 
@@ -133,7 +133,7 @@ function createChoices($, pageId, choices, title) {
  **/
 function createGrid($, pageId, grids, title) {
   var header = setTitle($, title);
-  var search = _search();
+  var search = _search($);
 
 
   var $ul = $('<ul/>').attr('class', 'grid-01')
@@ -162,7 +162,7 @@ function createGrid($, pageId, grids, title) {
   $content.append($divpages);
   $page.append($content);
 
-  $('body').append($page);
+  $('body').prepend($page);
   return $
 
 }
@@ -192,7 +192,7 @@ function createGrid($, pageId, grids, title) {
 function createForm($, pageId, formFields, queue, FormTitle, title) {
 
   var header = setTitle($, title);
-  var search = _search();
+  var search = _search($);
 
   var $maidiv = $('<div/>').attr('class', 'pages');
 
@@ -246,7 +246,7 @@ function createForm($, pageId, formFields, queue, FormTitle, title) {
   $content.append($maidiv);
   $page.append($content);
 
-  $('body').append($page);
+  $('body').prepend($page);
   return $
 
 }
@@ -264,7 +264,7 @@ function createForm($, pageId, formFields, queue, FormTitle, title) {
 function createInfo($, pageId, content, title) {
 
   var header = setTitle($, title);
-  var search = _search();
+  var search = _search($);
 
   var $p = $('<p/>').text(content);
 
@@ -278,7 +278,7 @@ function createInfo($, pageId, content, title) {
   $content.append(search);
   $content.append($divpages);
   $page.append($content);
-  $('body').append($page);
+  $('body').prepend($page);
   return $
 }
 
@@ -305,7 +305,7 @@ function createInfo($, pageId, content, title) {
 function createCall($, pageId, queue, title) {
 
   var header = setTitle($, title);
-  var search = _search();
+  var search = _search($);
 
   var $div = $('<div/>');
 
@@ -330,7 +330,7 @@ function createCall($, pageId, queue, title) {
   $content.append($divpages);
   $page.append($content);
 
-  $('body').append($page);
+  $('body').prepend($page);
   return $
 }
 
