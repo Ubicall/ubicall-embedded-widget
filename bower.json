@@ -1,7 +1,7 @@
 {
   "name": "embedded-call-center-widget",
   "main": "index.js",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "homepage": "https://github.com/waleedsamy/embedded-call-center-widget",
   "authors": [
     "waleed samy <waleed_samy@ymail.com>"
