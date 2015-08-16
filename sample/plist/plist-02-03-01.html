@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<link href="../css/bootstrap.min.css" rel="stylesheet" />
+<link href="../css/style-fonts.css" rel="stylesheet" />
+<link href="../css/plist.css" rel="stylesheet" />
+<link href="../css/animsition.css" rel="stylesheet" />
+
+</head>
+<body>
+
+<!-- Header -->
+
+<div id="header">
+<a onClick="javascript:history.go(-1)"><i class="fa fa-chevron-left fa-left"></i></a>
+<a href="plist-01.html"><i class="fa fa-home fa-right"></i></a>
+<h3>Support Agent</h3>
+</div>
+
+<!-- Animsition -->
+
+<div class="animsition">
+
+<!-- Pages -->
+
+<div id="pages">
+
+<div class="lead" id="clock"></div>
+
+<div class="clock-text">Please ...</p>
+
+<a href="#"><button type="submit" class="btn btn-default">Call</button></a>
+
+</div>
+
+</div>
+
+<!-- Page End -->
+
+</div>
+
+<!-- Animsition End -->
+
+
+
+<!-- js -->
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/animsition.js"></script>
+<script>
+$(document).ready(function() {
+  
+  $(".animsition").animsition({
+  
+    inClass               :   'fade-in',
+    outClass              :   'fade-out',
+    inDuration            :    500,
+    outDuration           :    500,
+    linkElement           :   '.animsition-link',
+    loading               :    true,
+    loadingParentElement  :   'body', //animsition wrapper element
+    loadingClass          :   'animsition-loading',
+    unSupportCss          : [ 'animation-duration',
+                              '-webkit-animation-duration',
+                              '-o-animation-duration'
+                            ], 
+    overlay               :   false,
+    
+    overlayClass          :   'animsition-overlay-slide',
+    overlayParentElement  :   'body'
+  });
+});
+</script>
+<script src="../js/jquery.countdown.min.js"></script>
+<script>
+  $('[data-toggle="tooltip"]').tooltip();
+
+  // 15 days from now!
+  function get15dayFromNow() {
+    //return new Date(new Date().valueOf() + 15 * 24 * 60 * 60 * 1000);
+	return new Date(new Date().valueOf() + 05 * 60 * 1000);
+  }
+
+  var $clock = $('#clock');
+
+  $clock.countdown(get15dayFromNow(), function(event) {
+    //$(this).html(event.strftime('%D days %H:%M:%S'));
+	$(this).html(event.strftime('%H:%M:%S'));
+  });
+
+  $('#btn-reset').click(function() {
+    $clock.countdown(get15dayFromNow());
+  });
+
+  $('#btn-pause').click(function() {
+    $clock.countdown('pause');
+  });
+
+  $('#btn-resume').click(function() {
+    $clock.countdown('resume');
+  });
+
+</script>
+
+<!-- js End -->
+
+</body>
+</html>
