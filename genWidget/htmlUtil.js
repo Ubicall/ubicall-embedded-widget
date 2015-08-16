@@ -190,14 +190,15 @@ function createGrid($, pageId, grids, title) {
  **/
 function createForm($, pageId, formFields, queue, FormTitle, title) {
 
+  var formId = pageId.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
   var header = setTitle($, title);
   var search = _search($);
 
   var $maidiv = $('<div/>').attr('class', 'pages');
 
   var $p = $('<p/>').text(FormTitle);
-  var $form = $('<form/>').attr('id','form-' + pageId ).attr('method', 'post').attr('action', '')
-    .attr('onsubmit', 'helpers.submitCallForm("form-' + pageId + '");return false;');
+  var $form = $('<form/>').attr('id','form-' + formId ).attr('method', 'post').attr('action', '')
+    .attr('onsubmit', 'helpers.submitCallForm("form-' + formId + '");return false;');
   formFields.forEach(function(field) {
 
     var $div = $('<div/>').attr('class', 'form-group');
