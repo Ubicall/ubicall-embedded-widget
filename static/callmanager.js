@@ -203,6 +203,7 @@ var UbiCallManager = UbiCallManager || (function() {
         error: function(xhr) {
           console.log("error in canceling web call");
         }
+      });
     }else {
       console.log("error in canceling web call");
     }
