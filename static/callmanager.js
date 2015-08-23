@@ -4,7 +4,7 @@ var UbiCallManager = UbiCallManager || (function() {
 
   var GEO = GEO || _getGeoInfo();
   var SIP = _getSipInfo();
-  var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('/')[0];
+  var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('.')[0];
   // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
   var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
   var FORM_DATA = FORM_DATA || _getFormDate();

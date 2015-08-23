@@ -62,10 +62,17 @@ platformApp.post('/api/widget/:licence_key/:version', function(req, res) {
   __updateWidget(req,res);
 });
 
+platformApp.post('/api/widget/:licence_key', function(req, res) {
+  __updateWidget(req,res);
+});
+
 platformApp.put('/api/widget/:licence_key/:version', function(req, res) {
   __updateWidget(req,res);
 });
 
+platformApp.put('/api/widget/:licence_key', function(req, res) {
+  __updateWidget(req,res);
+});
 
 function getListenPath() {
     var listenPath = 'http' + (settings.https ? 's' : '') + '://' +
