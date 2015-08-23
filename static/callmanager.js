@@ -84,7 +84,7 @@ var UbiCallManager = UbiCallManager || (function() {
     localStorage.setItem('callID' , id);
   }
 
-  function _getCallId(id){
+  function _getCallId(){
     localStorage.getItem('callID');
   }
 
@@ -180,6 +180,32 @@ var UbiCallManager = UbiCallManager || (function() {
       console.log(error);
       _someThingGoWrong();
     });
+  }
+
+  function cancleCurrentSipCall(){
+    var call_id = _getCallId();
+    if(call_id){
+      $.ajax({
+        type: "get",
+        url: "https://ws.ubicall.com/webservice/cancle_web_call.php",
+        contentType: "application/json",
+        data: {
+          call_id : _getCallId()
+        },
+        success: function(response) {
+          if (response.status == 200) {
+            console.log("canceling web call");
+          } else {
+            console.log("error in canceling web call");
+          }
+          _removeCallId();
+        },
+        error: function(xhr) {
+          console.log("error in canceling web call");
+        }
+    }else {
+      console.log("error in canceling web call");
+    }
   }
 
   function schedulePhoneCall(phone, time) {
