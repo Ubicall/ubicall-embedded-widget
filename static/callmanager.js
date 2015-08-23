@@ -190,7 +190,7 @@ var UbiCallManager = UbiCallManager || (function() {
         url: "https://ws.ubicall.com/webservice/cancle_web_call.php",
         contentType: "application/json",
         data: {
-          call_id : _getCallId()
+          call_id : call_id
         },
         success: function(response) {
           if (response.status == 200) {
@@ -292,6 +292,7 @@ var UbiCallManager = UbiCallManager || (function() {
   return {
     scheduleSipCall: scheduleSipCall,
     schedulePhoneCall: schedulePhoneCall,
+    cancleCurrentSipCall : cancleCurrentSipCall,
     setPhoneCallQueue : setPhoneCallQueue,
     setFormDate : setFormDate,
     getSipInfo : _getSipInfo,
