@@ -24,61 +24,75 @@ platformApp.use(bodyParser.urlencoded({
 
 
 function __endsWith(str, suffix) {
-    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+  return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-function __updateWidget(req,res){
-  if(req.params.licence_key){
-    // generate plist url
-    var plistHost = req.header('plistHost') || settings.plistHost;
-    if( !__endsWith(plistHost , "/")){
-      plistHost += "/";
-    }
-    var plistUrl =  plistHost + req.params.licence_key + "/";
-    if(req.params.version){
-      plistUrl += req.params.version
-    }
-    //End generate plist url
-    //TODO check if plist hosted under *.ubicall.com otherwise 401 unauthorized
-    genWidget.generate(plistUrl).then(function(){
-      log.info("Widget generated successfully from " + plistUrl)
-      res.status(200).json({
-        message: "Widget generated successfully"
-      });
-    }).otherwise(function(err){
-      log.error("Error generating widget from " + plistUrl + ' ' + err)
-      res.status(500).json({
-        message: "Error generating widget , plist may be courrpted"
-      });
-    });
-  }else{
-    res.status(500).json({
-      message: "Error generating widget , missing licence_key"
+function extractIvr(req, res, next) {
+  var ivr = {};
+  ivr.licence_key = req.params.licence_key;
+  ivr.version = req.params.version;
+
+  if (!ivr.licence_key) {
+    res.status(422).json({
+      message: "Validation Failed",
+      errors: [{
+        field: "licence_key",
+        code: "missing_field"
+      }]
     });
   }
+
+  if (!ivr.version) {
+    res.status(422).json({
+      message: "Validation Failed",
+      errors: [{
+        field: "version",
+        code: "missing_field"
+      }]
+    });
+  }
+
+  var plistHost = req.header('plistHost') || settings.plistHost;
+  if (!__endsWith(plistHost, "/")) {
+    plistHost += "/";
+  }
+
+  ivr.plistUrl = plistHost + ivr.licence_key + "/" + ivr.version;
+
+  req.ubi = req.ubi || {};
+  req.ubi.plistUrl = ivr.plistUrl;
+
+  next();
+
 }
 
-platformApp.post('/api/widget/:licence_key/:version', function(req, res) {
-  __updateWidget(req,res);
-});
+function updateWidget(req, res, next) {
+  //End generate plist url
+  //TODO check if plist hosted under *.ubicall.com otherwise 401 unauthorized
+  var plistUrl = req.ubi.plistUrl;
+  genWidget.generate(plistUrl).then(function() {
+    log.info("Widget generated successfully from " + plistUrl)
+    res.status(200).json({
+      message: "Widget generated successfully"
+    });
+  }).otherwise(function(err) {
+    log.error("Error generating widget from " + plistUrl + ' ' + err)
+    res.status(500).json({
+      message: "Error generating widget , plist may be courrpted"
+    });
+  });
+}
 
-platformApp.post('/api/widget/:licence_key', function(req, res) {
-  __updateWidget(req,res);
-});
+platformApp.post('/api/widget/:licence_key/:version', extractIvr, updateWidget);
 
-platformApp.put('/api/widget/:licence_key/:version', function(req, res) {
-  __updateWidget(req,res);
-});
+platformApp.post('/api/widget/:licence_key/:version', extractIvr, updateWidget);
 
-platformApp.put('/api/widget/:licence_key', function(req, res) {
-  __updateWidget(req,res);
-});
 
 function getListenPath() {
-    var listenPath = 'http' + (settings.https ? 's' : '') + '://' +
-        (settings.host == '0.0.0.0' ? '127.0.0.1' : settings.host) +
-        ':' + settings.port || 7575;
-    return listenPath;
+  var listenPath = 'http' + (settings.https ? 's' : '') + '://' +
+    (settings.host == '0.0.0.0' ? '127.0.0.1' : settings.host) +
+    ':' + settings.port || 7575;
+  return listenPath;
 }
 
 

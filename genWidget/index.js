@@ -24,6 +24,9 @@ function _parsePlist(plistContent) {
   return when.promise(function(resolve, reject) {
     var plistObject = plist.parse(plistContent);
     var licence_key = plistObject.key;
+    if(!licence_key){
+      return reject("plist has no licence_key");
+    }
     for (var row in plistObject) {
       if (typeof plistObject[row] == 'object') { // parse only plist component and leave mete info like font , version now
         var stype = plistObject[row].ScreenType;
