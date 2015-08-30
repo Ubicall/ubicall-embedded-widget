@@ -85,7 +85,7 @@ function updateWidget(req, res, next) {
 
 platformApp.post('/api/widget/:licence_key/:version', extractIvr, updateWidget);
 
-platformApp.post('/api/widget/:licence_key/:version', extractIvr, updateWidget);
+platformApp.put('/api/widget/:licence_key/:version', extractIvr, updateWidget);
 
 
 function getListenPath() {
