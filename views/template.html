@@ -18,7 +18,7 @@
   <!--choose your call type voip vs pstn  , replace call.html-->
   <div data-role="page" id="callOptions">
     <div data-role="content">
-      <div id="header">
+      <div class="ubi-header">
         <a onClick="javascript:history.go(-1)">
           <i class="fa fa-chevron-left fa-left"></i>
         </a>
@@ -27,7 +27,7 @@
         </a>
         <h3>Call Type</h3>
       </div>
-      <div class="pages">
+      <div class="ubi-pages">
         <div>
           <button onclick="UbiCallManager.scheduleSipCall()" class="btn btn-default">Receive web VoIP call</button>
           <a href="#submitPhoneCall">
@@ -41,7 +41,7 @@
   <!--choose your phone call , replace submitCall.html-->
   <div data-role="page" id="submitPhoneCall">
     <div data-role="content">
-      <div id="header">
+      <div class="ubi-header">
         <a onClick="javascript:history.go(-1)">
           <i class="fa fa-chevron-left fa-left"></i>
         </a>
@@ -50,11 +50,11 @@
         </a>
         <h3>Support Agent</h3>
       </div>
-      <div class="pages-phone">
+      <div class="ubi-pages-phone">
         <img src="https://cdn.ubicall.com/static/ubicall/images/time-icon.png" class="phone-icon" alt="" />
         <h2>Average Waiting Time</h2>
         <h3>ASAP</h3>
-        <div class="phone-02">
+        <div class="ubi-phone-02">
           <h4>When we should call you?</h4>
           <form>
             <div class="radio wid-48">
@@ -82,7 +82,7 @@
   <!--phone call scheduled , replace phoneCallSchedule.html -->
   <div data-role="page" id="phoneCallScheduled">
     <div data-role="content">
-      <div id="header">
+      <div class="ubi-header">
         <a onclick="javascript:history.go(-1)">
           <i class="fa fa-chevron-left fa-left"></i>
         </a>
@@ -91,7 +91,7 @@
         </a>
         <h3 class="header">successfully scheduled phone call </h3>
       </div>
-      <div class="pages">
+      <div class="ubi-pages">
         <h2>
           done , wait for our call ,<a onclick="UbiCallManager.goToHomeScreen()" href="#"> you can continue broswing .</a>
         </h2>
@@ -102,7 +102,7 @@
   <!-- submit feedback after voip call accurred , replace feedback.html-->
   <div data-role="page" id="callFeedback">
     <div data-role="content">
-      <div id="header">
+      <div class="ubi-header">
         <a onClick="javascript:history.go(-1)">
           <i class="fa fa-chevron-left fa-left"></i>
         </a>
@@ -142,7 +142,7 @@
   <!-- fall back page when unexpected behaviour occurred, replace unexpected.html-->
   <div data-role="page" id="sorry">
     <div data-role="content">
-      <div id="header">
+      <div class="ubi-header">
         <a onclick="javascript:history.go(-1)">
           <i class="fa fa-chevron-left fa-left"></i>
         </a>
@@ -151,7 +151,7 @@
         </a>
         <h3 class="header">unexpected behaviour</h3>
       </div>
-      <div class="pages">
+      <div class="ubi-pages">
         <h2>
           sorry , something unexpected happen , and will be fixed soon <a onclick="UbiCallManager.goToHomeScreen()" href="#"> but you still broswing .</a>
         </h2>

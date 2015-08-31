@@ -1,7 +1,7 @@
 /**
 @param title is current sub page title
 @return
-    <div id="header">
+    <div class="ubi-header">
         <a onClick="javascript:history.go(-1)">
           <i class="fa fa-chevron-left fa-left"/>
         </a>
@@ -12,7 +12,7 @@
     </div>';
 **/
 function setTitle($, title) {
-  var $header = $('<div/>').attr('id', 'header');
+  var $header = $('<div/>').attr('class', 'ubi-header');
 
   var $a_back = $('<a/>').attr('onclick', 'javascript:history.go(-1)');
   var $a_back_i = $('<i/>').attr('class', 'fa fa-chevron-left fa-left');
@@ -35,7 +35,7 @@ function setTitle($, title) {
 /**
 @param $ is cheerio documnet
 @return
-    <div id = "search" >
+    <div class="ubi-search" >
       <div id = "imaginary_container" >
         <div class = "input-group stylish-input-group" >
           <input class = "form-control" placeholder = "Search" type = "text" > < /div>
@@ -50,7 +50,7 @@ function setTitle($, title) {
 **/
 function _search($) {
 
-  var $search = $('<div/>').attr('id', 'search');
+  var $search = $('<div/>').attr('class', 'ubi-search');
   var $div_container = $('<div/>').attr('id', 'imaginary_container');
 
   var $div_input_group = $('<div/>').attr('class', 'input-group stylish-input-group');
@@ -98,7 +98,7 @@ function createChoices($, pageId, choices, title) {
     }
     $divlist.append($a);
   });
-  var $divpages = $('<div/>').attr('class', 'pages');
+  var $divpages = $('<div/>').attr('class', 'ubi-pages');
   var $content = $('<div/>').attr('data-role', 'content');
   var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
 
@@ -151,7 +151,7 @@ function createGrid($, pageId, grids, title) {
     $ul.append($li);
   });
 
-  var $divpages = $('<div/>').attr('class', 'pages');
+  var $divpages = $('<div/>').attr('class', 'ubi-pages');
   var $content = $('<div/>').attr('data-role', 'content');
   var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
 
@@ -194,7 +194,7 @@ function createForm($, pageId, formFields, queue, FormTitle, title) {
   var header = setTitle($, title);
   var search = _search($);
 
-  var $maidiv = $('<div/>').attr('class', 'pages');
+  var $maidiv = $('<div/>').attr('class', 'ubi-pages');
 
   var $p = $('<p/>').text(FormTitle);
   var $form = $('<form/>').attr('id','form-' + formId ).attr('method', 'post').attr('action', '')
@@ -270,7 +270,7 @@ function createInfo($, pageId, content, title) {
   var $p = $('<p/>').text(content);
 
 
-  var $divpages = $('<div/>').attr('class', 'pages');
+  var $divpages = $('<div/>').attr('class', 'ubi-pages');
   var $content = $('<div/>').attr('data-role', 'content');
   var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
 
@@ -310,7 +310,7 @@ function createCall($, pageId, queue, title) {
   $div.append($buttona);
   $div.append($buttonb);
 
-  var $divpages = $('<div/>').attr('class', 'pages');
+  var $divpages = $('<div/>').attr('class', 'ubi-pages');
   var $content = $('<div/>').attr('data-role', 'content');
   var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
 
