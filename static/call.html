@@ -23,7 +23,7 @@
   <div class="animsition">
     <div id="pages">
       <div>
-        <button onclick="UbiCallManager.scheduleSipCall()" class="btn btn-default">Receive web VoIP call</button>
+        <button id="receive-web" onclick="UbiCallManager.scheduleSipCall()" class="btn btn-default">Receive web VoIP call</button>
         <a href="https://platform.ubicall.com/widget/submitCall.html">
           <button class="btn btn-default">Receive a call on Cell phone</button>
         </a>
@@ -59,6 +59,33 @@
         overlayParentElement  :   'body'
       });
     });
+
+
+    var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+if( isMobile.any() ) {
+
+  document.getElementById('receive-web').style.visibility = 'hidden';
+
+}
   </script>
   <!-- js End -->
 </body>
