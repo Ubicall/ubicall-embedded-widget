@@ -4,31 +4,37 @@ var UbiCallManager = UbiCallManager || (function() {
 
   var GEO = GEO || _getGeoInfo();
   var SIP = _getSipInfo();
-  var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('/')[0];
+  var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('.')[0];
   // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
   var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
   var FORM_DATA = FORM_DATA || _getFormDate();
 
-  // when use divs intstead of seperated pages next js snippet will be used
-  // $('html, body').animate({ scrollTop: $('#answer-16670537').offset().top }, 'fast');
+  function _goToCallOptions(){
+    window.location.hash = 'callOptions';
+  }
+
   function _sipScheduledPage(){
     window.location.href = 'https://platform.ubicall.com/widget/waiting.html';
   }
 
   function _phoneScheduledPage(){
-    window.location.href = 'https://platform.ubicall.com/widget/phoneCallSchedule.html';
+    window.location.hash = 'phoneCallScheduled';
+  }
+
+  function _goTosubmitPhoneCall(){
+    window.location.hash = 'submitPhoneCall';
   }
 
   function _someThingGoWrong(){
-    window.location.href = 'https://platform.ubicall.com/widget/unexpected.html';
+    window.location.hash = 'sorry';
   }
 
   function goToFeedBackScreen(){
-    window.location.href = 'https://platform.ubicall.com/widget/feedback.html';
+    window.location.hash = 'callFeedback';
   }
 
   function goToHomeScreen(){
-    window.location.href = 'https://platform.ubicall.com/widget/li/' + LICENSE + '/MainScreen.html'
+    window.location.hash = 'MainScreen';
   }
 
   if( LICENSE ){
@@ -78,7 +84,7 @@ var UbiCallManager = UbiCallManager || (function() {
     localStorage.setItem('callID' , id);
   }
 
-  function _getCallId(id){
+  function _getCallId(){
     localStorage.getItem('callID');
   }
 
@@ -176,6 +182,33 @@ var UbiCallManager = UbiCallManager || (function() {
     });
   }
 
+  function cancleCurrentSipCall(){
+    var call_id = _getCallId();
+    if(call_id){
+      $.ajax({
+        type: "get",
+        url: "https://ws.ubicall.com/webservice/cancle_web_call.php",
+        contentType: "application/json",
+        data: {
+          call_id : call_id
+        },
+        success: function(response) {
+          if (response.status == 200) {
+            console.log("canceling web call");
+          } else {
+            console.log("error in canceling web call");
+          }
+          _removeCallId();
+        },
+        error: function(xhr) {
+          console.log("error in canceling web call");
+        }
+      });
+    }else {
+      console.log("error in canceling web call");
+    }
+  }
+
   function schedulePhoneCall(phone, time) {
     $.ajax({
       type: "get",
@@ -259,11 +292,14 @@ var UbiCallManager = UbiCallManager || (function() {
   return {
     scheduleSipCall: scheduleSipCall,
     schedulePhoneCall: schedulePhoneCall,
+    cancleCurrentSipCall : cancleCurrentSipCall,
     setPhoneCallQueue : setPhoneCallQueue,
     setFormDate : setFormDate,
     getSipInfo : _getSipInfo,
     clearSipInfo : _removeSipInfo,
     goToHomeScreen : goToHomeScreen,
+    goToCallOptions : _goToCallOptions,
+    goTosubmitPhoneCall : _goTosubmitPhoneCall,
     goToFeedBackScreen : goToFeedBackScreen,
     fallBackToErrorPage : _someThingGoWrong,
     submitFeedback : submitFeedback

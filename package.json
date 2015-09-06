@@ -1,7 +1,7 @@
 {
   "name": "embeddable-ubi-widget",
   "private": true,
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "ubi widget that are embeddable on 3rd party sites",
   "main": "index.js",
   "scripts": {

@@ -22,33 +22,77 @@ platformApp.use(bodyParser.urlencoded({
   extended: false
 }));
 
-platformApp.post('/api/widget', function(req, res) {
-  if (req.body.plistUrl && settings.plistHostRegex.test(req.body.plistUrl)) {
-    genWidget.generate(req.body.plistUrl).then(function(){
-      log.info("Widget generated successfully from " + req.body.plistUrl)
-      res.status(200).json({
-        message: "Widget generated successfully"
-      });
-    }).otherwise(function(err){
-      log.error("Error generating widget from " + req.body.plistUrl + ' ' + err)
-      res.status(500).json({
-        message: "Error generating widget , plist may be courrpted"
-      });
-    });
-  } else {
-    log.error("Unauthorized plist server " + req.body.url)
-    res.status(401).json({
-      message: "Unauthorized plist server"
+
+function __endsWith(str, suffix) {
+  return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+function extractIvr(req, res, next) {
+  var ivr = {};
+  ivr.licence_key = req.params.licence_key;
+  ivr.version = req.params.version;
+
+  if (!ivr.licence_key) {
+    res.status(422).json({
+      message: "Validation Failed",
+      errors: [{
+        field: "licence_key",
+        code: "missing_field"
+      }]
     });
   }
-});
+
+  if (!ivr.version) {
+    res.status(422).json({
+      message: "Validation Failed",
+      errors: [{
+        field: "version",
+        code: "missing_field"
+      }]
+    });
+  }
+
+  var plistHost = req.header('plistHost') || settings.plistHost;
+  if (!__endsWith(plistHost, "/")) {
+    plistHost += "/";
+  }
+
+  ivr.plistUrl = plistHost + ivr.licence_key + "/" + ivr.version;
+
+  req.ubi = req.ubi || {};
+  req.ubi.plistUrl = ivr.plistUrl;
+
+  next();
+
+}
+
+function updateWidget(req, res, next) {
+  //End generate plist url
+  //TODO check if plist hosted under *.ubicall.com otherwise 401 unauthorized
+  var plistUrl = req.ubi.plistUrl;
+  genWidget.generate(plistUrl).then(function() {
+    log.info("Widget generated successfully from " + plistUrl)
+    res.status(200).json({
+      message: "Widget generated successfully"
+    });
+  }).otherwise(function(err) {
+    log.error("Error generating widget from " + plistUrl + ' ' + err)
+    res.status(500).json({
+      message: "Error generating widget , plist may be courrpted"
+    });
+  });
+}
+
+platformApp.post('/api/widget/:licence_key/:version', extractIvr, updateWidget);
+
+platformApp.put('/api/widget/:licence_key/:version', extractIvr, updateWidget);
 
 
 function getListenPath() {
-    var listenPath = 'http' + (settings.https ? 's' : '') + '://' +
-        (settings.host == '0.0.0.0' ? '127.0.0.1' : settings.host) +
-        ':' + settings.port || 7575;
-    return listenPath;
+  var listenPath = 'http' + (settings.https ? 's' : '') + '://' +
+    (settings.host == '0.0.0.0' ? '127.0.0.1' : settings.host) +
+    ':' + settings.port || 7575;
+  return listenPath;
 }
 
 

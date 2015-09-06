@@ -10,9 +10,9 @@ var cheerio = require('cheerio'),
   $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
 
 function generate(plistUrl) {
-  return when.promise(function(resolve,reject){
+  return when.promise(function(resolve, reject) {
     request(plistUrl, function(error, response, body) {
-      if(error){
+      if (error) {
         return reject(error)
       }
       return resolve(_parsePlist(body));
@@ -21,48 +21,42 @@ function generate(plistUrl) {
 }
 
 function _parsePlist(plistContent) {
-  return when.promise(function(resolve,reject){
+  return when.promise(function(resolve, reject) {
     var plistObject = plist.parse(plistContent);
     var licence_key = plistObject.key;
+    if(!licence_key){
+      return reject("plist has no licence_key");
+    }
     for (var row in plistObject) {
-      if (typeof plistObject[row] == 'object') {  // parse only plist component and leave mete info like font , version now
+      if (typeof plistObject[row] == 'object') { // parse only plist component and leave mete info like font , version now
         var stype = plistObject[row].ScreenType;
         switch (stype) {
           case "Choice":
-            var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-            content = htmlUtil.createChoices(content, plistObject[row].choices);
-            _MakeStream(content.html(), licence_key, row);
+            $ = htmlUtil.createChoices($, row, plistObject[row].choices, plistObject[row].ScreenTitle);
             break;
           case "Form":
-            var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-            content = htmlUtil.createForm(content, plistObject[row].FormFields , plistObject[row].QueueDestination.id,plistObject[row].FormTitle);
-            _MakeStream(content.html(), licence_key, row);
+            $ = htmlUtil.createForm($, row, plistObject[row].FormFields, plistObject[row].QueueDestination.id, plistObject[row].FormTitle, plistObject[row].ScreenTitle);
             break;
           case "Grid":
-            var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-            content = htmlUtil.createGrid(content, plistObject[row].choices);
-            _MakeStream(content.html(), licence_key, row);
+            $ = htmlUtil.createGrid($, row, plistObject[row].choices, plistObject[row].ScreenTitle);
             break;
           case "Info":
-            var content = htmlUtil.setTitle($, plistObject[row].ScreenTitle);
-            content = htmlUtil.createInfo(content, plistObject[row].ContentText);
-            _MakeStream(content.html(), licence_key, row);
+            $ = htmlUtil.createInfo($, row, plistObject[row].ContentText, plistObject[row].ScreenTitle);
             break;
           case "Call":
-            var content = htmlUtil.setTitle($, plistObject[row].QueueDestination.name);
-            content = htmlUtil.createCall(content, plistObject[row].QueueDestination.id);
-            _MakeStream(content.html(), licence_key, row);
+            $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);
             break;
         }
       }
     }
+    _MakeStream($.html(), licence_key);
     return resolve({});
   });
 }
 
-function _MakeStream(html, namefolder, namefile) {
-  mkdirp.sync(settings.platformTemplatesPath + namefolder, 0777);
-  var stream = fs.createWriteStream(settings.platformTemplatesPath + namefolder + "/" + namefile + ".html");
+function _MakeStream(html, licence_key) {
+  mkdirp.sync(settings.platformTemplatesPath, 0777);
+  var stream = fs.createWriteStream(settings.platformTemplatesPath + "/" + licence_key + ".html");
   stream.once('open', function() {
     stream.write(html);
     stream.end();

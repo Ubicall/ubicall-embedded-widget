@@ -10,12 +10,12 @@ var ubiWidget = ubiWidget || (function() {
     return containerId;
   }
 
-  function _createUbiWidget(ubiWidget, partyId) {
+  function _createUbiWidget(ubiWidget, partyId , options) {
     var iframeSource;
     if (partyId) {
-      iframeSource = 'https://platform.ubicall.com/widget/li/' + partyId + '/MainScreen.html';
+      iframeSource = 'https://platform.ubicall.com/widget/li/' + partyId + '.html#'+options.start;
     } else {
-      iframeSource = 'https://www.ubicall.com/40x.html';
+      iframeSource = 'https://cdn.ubicall.com/static/ubicall/html/404.html';
     }
     var iframe = document.createElement('iframe');
     iframe.setAttribute('src', iframeSource);
@@ -29,7 +29,7 @@ var ubiWidget = ubiWidget || (function() {
   return {
     init: function(Args) {
       _args = Args;
-
+      var widgetOptions = {};
       var ubiWidget;
       if (_args.containerId) {
         ubiWidget = document.getElementById(_args.containerId);
@@ -39,8 +39,9 @@ var ubiWidget = ubiWidget || (function() {
       } else {
         _args.containerId = createUbiWidgetContainer();
       }
+      widgetOptions.start = _args.startPoint || 'MainScreen';
 
-      _createUbiWidget(ubiWidget, _args.licence_key);
+      _createUbiWidget(ubiWidget, _args.licence_key , widgetOptions );
     }
   };
 }());

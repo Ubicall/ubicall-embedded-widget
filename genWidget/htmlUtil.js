@@ -1,5 +1,77 @@
+/**
+@param title is current sub page title
+@return
+    <div class="ubi-header">
+        <a onClick="javascript:history.go(-1)">
+          <i class="fa fa-chevron-left fa-left"/>
+        </a>
+        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
+          <i class="fa fa-home fa-right"/>
+        </a>
+        <h3> @param title </h3>
+    </div>';
+**/
+function setTitle($, title) {
+  var $header = $('<div/>').attr('class', 'ubi-header');
 
+  var $a_back = $('<a/>').attr('onclick', 'javascript:history.go(-1)');
+  var $a_back_i = $('<i/>').attr('class', 'fa fa-chevron-left fa-left');
 
+  var $a_home = $('<a/>').attr('href', '#').attr('onclick', 'UbiCallManager.goToHomeScreen()');
+  var $a_home_i = $('<i/>').attr('class', 'fa fa-home fa-right');
+
+  var $title = $('<h3/>').text(title);
+
+  $a_back.append($a_back_i);
+  $a_home.append($a_home_i);
+
+  $header.append($a_back);
+  $header.append($a_home);
+  $header.append($title);
+
+  return $header;
+}
+
+/**
+@param $ is cheerio documnet
+@return
+    <div class="ubi-search" >
+      <div id = "imaginary_container" >
+        <div class = "input-group stylish-input-group" >
+          <input class = "form-control" placeholder = "Search" type = "text" > < /div>
+          <span class = "input-group-addon" >
+            <button type = "submit" >
+              <span class = "fa fa-search" > < /span>
+              </button>
+          </span>
+        </div>
+      </div>
+    </div>
+**/
+function _search($) {
+
+  var $search = $('<div/>').attr('class', 'ubi-search');
+  var $div_container = $('<div/>').attr('id', 'imaginary_container');
+
+  var $div_input_group = $('<div/>').attr('class', 'input-group stylish-input-group');
+
+  var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', 'Search').attr('type', 'text');
+  var $search_span = $('<span/>').attr('class', 'input-group-addon');
+
+  var $search_button = $('<button/>').attr('type', 'submit');
+  var $search_button_icon = $('<span/>').attr('class', 'fa fa-search');
+
+  $search_button.append($search_button_icon);
+  $search_span.append($search_button);
+
+  $div_input_group.append($input);
+  $div_input_group.append($search_span);
+
+  $div_container.append($div_input_group);
+  $search.append($div_container);
+
+  return $search;
+}
 
 /**
 @param $ is cheerio documnet
@@ -10,24 +82,33 @@
         <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
       </div>
 **/
+function createChoices($, pageId, choices, title) {
 
+  var header = setTitle($, title);
+  var search = _search($);
 
-function createChoices($, choices) {
-
-  var $div = $('<div/>').attr('class', 'list-group')
+  var $divlist = $('<div/>').attr('class', 'list-group');
   choices.forEach(function(choice) {
 
     var $a = $('<a/>').attr('class', 'list-group-item lest-01').text(choice.ChoiceText);
     if (choice.url) {
       $a.attr('href', choice.url).attr('target', '_blank');
     } else {
-      $a.attr('href', choice.ScreenName + '.html');
+      $a.attr('href', '#' + choice.ScreenName);
     }
-    $div.append($a);
+    $divlist.append($a);
   });
+  var $divpages = $('<div/>').attr('class', 'ubi-pages');
+  var $content = $('<div/>').attr('data-role', 'content');
+  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
 
-  $('#pages').html($div);
-  return $;
+  $divpages.append($divlist);
+  $content.append(header);
+  $content.append(search);
+  $content.append($divpages);
+  $page.append($content);
+  $('body').prepend($page);
+  return $
 }
 
 /**
@@ -49,7 +130,11 @@ function createChoices($, choices) {
          </li>
        </ul>
  **/
-function createGrid($, grids) {
+function createGrid($, pageId, grids, title) {
+  var header = setTitle($, title);
+  var search = _search($);
+
+
   var $ul = $('<ul/>').attr('class', 'grid-01')
   grids.forEach(function(grid) {
     var $li = $('<li/>');
@@ -57,7 +142,7 @@ function createGrid($, grids) {
     if (grid.url) {
       $a.attr('href', grid.url).attr('target', '_blank');
     } else {
-      $a.attr('href', grid.ScreenName + '.html').attr('class', 'animsition-link');
+      $a.attr('href', '#' + grid.ScreenName).attr('class', 'animsition-link');
     }
 
     var $img = $('<img/>').attr('src', grid.UrlImage).attr('height', 50).attr('width', 50);
@@ -65,19 +150,32 @@ function createGrid($, grids) {
     $li.append($a);
     $ul.append($li);
   });
-  $('#pages').html($ul);
-  return $;
+
+  var $divpages = $('<div/>').attr('class', 'ubi-pages');
+  var $content = $('<div/>').attr('data-role', 'content');
+  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+
+  $divpages.append($ul);
+  $content.append(header);
+  $content.append(search);
+  $content.append($divpages);
+  $page.append($content);
+
+  $('body').prepend($page);
+  return $
+
 }
 
 /**
   @param $ is form documnet
+  @param pageId is screen id
   @param formFields [{FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard} , {FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard}]
   @param queue where to submit this form data
   @param FormTitle 'what this form about'
   @return
     <div>
         <p>@param FormTitle</p>
-        <form action="https://platform.ubicall.com/widget/call.html">
+        <form id="form-@param pageId" action="" method="post" onsubmit="helpers.submitCallForm('form-@param pageId');return false;">
             <div class="form-group">
                 <label>Gender</label>
                 <select class="form-control" name="Gender">
@@ -88,56 +186,70 @@ function createGrid($, grids) {
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <input type="hidden" id="qid" value="@param queue">
-        <script src="https://platform.ubicall.com/widget/scriptform.js"></script>
     </div>
  **/
-function createForm($, formFields, queue, FormTitle) {
- var scrip = '<script src="https://platform.ubicall.com/widget/form.js"></script>';
- var $maidiv = $('<div/>');
+function createForm($, pageId, formFields, queue, FormTitle, title) {
 
- var $p = $('<p/>').text(FormTitle);
- var $form = $('<form/>').attr('id', 'callForm').attr('action', 'https://platform.ubicall.com/widget/call.html');
- formFields.forEach(function(field) {
+  var formId = pageId.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+  var header = setTitle($, title);
+  var search = _search($);
 
-   var $div = $('<div/>').attr('class', 'form-group');
-   var $label = $('<label/>').text(field.FieldLabel);
+  var $maidiv = $('<div/>').attr('class', 'ubi-pages');
 
-   var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', field.Placeholder).attr('name', field.FieldLabel);
+  var $p = $('<p/>').text(FormTitle);
+  var $form = $('<form/>').attr('id','form-' + formId ).attr('method', 'post').attr('action', '')
+    .attr('onsubmit', 'helpers.submitCallForm("form-' + formId + '");return false;');
+  formFields.forEach(function(field) {
 
-   if (field.isMandatory == true) {
-     $input.attr('required', 'required');
-   }
-   if (field.FieldType == 'Date') {
-     $input.attr('type', 'date');
-   } else if (field.FieldType == 'Selector') {
-     $input = $('<select/>').attr('class', 'form-control').attr('name', field.FieldLabel);
-     field.Values.forEach(function(op) {
-       $option = $('<option/>').text(op).val(op);
-       $input.append($option);
-     });
-   } else {
-     if (field.Keyboard == '0') {
-       $input.attr('type', 'number');
-     } else {
-       $input.attr('type', 'text');
-     }
-   }
-   $div.append($label);
-   $div.append($input);
-   $form.append($div);
- });
+    var $div = $('<div/>').attr('class', 'form-group');
+    var $label = $('<label/>').text(field.FieldLabel);
 
- var $Hinput = $('<input/>').attr('type', 'hidden').attr('id', 'qid').val(queue);
- var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
- $form.append($Hinput);
- $form.append($button);
- $maidiv.append($p);
- $maidiv.append($form);
+    var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', field.Placeholder).attr('name', field.FieldLabel);
 
- $maidiv.append(scrip)
- $('#pages').html($maidiv);
+    if (field.isMandatory == true) {
+      $input.attr('required', 'required');
+    }
+    if (field.FieldType == 'Date') {
+      $input.attr('type', 'date');
+    } else if (field.FieldType == 'Selector') {
+      $input = $('<select/>').attr('class', 'form-control').attr('name', field.FieldLabel);
+      field.Values.forEach(function(op) {
+        $option = $('<option/>').text(op).val(op);
+        $input.append($option);
+      });
+    } else {
+      if (field.Keyboard == '0') {
+        $input.attr('type', 'number');
+      } else {
+        $input.attr('type', 'text');
+      }
+    }
+    $div.append($label);
+    $div.append($input);
+    $form.append($div);
 
- return $;
+  });
+
+  var $Hinput = $('<input/>').attr('type', 'hidden').attr('id', 'qid').val(queue);
+  var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
+  $form.append($Hinput);
+  $form.append($button);
+  $maidiv.append($p);
+  $maidiv.append($form);
+
+
+
+  var $content = $('<div/>').attr('data-role', 'content');
+  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+
+  $content.append(header);
+  $content.append(search);
+  $content.append($maidiv);
+  $page.append($content);
+
+  $('body').prepend($page);
+  return $
+
 }
 
 
@@ -150,10 +262,25 @@ function createForm($, formFields, queue, FormTitle) {
 @return
   <p> @param content</p>
 **/
-function createInfo($, content) {
+function createInfo($, pageId, content, title) {
+
+  var header = setTitle($, title);
+  var search = _search($);
+
   var $p = $('<p/>').text(content);
-  $('#pages').html($p);
-  return $;
+
+
+  var $divpages = $('<div/>').attr('class', 'ubi-pages');
+  var $content = $('<div/>').attr('data-role', 'content');
+  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+
+  $divpages.append($p);
+  $content.append(header);
+  $content.append(search);
+  $content.append($divpages);
+  $page.append($content);
+  $('body').prepend($page);
+  return $
 }
 
 /**
@@ -161,43 +288,46 @@ function createInfo($, content) {
 @param queue queue id
 @return
   <div>
-
-      <button class="btn btn-default"
-        click="UbiCallManager.scheduleSipCall(@param queue)">
-          Receive web VoIP call
-      </button>
-
-      <a onclick='UbiCallManager.setPhoneCallQueue(@param queue)' href='https://platform.ubicall.com/widget/submitCall.html'>
-        <button class="btn btn-default" >
-            Receive a call on Cell phone
-        </button>
-      </a>
-
+    <button onclick="this.disabled=true;UbiCallManager.scheduleSipCall(@param queue);this.disabled=false;" class="btn btn-default">Receive web VoIP call</button>
+    <button onclick="this.disabled=true;UbiCallManager.setPhoneCallQueue(@param queue);UbiCallManager.goTosubmitPhoneCall();this.disabled=false;" class="btn btn-default">Receive a call on Cell phone</button>
   </div>
 **/
-function createCall($, queue) {
+
+function createCall($, pageId, queue, title) {
+
+  var header = setTitle($, title);
+  var search = _search($);
+
   var $div = $('<div/>');
 
   var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call')
-    .attr('onclick', 'UbiCallManager.scheduleSipCall(' + queue +')');
+    .attr('onclick', 'this.disabled=true;UbiCallManager.scheduleSipCall(' + queue + ');this.disabled=false');
 
-  var $b = $('<a/>').attr('onclick', 'UbiCallManager.setPhoneCallQueue(' + queue + ')')
-    .attr('href','https://platform.ubicall.com/widget/submitCall.html');
-  var $butB = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone');
-  $b.append($butB);
+  var $buttonb = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone')
+    .attr('onclick', 'this.disabled=true;UbiCallManager.setPhoneCallQueue(' + queue + ');UbiCallManager.goTosubmitPhoneCall();this.disabled=false');
+
 
   $div.append($buttona);
-  $div.append($b);
+  $div.append($buttonb);
 
-  $('#pages').html($div);
-  return $;
+  var $divpages = $('<div/>').attr('class', 'ubi-pages');
+  var $content = $('<div/>').attr('data-role', 'content');
+  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+
+  $divpages.append($div);
+  $content.append(header);
+  $content.append(search);
+  $content.append($divpages);
+  $page.append($content);
+
+  $('body').prepend($page);
+  return $
 }
 
+
+
 module.exports = {
-  setTitle: function($, title) {
-    $("#header .header").text(title);
-    return $;
-  },
+
   createGrid: createGrid,
   createChoices: createChoices,
   createInfo: createInfo,
