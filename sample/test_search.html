@@ -26,7 +26,19 @@
           <i class="fa fa-home fa-right"></i>
         </a>
         <h3>Call Type</h3>
+           <form id="live-search" action=""  method="post">
+    <fieldset>
+        <input type="text"class="form-control" id="search_input" data-list="#search-list" value="" />
+        
+     <ul id="search-list" class="vertical ">
+        
+            </ul>
+      
+    </fieldset>
+</form>
       </div>
+
+
       <div class="ubi-pages">
         <div>
           <button onclick="UbiCallManager.scheduleSipCall()" class="btn btn-default">Receive web VoIP call</button>
@@ -214,10 +226,7 @@
 
 
 
-
-
-
-         
+          
     $("#search_input").keyup(function(){
 $("#search-list").empty();
        
@@ -237,11 +246,25 @@ $("#search-list").empty();
     });
 
 
-
-
       
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </script>
+
+
 
   <!-- js End -->
 

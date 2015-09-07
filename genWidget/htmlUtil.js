@@ -54,8 +54,10 @@ function _search($) {
   var $div_container = $('<div/>').attr('id', 'imaginary_container');
 
   var $div_input_group = $('<div/>').attr('class', 'input-group stylish-input-group');
+  var $list_data=$('<ul/>').attr("id",'search-list');
 
-  var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', 'Search').attr('type', 'text');
+  var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', 'Search').attr('type', 'text').attr('data-list','#search-list').attr('id','search_input');
+  $list_search=$('<ul/>').attr("id",'search-list');
   var $search_span = $('<span/>').attr('class', 'input-group-addon');
 
   var $search_button = $('<button/>').attr('type', 'submit');
@@ -65,6 +67,7 @@ function _search($) {
   $search_span.append($search_button);
 
   $div_input_group.append($input);
+  $div_input_group.append($list_search);
   $div_input_group.append($search_span);
 
   $div_container.append($div_input_group);
