@@ -6,8 +6,7 @@ var mkdirp = require('mkdirp');
 var htmlUtil = require('./htmlUtil.js');
 var settings = require('../settings');
 var when = require('when');
-var cheerio = require('cheerio'),
-  $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
+var cheerio = require('cheerio');
 
 function generate(plistUrl) {
   return when.promise(function(resolve, reject) {
@@ -27,6 +26,7 @@ function _parsePlist(plistContent) {
     if(!licence_key){
       return reject("plist has no licence_key");
     }
+    var $ = cheerio.load(fs.readFileSync(settings.mainTemplate))
     for (var row in plistObject) {
       if (typeof plistObject[row] == 'object') { // parse only plist component and leave mete info like font , version now
         var stype = plistObject[row].ScreenType;
