@@ -9,7 +9,38 @@
     <link href="https://cdn.ubicall.com/static/ubicall/css/demo/widget/widget.css" rel="stylesheet">
     <link href="https://cdn.ubicall.com/static/jquery-mobile/css/jquery.mobile.ubicall.custom-1.4.5.css" rel="stylesheet">
 
+<style>
+#search-list {
+    list-style: none;
+    margin: 0 5px;
+    outline: 0;
+    background-color: #fff;
+    color: #333;
+    position: absolute;
+    z-index: 9999;
+    border: 1px solid #ddd;
+    width: 96%;
+}
 
+#search-list li a {
+    padding: 8px 0;
+    color: #333;
+    background: #eee;
+    margin: 2px 0;
+    width: 100%;
+    display:  block;
+    text-indent: 20px;
+}
+
+#search-list li a:hover {
+    color: #039997;
+    background: #ddd;
+
+}
+
+
+
+</style>
 
 </head>
 
@@ -22,11 +53,12 @@
                 <div id="imaginary_container">
                     <div class="input-group stylish-input-group">
                         <input class="form-control" placeholder="Search" type="text" data-list="#search-list" id="search_input">
-                        <ul id="search-list"></ul><span class="input-group-addon"><button type="submit"><span class="fa fa-search"></span></button>
+                       <span class="input-group-addon"><button type="submit"><span class="fa fa-search"></span></button>
                         </span>
                     </div>
                 </div>
             </div>
+             <ul id="search-list"></ul>
             <div class="ubi-pages">
                 <div class="list-group"><a class="list-group-item lest-01" href="#68d6d8f9.c905d8">You have an active policy with Costco auto insurance</a><a class="list-group-item lest-01" href="#8dc8d9b5.3a314">Assistance relating to a claim</a><a class="list-group-item lest-01"
                     href="#5c51f81c.54c33">Request a quote for auto, home or umbrella</a></div>
@@ -247,8 +279,7 @@
                 $("body div[data-role='page']  ").each(function() {
 
 
-                    if ($(this).attr("id") == 'callOptions' || $(this).attr("id") == 'submitPhoneCall' || $(this).attr("id") == 'phoneCallScheduled' || $(this).attr("id") == 'callFeedback' || $(this).attr("id") == 'sorry') {} else {
-
+                 
                         if ($(this).find("h3").text().search(new RegExp(filter, "i")) > 0) {
 
                             var id = $(this).attr("id");
@@ -258,7 +289,7 @@
                             count++;
                         }
 
-                    }
+                   
 
                 });
 
