@@ -71,6 +71,7 @@ function _search($) {
   $div_input_group.append($search_span);
 
   $div_container.append($div_input_group);
+   $div_container.append($list_search);
   $search.append($div_container);
 
   return $search;
