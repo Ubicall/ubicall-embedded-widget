@@ -29,7 +29,7 @@
       </div>
       <div class="ubi-pages">
         <div>
-          <button onclick="UbiCallManager.scheduleSipCall()" class="btn btn-default">Receive Web Call</button>
+          <button id="receive-web" onclick="UbiCallManager.scheduleSipCall()" class="btn btn-default">Receive web VoIP call</button>
           <a href="#submitPhoneCall">
             <button class="btn btn-default">Receive Phone Call</button>
           </a>
@@ -55,7 +55,7 @@
         <h2>Average Waiting Time</h2>
         <h3>ASAP</h3>
         <div class="ubi-phone-02">
-          <h4>When we should call you?</h4>
+          <h4>Schedule a call in:</h4>
           <form>
             <div class="radio wid-48">
               <label>
@@ -212,6 +212,34 @@
         UbiCallManager.submitFeedback(feedback)
       }
     });
+
+
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+if( isMobile.any() ) {
+
+  document.getElementById('receive-web').style.visibility = 'hidden';
+
+}
+
   </script>
 
   <!-- js End -->
