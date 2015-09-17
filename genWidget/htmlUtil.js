@@ -32,30 +32,6 @@ function setTitle($, title) {
   return $header;
 }
 
-
-
-
-/**
-@param title is current sub page title for main Screen
-@return
-    <div class="ubi-header">
-      
-        <h3> @param title </h3>
-    </div>';
-**/
-
-
-function setTitle_main($, title) {
-  var $header = $('<div/>').attr('class', 'ubi-header');
-
-  var $title = $('<h3/>').text(title);
-
-
-  $header.append($title);
-
-  return $header;
-}
-
 /**
 @param $ is cheerio documnet
 @return
@@ -108,11 +84,7 @@ function _search($) {
 **/
 function createChoices($, pageId, choices, title) {
 
- var header;
-if (pageId='MainScreen'){
-  header = setTitle_main($, title);
-}else{ header = setTitle($, title);}
- 
+  var header = setTitle($, title);
   var search = _search($);
 
   var $divlist = $('<div/>').attr('class', 'list-group');
@@ -159,13 +131,7 @@ if (pageId='MainScreen'){
        </ul>
  **/
 function createGrid($, pageId, grids, title) {
-
-
- var header;
-if (pageId='MainScreen'){
-  header = setTitle_main($, title);
-}else{ header = setTitle($, title);}
-
+  var header = setTitle($, title);
   var search = _search($);
 
 
@@ -358,7 +324,21 @@ function createCall($, pageId, queue, title) {
   return $
 }
 
-
+/**
+@param $ is cheerio documnet
+@param theme - theme name to add it's css url
+@return
+  <link href="cssHref" rel="stylesheet" />
+**/
+function applyTheme($, theme) {
+  theme = theme.toLowerCase();
+  if (theme != "default") {
+    var cssHref = "https://cdn.ubicall.com/static/ubicall/css/widget/themes/" + theme + ".css";
+    var $cssLink = $('<link/>').attr('href', cssHref).attr('rel', "stylesheet");
+    $('head').append($cssLink);
+  }
+  return $
+}
 
 module.exports = {
 
@@ -366,5 +346,6 @@ module.exports = {
   createChoices: createChoices,
   createInfo: createInfo,
   createCall: createCall,
-  createForm: createForm
+  createForm: createForm,
+  applyTheme : applyTheme
 }

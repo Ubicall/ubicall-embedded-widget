@@ -9,6 +9,23 @@ embeddable web component provide facility to browse your call center IVR in web 
 </script>
 ```
 
+**generate & deploy API documentation :**
+
+  *make sure you add the below line to your* **/etc/hosts** *file :*
+
+    ```
+    10.0.0.170  developer.dev.ubicall.com
+    ```
+
+``` bash
+npm install
+sudo grunt preserve # on development
+sudo grunt preserve # on production
+# node_env [test | development | production]
+# config_version - which configuration version you like to use i.e. 20150908
+# in production we use forever : https://github.com/foreverjs/forever
+node_env=development config_version=20150908 node widget.js
+```
 **how to contribute :**
 
 1. will create branch with your feature or fix i.e. feature-xx , fix-xx

@@ -23,12 +23,13 @@ function _parsePlist(plistContent) {
   return when.promise(function(resolve, reject) {
     var plistObject = plist.parse(plistContent);
     var licence_key = plistObject.key;
+    plistObject.theme = plistObject.theme || "Default";
     if(!licence_key){
       return reject("plist has no licence_key");
     }
     var $ = cheerio.load(fs.readFileSync(settings.mainTemplate))
     for (var row in plistObject) {
-      if (typeof plistObject[row] == 'object') { // parse only plist component and leave mete info like font , version now
+      if (typeof plistObject[row] == 'object') { // parse only plist component
         var stype = plistObject[row].ScreenType;
         switch (stype) {
           case "Choice":
@@ -46,6 +47,10 @@ function _parsePlist(plistContent) {
           case "Call":
             $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);
             break;
+        }
+      }else if (typeof plistObject[row] === 'string' || plistObject[row] instanceof String){ //work with mete info like font , version ,theme
+        if(row == "theme"){
+          $ = htmlUtil.applyTheme($, plistObject[row]);
         }
       }
     }
