@@ -324,7 +324,21 @@ function createCall($, pageId, queue, title) {
   return $
 }
 
-
+/**
+@param $ is cheerio documnet
+@param theme - theme name to add it's css url
+@return
+  <link href="cssHref" rel="stylesheet" />
+**/
+function applyTheme($, theme) {
+  theme = theme.toLowerCase();
+  if (theme != "default") {
+    var cssHref = "https://cdn.ubicall.com/static/ubicall/css/widget/themes/" + theme + ".css";
+    var $cssLink = $('<link/>').attr('href', cssHref).attr('rel', "stylesheet");
+    $('head').append($cssLink);
+  }
+  return $
+}
 
 module.exports = {
 
@@ -332,5 +346,6 @@ module.exports = {
   createChoices: createChoices,
   createInfo: createInfo,
   createCall: createCall,
-  createForm: createForm
+  createForm: createForm,
+  applyTheme : applyTheme
 }
