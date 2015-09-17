@@ -8,7 +8,6 @@ var settings = require('./settings');
 var genWidget = require('./genWidget');
 var log = require('./log');
 
-process.env.node_env = process.env.node_env || 'development';
 
 var platformApp = express();
 
@@ -114,8 +113,10 @@ server.on('error', function(err) {
 
 server.listen(settings.port || 7575, settings.host || '0.0.0.0', function() {
   process.title = 'widget';
-  log.info('Server running now on  ' + process.env.node_env + " Mode ");
+  log.info('Server use configuration version ' + process.env.config_version);
+  log.info('Server running now on ' + process.env.node_env + " Mode - Avialable options are : test ,development ,production ");
   log.info('Server now running at ' + getListenPath());
+  log.help('To stop app gracefully just type in shell pkill widget');
 });
 
 process.on('uncaughtException', function(err) {
