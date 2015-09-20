@@ -49,8 +49,10 @@ function _parsePlist(plistContent) {
             break;
         }
       }else if (typeof plistObject[row] === 'string' || plistObject[row] instanceof String){ //work with mete info like font , version ,theme
-        if(row == "theme"){
-          $ = htmlUtil.applyTheme($, plistObject[row]);
+        switch (row.toLowerCase()) {
+          case "theme":
+            $ = htmlUtil.applyTheme($, plistObject[row]);
+            break;
         }
       }
     }
