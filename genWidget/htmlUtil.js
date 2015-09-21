@@ -33,6 +33,27 @@ function setTitle($, title) {
 }
 
 /**
+@param title is current sub page title for main Screen
+@return
+    <div class="ubi-header">
+      
+        <h3> @param title </h3>
+    </div>';
+**/
+
+
+function setTitle_main($, title) {
+  var $header = $('<div/>').attr('class', 'ubi-header');
+
+  var $title = $('<h3/>').text(title);
+
+
+  $header.append($title);
+
+  return $header;
+}
+
+/**
 @param $ is cheerio documnet
 @return
     <div class="ubi-search" >
@@ -84,8 +105,11 @@ function _search($) {
 **/
 function createChoices($, pageId, choices, title) {
 
-  var header = setTitle($, title);
-  var search = _search($);
+ var header;
+ if (pageId='MainScreen'){
+  header = setTitle_main($, title);
+}else{ header = setTitle($, title);}
+var search = _search($);
 
   var $divlist = $('<div/>').attr('class', 'list-group');
   choices.forEach(function(choice) {
@@ -131,9 +155,11 @@ function createChoices($, pageId, choices, title) {
        </ul>
  **/
 function createGrid($, pageId, grids, title) {
-  var header = setTitle($, title);
-  var search = _search($);
-
+  var header;
+ if (pageId='MainScreen'){
+  header = setTitle_main($, title);
+}else{ header = setTitle($, title);}
+var search = _search($);
 
   var $ul = $('<ul/>').attr('class', 'grid-01')
   grids.forEach(function(grid) {
