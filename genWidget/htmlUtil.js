@@ -303,7 +303,7 @@ function createCall($, pageId, queue, title) {
   var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call')
     .attr('onclick', 'this.disabled=true;UbiCallManager.scheduleSipCall(' + queue + ');this.disabled=false');
 
-  var $buttonb = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone')
+  var $buttonb = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone')..attr('id', 'receive-web')
     .attr('onclick', 'this.disabled=true;UbiCallManager.setPhoneCallQueue(' + queue + ');UbiCallManager.goTosubmitPhoneCall();this.disabled=false');
 
 
