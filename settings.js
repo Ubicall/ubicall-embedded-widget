@@ -1,8 +1,13 @@
 var loader = require('node-remote-config-loader');
 var log = require('./log');
 
-
 process.env.node_env = process.env.node_env || 'development';
+process.env.config_version = process.env.config_version || 20150920;
+
+var DEVENV = (process.env.node_env=="development" || process.env.node_env == "test");
+if(DEVENV){
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+}
 
 if (!process.env.config_version) {
   log.help("You should specify configuration version to use, see README for detail")
@@ -16,12 +21,10 @@ var config = loader.load({
 });
 
 
-
 module.exports = {
   platformTemplatesPath: '/var/www/widget/li/',
   port: 7575,
   host: '127.0.0.1',
   mainTemplate: './views/template.html',
-  plistHost: config.defaultPlistHost
-
+  plistHost: DEVENV? config.endPoints.dev.defaultPlistHost : config.endPoints.defaultPlistHost
 }

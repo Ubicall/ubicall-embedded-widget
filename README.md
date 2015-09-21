@@ -22,9 +22,9 @@ npm install
 sudo grunt preserve # on development
 sudo grunt preserve # on production
 # node_env [test | development | production]
-# config_version - which configuration version you like to use i.e. 20150908
+# config_version - which configuration version you like to use i.e. 20150920 ,it will fetch default version
 # in production we use forever : https://github.com/foreverjs/forever
-node_env=development config_version=20150908 node widget.js
+node_env=development config_version=20150920 node widget.js
 ```
 **how to contribute :**
 
