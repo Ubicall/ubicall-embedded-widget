@@ -20,11 +20,15 @@ var config = loader.load({
   configEnv: process.env.node_env
 });
 
+var CDN_HOST = "https://cdn.ubicall.com";
+var CDN_DEV_HOST = "https://cdn.dev.ubicall.com";
+var THEME_LOCATION = "/static/ubicall/css/widget/themes/";
 
 module.exports = {
   platformTemplatesPath: '/var/www/widget/li/',
   port: 7575,
   host: '127.0.0.1',
-  mainTemplate: './views/template.html',
-  plistHost: DEVENV? config.endPoints.dev.defaultPlistHost : config.endPoints.defaultPlistHost
+  mainTemplate: DEVENV ? './views/dev/template.html' : './views/template.html',
+  plistHost: DEVENV? config.endPoints.dev.defaultPlistHost : config.endPoints.defaultPlistHost,
+  themeHost: DEVENV? (CDN_DEV_HOST + THEME_LOCATION) : (CDN_HOST + THEME_LOCATION)
 }

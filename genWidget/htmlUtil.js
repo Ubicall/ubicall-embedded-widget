@@ -1,3 +1,5 @@
+var settings = require('../settings');
+
 /**
 @param title is current sub page title
 @return
@@ -333,7 +335,7 @@ function createCall($, pageId, queue, title) {
 function applyTheme($, theme) {
   theme = theme.toLowerCase();
   if (theme != "default") {
-    var cssHref = "https://cdn.ubicall.com/static/ubicall/css/widget/themes/" + theme + ".css";
+    var cssHref = settings.themeHost + theme + ".css";
     var $cssLink = $('<link/>').attr('href', cssHref).attr('rel', "stylesheet");
     $('head').append($cssLink);
   }
