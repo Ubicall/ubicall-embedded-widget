@@ -1,6 +1,4 @@
 'use strict';
-var settings = require('./settings');
-
 
 module.exports = function (grunt) {
 
@@ -12,7 +10,8 @@ module.exports = function (grunt) {
 
     var appConfig = {
       dist: 'dist',
-      static : './static/'
+      static : './static/',
+      platformDeployment:'/var/www/widget/'
     };
 
     grunt.initConfig({
@@ -38,7 +37,7 @@ module.exports = function (grunt) {
             widget: {
                 files: {
                     '<%= app.dist %>/widget.min.js': ['<%= app.static %>/widget.js'],
-                    '<%= app.dist %>/callmanager.js': ['<%= app.static %>/callmanager.js'],
+                    '<%= app.dist %>/callmanager.min.js': ['<%= app.static %>/callmanager.js']
                 }
             }
         },
@@ -50,23 +49,54 @@ module.exports = function (grunt) {
                 src: ['**/*.*'],
                 dest: '<%= app.dist %>'
             },
+            staticHTML:{
+                  expand: true,
+                  cwd: '<%= app.static %>',
+                  src: ['**/*.html'],
+                  dest: '<%= app.dist %>'
+            },
             deployPlatform: {
               expand : true,
               cwd : '<%= app.dist%>',
               src : ['**/*.*'],
-              dest: settings.cdn.widget
+              dest: '<%= app.platformDeployment %>'
             }
-        }
+        },
+
+        replace: {
+            widgetDevResourcesHost: {
+              src: ['<%= app.dist %>/**/*.*'],
+              overwrite: true,                 // overwrite matched source files
+              replacements: [{
+                from: "https://platform.ubicall.com/widget/",
+                to: "https://platform.dev.ubicall.com/widget/"
+              },{
+                from: "https://cdn.ubicall.com/static/",
+                to: "https://cdn.dev.ubicall.com/static/"
+              },{
+                from: "https://api.ubicall.com/v1/",
+                to: "https://api.dev.ubicall.com/v1/"
+              }]
+            }
+          }
       });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-text-replace');
+
+    grunt.registerTask('preserve', 'Clean then build to dist as a development', [
+        'clean',
+        'copy:static',
+        'replace:widgetDevResourcesHost',
+        'copy:deployPlatform',
+    ]);
 
     grunt.registerTask('prebuild', 'Clean then build to dist', [
         'clean',
+        'copy:staticHTML',
         'uglify:widget',
-        'copy:static',
         'copy:deployPlatform',
     ]);
 

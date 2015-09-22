@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <link href="https://cdn.ubicall.com/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.ubicall.com/static/font-awesome/css/font-awesome.css" rel="stylesheet">
-  <link href="https://cdn.ubicall.com/static/ubicall/css/demo/widget/widget.css" rel="stylesheet">
+  <link href="https://cdn.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet">
 
   <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
   <script src="https://cdn.ubicall.com/static/jquery-mobile/js/jquery.mobile-1.4.5.min.js"></script>
@@ -128,7 +128,7 @@
       } else {
         sessionUser = user + '@' + domain;
         $("#flash")[0].register(sessionUser, "");
-        ok("Connected");
+        ok("Connected,Please do not close this browser in order to receive the web call");
       }
     }
 
@@ -189,7 +189,7 @@
       </div>
       <div class="ubi-pages-phone">
         <div class="ubi-phone-02">
-          <div id="info" class="hide alert alert-success" role="alert"></div>
+          <div id="info" class="hide alert alert-info" role="alert">Please do not close this browser in order to receive the web call</div>
           <div id="agent-img" class="hide phone-img">
             <img src="https://cdn.ubicall.com/static/ubicall/images/home-pic-01.jpg" alt="" />
           </div>
