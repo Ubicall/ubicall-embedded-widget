@@ -60,7 +60,7 @@ function _search($) {
 
   var $input = $('<input/>').attr('class', 'form-control search_input').attr('placeholder', 'Search').attr('type', 'text').attr('data-list','.search-list');
   $list_search=$('<ul/>').attr("class",'search-list');
-  var $search_span = $('<span/>').attr('id', 'input-group-addon');
+  var $search_span = $('<span/>').attr('class', 'input-group-addon');
 
   var $search_button = $('<button/>').attr('type', 'submit');
   var $search_button_icon = $('<span/>').attr('class', 'fa fa-search');
