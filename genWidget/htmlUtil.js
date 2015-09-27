@@ -58,9 +58,9 @@ function _search($) {
   var $div_input_group = $('<div/>').attr('class', 'input-group stylish-input-group');
   var $list_data=$('<ul/>').attr("id",'search-list');
 
-  var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', 'Search').attr('type', 'text').attr('data-list','#search-list').attr('id','search_input');
-  $list_search=$('<ul/>').attr("id",'search-list');
-  var $search_span = $('<span/>').attr('class', 'input-group-addon');
+  var $input = $('<input/>').attr('class', 'form-control search_input').attr('placeholder', 'Search').attr('type', 'text').attr('data-list','.search-list');
+  $list_search=$('<ul/>').attr("class",'search-list');
+  var $search_span = $('<span/>').attr('id', 'input-group-addon');
 
   var $search_button = $('<button/>').attr('type', 'submit');
   var $search_button_icon = $('<span/>').attr('class', 'fa fa-search');
