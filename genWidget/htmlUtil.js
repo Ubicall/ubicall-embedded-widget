@@ -106,7 +106,7 @@ function _search($) {
 function createChoices($, pageId, choices, title) {
 
  var header;
- if (pageId='MainScreen'){
+ if (pageId=='MainScreen'){
   header = setTitle_main($, title);
 }else{ header = setTitle($, title);}
 var search = _search($);
@@ -156,7 +156,7 @@ var search = _search($);
  **/
 function createGrid($, pageId, grids, title) {
   var header;
- if (pageId='MainScreen'){
+ if (pageId=='MainScreen'){
   header = setTitle_main($, title);
 }else{ header = setTitle($, title);}
 var search = _search($);
