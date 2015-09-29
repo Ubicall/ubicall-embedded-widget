@@ -22,7 +22,7 @@ function setTitle($, title) {
   var $a_home = $('<a/>').attr('href', '#').attr('onclick', 'UbiCallManager.goToHomeScreen()');
   var $a_home_i = $('<i/>').attr('class', 'fa fa-home fa-right');
 
-  var $title = $('<h3/>').text(title);
+  var $title = $('<h3/>').text(' '+title);
 
   $a_back.append($a_back_i);
   $a_home.append($a_home_i);
@@ -77,8 +77,10 @@ function _search($) {
   var $div_container = $('<div/>').attr('id', 'imaginary_container');
 
   var $div_input_group = $('<div/>').attr('class', 'input-group stylish-input-group');
+  var $list_data=$('<ul/>').attr("id",'search-list');
 
-  var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', 'Search').attr('type', 'text');
+  var $input = $('<input/>').attr('class', 'form-control search_input').attr('placeholder', 'Search').attr('type', 'text').attr('data-list','.search-list');
+  $list_search=$('<ul/>').attr("class",'search-list');
   var $search_span = $('<span/>').attr('class', 'input-group-addon');
 
   var $search_button = $('<button/>').attr('type', 'submit');
@@ -88,9 +90,11 @@ function _search($) {
   $search_span.append($search_button);
 
   $div_input_group.append($input);
+  $div_input_group.append($list_search);
   $div_input_group.append($search_span);
 
   $div_container.append($div_input_group);
+   $div_container.append($list_search);
   $search.append($div_container);
 
   return $search;

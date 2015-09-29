@@ -211,6 +211,44 @@
         feedback.text = $('#feedback-message').val();
         UbiCallManager.submitFeedback(feedback)
       }
+
+
+    
+            $(".search_input").keyup(function() {
+                $(".search-list").empty();
+
+                var filter = $(this).val(),
+                count = 0;
+                $("body div[data-role='page']  ").each(function() {
+
+                  
+                 if( $(this).attr("id") =='callOptions' ||$(this).attr("id") =='submitPhoneCall' ||$(this).attr("id") =='phoneCallScheduled' ||$(this).attr("id") =='callFeedback' ||$(this).attr("id") == 'sorry' ){}
+                    
+                    else{
+
+                        if ($(this).find("h3").text().search(new RegExp(filter, "i")) > 0) {
+                           
+                            var id = $(this).attr("id");
+                            var a = $('<a/>').attr('href', '#' + id).append($(this).find("h3").text());
+                            var li = $('<li/>').append(a);
+                            $(".search-list").append(li);
+                            count++;
+                        }
+                        
+                    }
+                    
+                });
+
+                //$("#filter-count").text("Number of Comments = "+count);
+            });
+
+
+ $(".search-list").click(function() {
+
+
+                $(".search-list").empty();
+
+       });
     });
 
 
