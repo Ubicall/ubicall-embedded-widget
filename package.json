@@ -5,12 +5,14 @@
     "description": "ubi widget that are embeddable on 3rd party sites",
     "main": "index.js",
     "scripts": {
-        "test": "node_modules/.bin/mocha -w && exit 1",
+        "test": "node_modules/.bin/mocha -w",
         "js-beautify": "node_modules/.bin/js-beautify -r **/*.js",
-        "jshint": "jshint -c .jshintrc --exclude-path .gitignore ."
+        "jshint": "jshint -c .jshintrc --exclude-path .gitignore .",
+        "git-add": "git add --all"
     },
     "pre-commit": [
-        "js-beautify"
+        "js-beautify",
+        "git-add"
     ],
     "author": "bguiz",
     "license": "GPLv3",
