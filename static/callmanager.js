@@ -23,6 +23,7 @@ var UbiCallManager = UbiCallManager || (function() {
 
   function _goTosubmitPhoneCall(){
     window.location.hash = 'submitPhoneCall';
+    getWorkingHours();
   }
 
   function _someThingGoWrong(){
@@ -209,6 +210,7 @@ var UbiCallManager = UbiCallManager || (function() {
     }
   }
 
+
   function schedulePhoneCall(phone, time) {
     $.ajax({
       type: "get",
@@ -237,6 +239,69 @@ var UbiCallManager = UbiCallManager || (function() {
       error: function(xhr) {
         console.log("error in sechduling phone call");
         _someThingGoWrong();
+      }
+    });
+}
+
+function getWorkingHours(){
+  var waiting_time;
+    $.ajax({
+      type: "GET",
+      url:"https://api.dev.ubicall.com/v1/time/-2/4/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfaWQiOiIxMjM0NTY3OCIsImVtYWlsIjoiYWF0ZWZAcm9ja2V0bWFpbC5jb20iLCJsaWNlbnNlX2tleSI6ImU2MDUzZWI4ZDM1ZTAyYWU0MGJlZWVhY2VmMjAzYzFhIiwibGFzdF9sb2dpbiI6IjE0OjA0OjE0IiwiaWF0IjoxNDQyNzU3ODgyLCJleHAiOjE0NDMzNjI2ODJ9.QNcUed2l8e2N8NzCUwCirfLM9Mu_hLSHZ8-JCeHolZ0",
+      contentType: "application/json",
+      success: function(response) {
+       alert(response);
+      if(response.message == "successful"){
+        alert('here');
+          var select = document.getElementById("hou");
+          var select2 = document.getElementById("min");
+          var remaining_hours=Math.floor(response.remaining/60); //getting hours as integer
+          waiting_time=Math.floor(response.waiting);
+          if(remaining_hours > 0){
+                    var i=0,j=0;
+                     for(i=0;i<remaining_hours-1;i++){
+                         select.options[select.options.length] = new Option(i,i);
+                   }
+                   for(j=0;j<=59;j++){
+                       select2.options[select2.options.length] = new Option(j,j);
+                 }
+          }
+          else{
+          var   min=Math.floor(response.remaining);
+          var i =0;
+          select.options[select.options.length] = new Option(i,i);
+            for(i =0;i<=min;i++){
+          //  select.options[select.options.length] = new Option(i,i);
+            select2.options[select2.options.length]=new Option(i,i);
+          }
+          }
+              var count = waiting_time*60;
+            var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+            function timer() {
+                count = count - 1;
+                if (count == -1) {
+                    clearInterval(counter);
+                    return;
+                }
+            var seconds = count % 60;
+            var minutes = Math.floor(count / 60);
+            var hours = Math.floor(minutes / 60);
+            minutes %= 60;
+            hours %= 60;
+          document.getElementById("test2").innerHTML = hours+ ": "+minutes +":" +seconds;
+        }
+        }
+        else{
+          if(response.message =="day off"){
+            $( "#test" ).html( "<h2>"+response.message+"</h2>" );
+          }
+          if(response.message == 'closed' ){
+                    $( "#test" ).html( "<h2>"+response.message+"</h2><h3>Starts:"+response.starts+"</h3><br><h3>Ends:"+response.ends+"</h3>");
+          }
+        }
+      },
+      error: function(xhr) {
+        alert(xhr.error);
       }
     });
 }
@@ -302,6 +367,7 @@ var UbiCallManager = UbiCallManager || (function() {
     goTosubmitPhoneCall : _goTosubmitPhoneCall,
     goToFeedBackScreen : goToFeedBackScreen,
     fallBackToErrorPage : _someThingGoWrong,
-    submitFeedback : submitFeedback
+    submitFeedback : submitFeedback,
+    getWorkingHours:getWorkingHours
   }
 }());
