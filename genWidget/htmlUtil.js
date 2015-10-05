@@ -14,24 +14,24 @@ var settings = require('../settings');
     </div>';
 **/
 function setTitle($, title) {
-  var $header = $('<div/>').attr('class', 'ubi-header');
+    var $header = $('<div/>').attr('class', 'ubi-header');
 
-  var $a_back = $('<a/>').attr('onclick', 'javascript:history.go(-1)');
-  var $a_back_i = $('<i/>').attr('class', 'fa fa-chevron-left fa-left');
+    var $a_back = $('<a/>').attr('onclick', 'javascript:history.go(-1)');
+    var $a_back_i = $('<i/>').attr('class', 'fa fa-chevron-left fa-left');
 
-  var $a_home = $('<a/>').attr('href', '#').attr('onclick', 'UbiCallManager.goToHomeScreen()');
-  var $a_home_i = $('<i/>').attr('class', 'fa fa-home fa-right');
+    var $a_home = $('<a/>').attr('href', '#').attr('onclick', 'UbiCallManager.goToHomeScreen()');
+    var $a_home_i = $('<i/>').attr('class', 'fa fa-home fa-right');
 
-  var $title = $('<h3/>').text(' '+title);
+    var $title = $('<h3/>').text(' ' + title);
 
-  $a_back.append($a_back_i);
-  $a_home.append($a_home_i);
+    $a_back.append($a_back_i);
+    $a_home.append($a_home_i);
 
-  $header.append($a_back);
-  $header.append($a_home);
-  $header.append($title);
+    $header.append($a_back);
+    $header.append($a_home);
+    $header.append($title);
 
-  return $header;
+    return $header;
 }
 
 /**
@@ -45,14 +45,14 @@ function setTitle($, title) {
 
 
 function setTitle_main($, title) {
-  var $header = $('<div/>').attr('class', 'ubi-header');
+    var $header = $('<div/>').attr('class', 'ubi-header');
 
-  var $title = $('<h3/>').text(title);
+    var $title = $('<h3/>').text(title);
 
 
-  $header.append($title);
+    $header.append($title);
 
-  return $header;
+    return $header;
 }
 
 /**
@@ -73,31 +73,31 @@ function setTitle_main($, title) {
 **/
 function _search($) {
 
-  var $search = $('<div/>').attr('class', 'ubi-search');
-  var $div_container = $('<div/>').attr('id', 'imaginary_container');
+    var $search = $('<div/>').attr('class', 'ubi-search');
+    var $div_container = $('<div/>').attr('id', 'imaginary_container');
 
-  var $div_input_group = $('<div/>').attr('class', 'input-group stylish-input-group');
-  var $list_data=$('<ul/>').attr("id",'search-list');
+    var $div_input_group = $('<div/>').attr('class', 'input-group stylish-input-group');
+    var $list_data = $('<ul/>').attr("id", 'search-list');
 
-  var $input = $('<input/>').attr('class', 'form-control search_input').attr('placeholder', 'Search').attr('type', 'text').attr('data-list','.search-list');
-  $list_search=$('<ul/>').attr("class",'search-list');
-  var $search_span = $('<span/>').attr('class', 'input-group-addon');
+    var $input = $('<input/>').attr('class', 'form-control search_input').attr('placeholder', 'Search').attr('type', 'text').attr('data-list', '.search-list');
+    $list_search = $('<ul/>').attr("class", 'search-list');
+    var $search_span = $('<span/>').attr('class', 'input-group-addon');
 
-  var $search_button = $('<button/>').attr('type', 'submit');
-  var $search_button_icon = $('<span/>').attr('class', 'fa fa-search');
+    var $search_button = $('<button/>').attr('type', 'submit');
+    var $search_button_icon = $('<span/>').attr('class', 'fa fa-search');
 
-  $search_button.append($search_button_icon);
-  $search_span.append($search_button);
+    $search_button.append($search_button_icon);
+    $search_span.append($search_button);
 
-  $div_input_group.append($input);
-  $div_input_group.append($list_search);
-  $div_input_group.append($search_span);
+    $div_input_group.append($input);
+    $div_input_group.append($list_search);
+    $div_input_group.append($search_span);
 
-  $div_container.append($div_input_group);
-   $div_container.append($list_search);
-  $search.append($div_container);
+    $div_container.append($div_input_group);
+    $div_container.append($list_search);
+    $search.append($div_container);
 
-  return $search;
+    return $search;
 }
 
 /**
@@ -111,34 +111,36 @@ function _search($) {
 **/
 function createChoices($, pageId, choices, title) {
 
- var header;
- if (pageId=='MainScreen'){
-  header = setTitle_main($, title);
-}else{ header = setTitle($, title);}
-var search = _search($);
-
-  var $divlist = $('<div/>').attr('class', 'list-group');
-  choices.forEach(function(choice) {
-
-    var $a = $('<a/>').attr('class', 'list-group-item lest-01').text(choice.ChoiceText);
-    if (choice.url) {
-      $a.attr('href', choice.url).attr('target', '_blank');
+    var header;
+    if (pageId == 'MainScreen') {
+        header = setTitle_main($, title);
     } else {
-      $a.attr('href', '#' + choice.ScreenName);
+        header = setTitle($, title);
     }
-    $divlist.append($a);
-  });
-  var $divpages = $('<div/>').attr('class', 'ubi-pages');
-  var $content = $('<div/>').attr('data-role', 'content');
-  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+    var search = _search($);
 
-  $divpages.append($divlist);
-  $content.append(header);
-  $content.append(search);
-  $content.append($divpages);
-  $page.append($content);
-  $('body').prepend($page);
-  return $
+    var $divlist = $('<div/>').attr('class', 'list-group');
+    choices.forEach(function(choice) {
+
+        var $a = $('<a/>').attr('class', 'list-group-item lest-01').text(choice.ChoiceText);
+        if (choice.url) {
+            $a.attr('href', choice.url).attr('target', '_blank');
+        } else {
+            $a.attr('href', '#' + choice.ScreenName);
+        }
+        $divlist.append($a);
+    });
+    var $divpages = $('<div/>').attr('class', 'ubi-pages');
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+
+    $divpages.append($divlist);
+    $content.append(header);
+    $content.append(search);
+    $content.append($divpages);
+    $page.append($content);
+    $('body').prepend($page);
+    return $
 }
 
 /**
@@ -161,40 +163,42 @@ var search = _search($);
        </ul>
  **/
 function createGrid($, pageId, grids, title) {
-  var header;
- if (pageId=='MainScreen'){
-  header = setTitle_main($, title);
-}else{ header = setTitle($, title);}
-var search = _search($);
-
-  var $ul = $('<ul/>').attr('class', 'grid-01')
-  grids.forEach(function(grid) {
-    var $li = $('<li/>');
-    var $a = $('<a/>');
-    if (grid.url) {
-      $a.attr('href', grid.url).attr('target', '_blank');
+    var header;
+    if (pageId == 'MainScreen') {
+        header = setTitle_main($, title);
     } else {
-      $a.attr('href', '#' + grid.ScreenName).attr('class', 'animsition-link');
+        header = setTitle($, title);
     }
+    var search = _search($);
 
-    var $img = $('<img/>').attr('src', grid.UrlImage).attr('height', 50).attr('width', 50);
-    $a.append($img).append(grid.ChoiceText);
-    $li.append($a);
-    $ul.append($li);
-  });
+    var $ul = $('<ul/>').attr('class', 'grid-01')
+    grids.forEach(function(grid) {
+        var $li = $('<li/>');
+        var $a = $('<a/>');
+        if (grid.url) {
+            $a.attr('href', grid.url).attr('target', '_blank');
+        } else {
+            $a.attr('href', '#' + grid.ScreenName).attr('class', 'animsition-link');
+        }
 
-  var $divpages = $('<div/>').attr('class', 'ubi-pages');
-  var $content = $('<div/>').attr('data-role', 'content');
-  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+        var $img = $('<img/>').attr('src', grid.UrlImage).attr('height', 50).attr('width', 50);
+        $a.append($img).append(grid.ChoiceText);
+        $li.append($a);
+        $ul.append($li);
+    });
 
-  $divpages.append($ul);
-  $content.append(header);
-  $content.append(search);
-  $content.append($divpages);
-  $page.append($content);
+    var $divpages = $('<div/>').attr('class', 'ubi-pages');
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
 
-  $('body').prepend($page);
-  return $
+    $divpages.append($ul);
+    $content.append(header);
+    $content.append(search);
+    $content.append($divpages);
+    $page.append($content);
+
+    $('body').prepend($page);
+    return $
 
 }
 
@@ -222,65 +226,65 @@ var search = _search($);
  **/
 function createForm($, pageId, formFields, queue, FormTitle, title) {
 
-  var formId = pageId.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
-  var header = setTitle($, title);
-  var search = _search($);
+    var formId = pageId.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+    var header = setTitle($, title);
+    var search = _search($);
 
-  var $maidiv = $('<div/>').attr('class', 'ubi-pages');
+    var $maidiv = $('<div/>').attr('class', 'ubi-pages');
 
-  var $p = $('<p/>').text(FormTitle);
-  var $form = $('<form/>').attr('id','form-' + formId ).attr('method', 'post').attr('action', '')
-    .attr('onsubmit', 'helpers.submitCallForm("form-' + formId + '");return false;');
-  formFields.forEach(function(field) {
+    var $p = $('<p/>').text(FormTitle);
+    var $form = $('<form/>').attr('id', 'form-' + formId).attr('method', 'post').attr('action', '')
+        .attr('onsubmit', 'helpers.submitCallForm("form-' + formId + '");return false;');
+    formFields.forEach(function(field) {
 
-    var $div = $('<div/>').attr('class', 'form-group');
-    var $label = $('<label/>').text(field.FieldLabel);
+        var $div = $('<div/>').attr('class', 'form-group');
+        var $label = $('<label/>').text(field.FieldLabel);
 
-    var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', field.Placeholder).attr('name', field.FieldLabel);
+        var $input = $('<input/>').attr('class', 'form-control').attr('placeholder', field.Placeholder).attr('name', field.FieldLabel);
 
-    if (field.isMandatory == true) {
-      $input.attr('required', 'required');
-    }
-    if (field.FieldType == 'Date') {
-      $input.attr('type', 'date');
-    } else if (field.FieldType == 'Selector') {
-      $input = $('<select/>').attr('class', 'form-control').attr('name', field.FieldLabel);
-      field.Values.forEach(function(op) {
-        $option = $('<option/>').text(op).val(op);
-        $input.append($option);
-      });
-    } else {
-      if (field.Keyboard == '0') {
-        $input.attr('type', 'number');
-      } else {
-        $input.attr('type', 'text');
-      }
-    }
-    $div.append($label);
-    $div.append($input);
-    $form.append($div);
+        if (field.isMandatory == true) {
+            $input.attr('required', 'required');
+        }
+        if (field.FieldType == 'Date') {
+            $input.attr('type', 'date');
+        } else if (field.FieldType == 'Selector') {
+            $input = $('<select/>').attr('class', 'form-control').attr('name', field.FieldLabel);
+            field.Values.forEach(function(op) {
+                $option = $('<option/>').text(op).val(op);
+                $input.append($option);
+            });
+        } else {
+            if (field.Keyboard == '0') {
+                $input.attr('type', 'number');
+            } else {
+                $input.attr('type', 'text');
+            }
+        }
+        $div.append($label);
+        $div.append($input);
+        $form.append($div);
 
-  });
+    });
 
-  var $Hinput = $('<input/>').attr('type', 'hidden').attr('id', 'qid').val(queue);
-  var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
-  $form.append($Hinput);
-  $form.append($button);
-  $maidiv.append($p);
-  $maidiv.append($form);
+    var $Hinput = $('<input/>').attr('type', 'hidden').attr('id', 'qid').val(queue);
+    var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
+    $form.append($Hinput);
+    $form.append($button);
+    $maidiv.append($p);
+    $maidiv.append($form);
 
 
 
-  var $content = $('<div/>').attr('data-role', 'content');
-  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
 
-  $content.append(header);
-  $content.append(search);
-  $content.append($maidiv);
-  $page.append($content);
+    $content.append(header);
+    $content.append(search);
+    $content.append($maidiv);
+    $page.append($content);
 
-  $('body').prepend($page);
-  return $
+    $('body').prepend($page);
+    return $
 
 }
 
@@ -296,23 +300,23 @@ function createForm($, pageId, formFields, queue, FormTitle, title) {
 **/
 function createInfo($, pageId, content, title) {
 
-  var header = setTitle($, title);
-  var search = _search($);
+    var header = setTitle($, title);
+    var search = _search($);
 
-  var $p = $('<p/>').text(content);
+    var $p = $('<p/>').text(content);
 
 
-  var $divpages = $('<div/>').attr('class', 'ubi-pages');
-  var $content = $('<div/>').attr('data-role', 'content');
-  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+    var $divpages = $('<div/>').attr('class', 'ubi-pages');
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
 
-  $divpages.append($p);
-  $content.append(header);
-  $content.append(search);
-  $content.append($divpages);
-  $page.append($content);
-  $('body').prepend($page);
-  return $
+    $divpages.append($p);
+    $content.append(header);
+    $content.append(search);
+    $content.append($divpages);
+    $page.append($content);
+    $('body').prepend($page);
+    return $
 }
 
 /**
@@ -327,33 +331,33 @@ function createInfo($, pageId, content, title) {
 
 function createCall($, pageId, queue, title) {
 
-  var header = setTitle($, title);
-  var search = _search($);
+    var header = setTitle($, title);
+    var search = _search($);
 
-  var $div = $('<div/>');
+    var $div = $('<div/>');
 
-  var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call').attr('id', 'receive-web')
-    .attr('onclick', 'this.disabled=true;UbiCallManager.scheduleSipCall(' + queue + ');this.disabled=false');
+    var $buttona = $('<button/>').attr('class', 'btn btn-default').text('Receive web VoIP call').attr('id', 'receive-web')
+        .attr('onclick', 'this.disabled=true;UbiCallManager.scheduleSipCall(' + queue + ');this.disabled=false');
 
-  var $buttonb = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone')
-    .attr('onclick', 'this.disabled=true;UbiCallManager.setPhoneCallQueue(' + queue + ');UbiCallManager.goTosubmitPhoneCall();this.disabled=false');
+    var $buttonb = $('<button/>').attr('class', 'btn btn-default').text('Receive a call on Cell phone')
+        .attr('onclick', 'this.disabled=true;UbiCallManager.setPhoneCallQueue(' + queue + ');UbiCallManager.goTosubmitPhoneCall();this.disabled=false');
 
 
-  $div.append($buttona);
-  $div.append($buttonb);
+    $div.append($buttona);
+    $div.append($buttonb);
 
-  var $divpages = $('<div/>').attr('class', 'ubi-pages');
-  var $content = $('<div/>').attr('data-role', 'content');
-  var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
+    var $divpages = $('<div/>').attr('class', 'ubi-pages');
+    var $content = $('<div/>').attr('data-role', 'content');
+    var $page = $('<div/>').attr('data-role', 'page').attr('id', pageId);
 
-  $divpages.append($div);
-  $content.append(header);
-  $content.append(search);
-  $content.append($divpages);
-  $page.append($content);
+    $divpages.append($div);
+    $content.append(header);
+    $content.append(search);
+    $content.append($divpages);
+    $page.append($content);
 
-  $('body').prepend($page);
-  return $
+    $('body').prepend($page);
+    return $
 }
 
 /**
@@ -363,21 +367,21 @@ function createCall($, pageId, queue, title) {
   <link href="cssHref" rel="stylesheet" />
 **/
 function applyTheme($, theme) {
-  theme = theme.toLowerCase();
-  if (theme != "default") {
-    var cssHref = settings.themeHost + theme + ".css";
-    var $cssLink = $('<link/>').attr('href', cssHref).attr('rel', "stylesheet");
-    $('head').append($cssLink);
-  }
-  return $
+    theme = theme.toLowerCase();
+    if (theme != "default") {
+        var cssHref = settings.themeHost + theme + ".css";
+        var $cssLink = $('<link/>').attr('href', cssHref).attr('rel', "stylesheet");
+        $('head').append($cssLink);
+    }
+    return $
 }
 
 module.exports = {
 
-  createGrid: createGrid,
-  createChoices: createChoices,
-  createInfo: createInfo,
-  createCall: createCall,
-  createForm: createForm,
-  applyTheme : applyTheme
+    createGrid: createGrid,
+    createChoices: createChoices,
+    createInfo: createInfo,
+    createCall: createCall,
+    createForm: createForm,
+    applyTheme: applyTheme
 }
