@@ -1,21 +1,19 @@
-var fs = require('fs');
-var beautify_html = require('js-beautify').html;
-var plist = require('plist');
-var request = require('request');
-var mkdirp = require('mkdirp');
-var htmlUtil = require('./htmlUtil.js');
-var settings = require('../settings');
-var when = require('when');
-var cheerio = require('cheerio');
+var fs = require("fs");
+var beautify_html = require("js-beautify").html;
+var plist = require("plist");
+var request = require("request");
+var mkdirp = require("mkdirp");
+var htmlUtil = require("./htmlUtil.js");
+var settings = require("../settings");
+var when = require("when");
+var cheerio = require("cheerio");
 
-function generate(plistUrl) {
-    return when.promise(function(resolve, reject) {
-        request(plistUrl, function(error, response, body) {
-            if (error) {
-                return reject(error)
-            }
-            return resolve(_parsePlist(body));
-        });
+function _MakeStream(html, licence_key) {
+    mkdirp.sync(settings.platformTemplatesPath, 0777);
+    var stream = fs.createWriteStream(settings.platformTemplatesPath + "/" + licence_key + ".html");
+    stream.once("open", function() {
+        stream.write(html);
+        stream.end();
     });
 }
 
@@ -27,9 +25,9 @@ function _parsePlist(plistContent) {
         if (!licence_key) {
             return reject("plist has no licence_key");
         }
-        var $ = cheerio.load(fs.readFileSync(settings.mainTemplate))
+        var $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
         for (var row in plistObject) {
-            if (typeof plistObject[row] == 'object') { // parse only plist component
+            if (typeof plistObject[row] === "object") { // parse only plist component
                 var stype = plistObject[row].ScreenType;
                 switch (stype) {
                     case "Choice":
@@ -48,7 +46,7 @@ function _parsePlist(plistContent) {
                         $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);
                         break;
                 }
-            } else if (typeof plistObject[row] === 'string' || plistObject[row] instanceof String) { //work with mete info like font , version ,theme
+            } else if (typeof plistObject[row] === "string" || plistObject[row] instanceof String) { //work with mete info like font , version ,theme
                 switch (row.toLowerCase()) {
                     case "theme":
                         $ = htmlUtil.applyTheme($, plistObject[row]);
@@ -61,15 +59,17 @@ function _parsePlist(plistContent) {
     });
 }
 
-function _MakeStream(html, licence_key) {
-    mkdirp.sync(settings.platformTemplatesPath, 0777);
-    var stream = fs.createWriteStream(settings.platformTemplatesPath + "/" + licence_key + ".html");
-    stream.once('open', function() {
-        stream.write(html);
-        stream.end();
+function generate(plistUrl) {
+    return when.promise(function(resolve, reject) {
+        request(plistUrl, function(error, response, body) {
+            if (error) {
+                return reject(error);
+            }
+            return resolve(_parsePlist(body));
+        });
     });
 }
 
 module.exports = {
     generate: generate
-}
+};
