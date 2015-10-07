@@ -244,6 +244,7 @@ var UbiCallManager = UbiCallManager || (function() {
 }
 
 function getWorkingHours(){
+  alert('here');
   var waiting_time;
     $.ajax({
       type: "GET",
