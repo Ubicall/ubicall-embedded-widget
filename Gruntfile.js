@@ -1,17 +1,17 @@
-'use strict';
+"use strict";
 
 module.exports = function (grunt) {
 
     // Load grunt tasks automatically
-    require('load-grunt-tasks')(grunt);
+    require("load-grunt-tasks")(grunt);
 
     // Time how long tasks take. Can help when optimizing build times
-    require('time-grunt')(grunt);
+    require("time-grunt")(grunt);
 
     var appConfig = {
-      dist: 'dist',
-      static : './static/',
-      platformDeployment:'/var/www/widget/'
+      dist: "dist",
+      static : "./static/",
+      platformDeployment:"/var/www/widget/"
     };
 
     grunt.initConfig({
@@ -22,8 +22,8 @@ module.exports = function (grunt) {
               files: [{
                   dot: true,
                   src: [
-                      '.tmp',
-                      '<%= app.dist %>/{,*/}*'
+                      ".tmp",
+                      "<%= app.dist %>/{,*/}*"
                   ]
               }]
           }
@@ -31,13 +31,13 @@ module.exports = function (grunt) {
 
       uglify: {
             options: {
-                report: 'min',
+                report: "min",
                 mangle: false
             },
             widget: {
                 files: {
-                    '<%= app.dist %>/widget.min.js': ['<%= app.static %>/widget.js'],
-                    '<%= app.dist %>/callmanager.min.js': ['<%= app.static %>/callmanager.js']
+                    "<%= app.dist %>/widget.min.js": ["<%= app.static %>/widget.js"],
+                    "<%= app.dist %>/callmanager.min.js": ["<%= app.static %>/callmanager.js"]
                 }
             }
         },
@@ -45,27 +45,27 @@ module.exports = function (grunt) {
         copy: {
           static:{
                 expand: true,
-                cwd: '<%= app.static %>',
-                src: ['**/*.*'],
-                dest: '<%= app.dist %>'
+                cwd: "<%= app.static %>",
+                src: ["**/*.*"],
+                dest: "<%= app.dist %>"
             },
             staticHTML:{
                   expand: true,
-                  cwd: '<%= app.static %>',
-                  src: ['**/*.html'],
-                  dest: '<%= app.dist %>'
+                  cwd: "<%= app.static %>",
+                  src: ["**/*.html"],
+                  dest: "<%= app.dist %>"
             },
             deployPlatform: {
               expand : true,
-              cwd : '<%= app.dist%>',
-              src : ['**/*.*'],
-              dest: '<%= app.platformDeployment %>'
+              cwd : "<%= app.dist%>",
+              src : ["**/*.*"],
+              dest: "<%= app.platformDeployment %>"
             }
         },
 
         replace: {
             widgetDevResourcesHost: {
-              src: ['<%= app.dist %>/**/*.*'],
+              src: ["<%= app.dist %>/**/*.*"],
               overwrite: true,                 // overwrite matched source files
               replacements: [{
                 from: "https://platform.ubicall.com/widget/",
@@ -81,26 +81,26 @@ module.exports = function (grunt) {
           }
       });
 
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-text-replace');
+    grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-contrib-copy");
+    grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-text-replace");
 
-    grunt.registerTask('preserve', 'Clean then build to dist as a development', [
-        'clean',
-        'copy:static',
-        'replace:widgetDevResourcesHost',
-        'copy:deployPlatform',
+    grunt.registerTask("preserve", "Clean then build to dist as a development", [
+        "clean",
+        "copy:static",
+        "replace:widgetDevResourcesHost",
+        "copy:deployPlatform",
     ]);
 
-    grunt.registerTask('prebuild', 'Clean then build to dist', [
-        'clean',
-        'copy:staticHTML',
-        'uglify:widget',
-        'copy:deployPlatform',
+    grunt.registerTask("prebuild", "Clean then build to dist", [
+        "clean",
+        "copy:staticHTML",
+        "uglify:widget",
+        "copy:deployPlatform",
     ]);
 
-    grunt.registerTask('default', [
-      'prebuild'
+    grunt.registerTask("default", [
+      "prebuild"
   ]);
 };

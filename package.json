@@ -12,6 +12,7 @@
     },
     "pre-commit": [
         "js-beautify",
+        "jshint",
         "git-add"
     ],
     "author": "bguiz",

@@ -21,42 +21,42 @@
 
     if (cred.domain && cred.username && cred.password) {
       flashvars = {
-        rtmp_url: 'rtmp://' + cred.domain + '/phone'
+        rtmp_url: "rtmp://" + cred.domain + "/phone"
       };
     } else {
       UbiCallManager.fallBackToErrorPage();
     }
 
     var params = {
-      allowScriptAccess: 'always'
+      allowScriptAccess: "always"
     };
 
     function hangup() {
       if (currentCall.uuid) {
         $("#flash")[0].hangup(currentCall.uuid);
       } else {
-        error('no call to hangup');
+        error("no call to hangup");
       }
-      $('#answer').addClass('hide');
-      $('#hangup').addClass('hide');
-      $('#agent-img').addClass('hide');
+      $("#answer").addClass("hide");
+      $("#hangup").addClass("hide");
+      $("#agent-img").addClass("hide");
     }
 
     function answer() {
       if (currentCall.uuid) {
         $("#flash")[0].answer(currentCall.uuid);
-        $('#answer').addClass('disabled');
-        $('#answer').prop('disabled', true);
+        $("#answer").addClass("disabled");
+        $("#answer").prop("disabled", true);
       } else {
-        error('no call to answer');
-        $('#answer').addClass('hide');
-        $('#hangup').addClass('hide');
-        $('#agent-img').addClass('hide');
+        error("no call to answer");
+        $("#answer").addClass("hide");
+        $("#hangup").addClass("hide");
+        $("#agent-img").addClass("hide");
       }
     }
 
     function onCallState(uuid, state) {
-      if (currentCall.uuid == uuid) {
+      if (currentCall.uuid === uuid) {
         currentCall.log = currentCall.log || [];
         currentCall.log.push(state);
       }
@@ -71,9 +71,9 @@
       currentCall.log = [];
       currentCall.start = currentCall.end = currentCall.duration = null;
       currentCall.started = false;
-      $('#answer').removeClass('hide');
-      $('#hangup').removeClass('hide');
-      $('#agent-img').removeClass('hide');
+      $("#answer").removeClass("hide");
+      $("#hangup").removeClass("hide");
+      $("#agent-img").removeClass("hide");
     }
 
     function onDisconnected() {
@@ -90,7 +90,7 @@
 
     function onDebug(message) {
       console.log("freeswitch debug : " + message)
-      if (message == "Closing media streams") { // call ended from otherside
+      if (message === "Closing media streams") { // call ended from otherside
         callEnded();
       }
     }
@@ -107,7 +107,7 @@
     function onConnected(sessionid) {
       rtmpSession = sessionid;
       ok("connectd to communication server");
-      login(cred.username + '@' + cred.domain, cred.password);
+      login(cred.username + "@" + cred.domain, cred.password);
     }
 
     function login(user, pass) {
@@ -119,14 +119,14 @@
     }
 
     function onLogin(status, user, domain) {
-      if (status != "success") {
+      if (status !== "success") {
         error("unable to login to communication server, will be redirected to home screen in 4 seconds...");
         setTimeout(function() {
           logout(sessionUser);
           UbiCallManager.goToHomeScreen();
         }, 4000);
       } else {
-        sessionUser = user + '@' + domain;
+        sessionUser = user + "@" + domain;
         $("#flash")[0].register(sessionUser, "");
         ok("Connected,Please do not close this browser in order to receive the web call");
       }
@@ -141,20 +141,20 @@
     }
 
     function ok(message) {
-      $("#info").removeClass('hide');
-      $("#info").addClass('alert alert-success');
+      $("#info").removeClass("hide");
+      $("#info").addClass("alert alert-success");
       $("#info").text(message);
     }
 
     function error(message) {
-      $("#info").removeClass('hide');
-      $("#info").addClass('alert alert-danger');
+      $("#info").removeClass("hide");
+      $("#info").addClass("alert alert-danger");
       $("#info").text(message);
     }
 
     function info(message) {
-      $("#info").removeClass('hide');
-      $("#info").addClass('alert alert-info');
+      $("#info").removeClass("hide");
+      $("#info").addClass("alert alert-info");
       $("#info").text(message);
     }
 
