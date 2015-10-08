@@ -1,11 +1,11 @@
 # embedded-call-center-widget
-embeddable web component provide facility to browse your call center IVR in web browser
+> embeddable web component provide facility to browse your call center IVR in web browser
 
 ## How To use
 ```javascript
 <script src="https://platform.ubicall.com/widget/widget.min.js"></script>
 <script type="text/javascript">
-  ubiWidget.init({containerId :'Where To Put ubiWidget',licence_key : 'YOUR LICENSE KEY'});
+  ubiWidget.init({containerId :"Where To Put ubiWidget",licence_key : "YOUR LICENSE KEY"});
 </script>
 ```
 
@@ -19,12 +19,11 @@ embeddable web component provide facility to browse your call center IVR in web 
 
 ``` bash
 npm install
-sudo grunt preserve # on development
-sudo grunt preserve # on production
-# node_env [test | development | production]
-# config_version - which configuration version you like to use i.e. 20150920 ,it will fetch default version
+# [preserve | prebuild] package app in development or production respectively
+# node_env [test | development | production] - default _development_
+# config_version - which configuration version you like to use i.e. 20150920 - default _specified in settings.js_
 # in production we use forever : https://github.com/foreverjs/forever
-node_env=development config_version=20150920 node widget.js
+sudo grunt preserve && node widget.js
 ```
 **how to contribute :**
 

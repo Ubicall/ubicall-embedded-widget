@@ -1,4 +1,4 @@
-var winston = require('winston');
+var winston = require("winston");
 var logger = new (winston.Logger)({
   levels: {
     trace: 0,
@@ -13,22 +13,22 @@ var logger = new (winston.Logger)({
     error: 9
   },
   colors: {
-    trace: 'magenta',
-    input: 'grey',
-    verbose: 'cyan',
-    prompt: 'grey',
-    debug: 'blue',
-    info: 'green',
-    data: 'grey',
-    help: 'cyan',
-    warn: 'yellow',
-    error: 'red'
+    trace: "magenta",
+    input: "grey",
+    verbose: "cyan",
+    prompt: "grey",
+    debug: "blue",
+    info: "green",
+    data: "grey",
+    help: "cyan",
+    warn: "yellow",
+    error: "red"
   }
 });
 
 
 logger.add(winston.transports.Console, {
-  level: process.env.node_env != 'production' ? 'verbose' : 'info',
+  level: process.env.node_env !== "production" ? "verbose" : "info",
   prettyPrint: true,
   colorize: true,
   silent: false,
@@ -36,13 +36,13 @@ logger.add(winston.transports.Console, {
 });
 
 logger.add(winston.transports.DailyRotateFile, {
-  level: process.env.node_env != 'production' ? 'verbose' : 'info',
+  level: process.env.node_env !== "production" ? "verbose" : "info",
   prettyPrint: false,
   silent: false,
   colorize: false,
   timestamp: true,
-  filename: './.log/widget.log',
+  filename: "./.log/widget.log",
   json: false
 });
 
-module.exports = logger
+module.exports = logger;
