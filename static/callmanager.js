@@ -14,7 +14,7 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
     function _goTosubmitPhoneCall() {
-        getWorkingHours();
+      alert("here");
         window.location.hash = "submitPhoneCall";
 
     }
