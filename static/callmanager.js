@@ -145,11 +145,11 @@ var UbiCallManager = UbiCallManager || (function() {
                 } else {
                     if (response.message === "day off") {
 
-                        $(".test").html("<h2>" + response.message + "</h2>");
+                        $("#test").html("<h2>" + response.message + "</h2>");
                     }
                     if (response.message === "closed") {
 
-                        $(".test").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
+                        $("#test").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
                     }
                 }
             },

@@ -344,13 +344,13 @@ function createCall($, pageId, queue, title) {
         .attr("onclick", "this.disabled=true;UbiCallManager.scheduleSipCall(" + queue + ");this.disabled=false");
 
     var $buttonb = $("<button/>").attr("class", "btn btn-default").text("Receive a call on Cell phone")
-        .attr("onclick", "this.disabled=true;UbiCallManager.setPhoneCallQueue(" + queue + ");UbiCallManager.goTosubmitPhoneCall();this.disabled=false");
+        .attr("onclick", "this.disabled=true;UbiCallManager.setPhoneCallQueue(" + queue + ");UbiCallManager.goTosubmitPhoneCall();this.disabled=false;UbiCallManager.getWorkingHours();");
 
 
     $div.append($buttona);
     $div.append($buttonb);
 
-    var $divpages = $("<div/>").attr("class", "ubi-pages").attr("class", "test");
+    var $divpages = $("<div/>").attr("class", "ubi-pages");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
