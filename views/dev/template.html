@@ -175,12 +175,25 @@
           var formData = JSON.stringify($('form#'+form_id).serializeArray());
           // formData like // [{"name":"Enter the last name of the person you wish to speak with","value":"name xxx"}]
           //TODO should be replaced to be {'Enter the last name of the person you wish to speak with' : 'name xxx' }
-          var qid = $('form#' + form_id + ' #qid').val();
+          var qid = $('form#' + form_id + ' #did').val();
           UbiCallManager.setFormDate(formData);
           UbiCallManager.setPhoneCallQueue(qid);
           UbiCallManager.goToCallOptions();
         }
       }
+          helpers.submitFormEmail = function(form_id) {
+        if ( !form_id ) {
+          UbiCallManager.fallBackToErrorPage();
+        } else {
+          var formData = JSON.stringify($('form#'+form_id).serializeArray());
+    
+          var qid = $('form#' + form_id + ' #did').val();
+          UbiCallManager.send_form(formData,qid);
+     
+        }
+      }
+
+
 
       $("#sele-time").click(function() {
         $('#hou').prop('readonly', false);

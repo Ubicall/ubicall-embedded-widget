@@ -36,7 +36,7 @@ function _parsePlist(plistContent) {
                         $ = htmlUtil.createChoices($, row, plistObject[row].choices, plistObject[row].ScreenTitle);
                         break;
                     case "Form":
-                        $ = htmlUtil.createForm($, row, plistObject[row].FormFields, plistObject[row].Destination.id, plistObject[row].FormTitle, plistObject[row].ScreenTitle);
+                        $ = htmlUtil.createForm($, row, plistObject[row].FormFields, plistObject[row].Destination, plistObject[row].FormTitle, plistObject[row].ScreenTitle, plistObject[row].Callback);
                         break;
                     case "Grid":
                         $ = htmlUtil.createGrid($, row, plistObject[row].choices, plistObject[row].ScreenTitle);
