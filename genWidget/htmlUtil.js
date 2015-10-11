@@ -270,10 +270,11 @@ function createForm($, pageId, formFields, Destination, FormTitle, title,form_ty
 
   });
 
-  var $Hinput = $('<input/>').attr('type', 'hidden').attr('id', 'did').val(Destination.id);
-  var $Hinput = $('<input/>').attr('type', 'hidden').attr('id', 'dname').val(Destination.name);
+  var $HinputId = $('<input/>').attr('type', 'hidden').attr('id', 'did').val(Destination.id);
+  var $HinputName = $('<input/>').attr('type', 'hidden').attr('id', 'dname').val(Destination.name);
   var $button = $('<button/>').attr('type', 'submit').attr('class', 'btn btn-default').text('Submit');
-  $form.append($Hinput);
+  $form.append($HinputId);
+   $form.append($HinputName);
   $form.append($button);
   $maidiv.append($p);
   $maidiv.append($form);
