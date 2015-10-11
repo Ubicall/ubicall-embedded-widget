@@ -350,7 +350,7 @@ function createCall($, pageId, queue, title) {
     $div.append($buttona);
     $div.append($buttonb);
 
-    var $divpages = $("<div/>").attr("class", "ubi-pages");
+    var $divpages = $("<div/>").attr("class", "ubi-pages").attr("class", "test");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
