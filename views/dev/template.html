@@ -54,7 +54,9 @@
         <div id="test">
         <img src="https://cdn.dev.ubicall.com/static/ubicall/images/time-icon.png" class="phone-icon" alt="" />
         <h2 >Average Waiting Time</h2>
-        <h3 id="test2">ASAP</h3>
+        <div id ="test2">
+        <h3>ASAP</h3>
+      </div>
         <div class="ubi-phone-02">
           <h4>Schedule a call in:</h4>
           <form>
@@ -294,7 +296,6 @@ if( isMobile.any() ) {
       contentType: "application/json",
       success: function(response) {
         if (response.message == "successful") {
-          alert('successful');
           var select = document.getElementById("hou");
           var select2 = document.getElementById("min");
           var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
