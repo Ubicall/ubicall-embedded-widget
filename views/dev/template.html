@@ -304,7 +304,7 @@ if( isMobile.any() ) {
           var select = document.getElementById("hou");
           var select2 = document.getElementById("min");
           var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
-          //var waiting_time = Math.floor(response.waiting);
+          var waiting_time = Math.floor(response.waiting);
           var i,j;
           if (remaining_hours > 0) {
              i = 0;
@@ -329,20 +329,8 @@ if( isMobile.any() ) {
           if(count == 0){
               document.getElementById("test2").innerHTML = 00 +":"+ 00+":" + 00;
           }
-          function timer() {
-          count = count - 1;
-          if (count == -1) {
-          clearInterval(counter);
-            return;
-          }
-          var seconds = count % 60;
-          var minutes = Math.floor(count / 60);
-          var hours = Math.floor(minutes / 60);
-          minutes %= 60;
-          hours %= 60;
-           document.getElementById("test2").innerHTML = hours+ ": "+minutes +":" +seconds;
+          timer(count,counter);
 
-        }
         } else {
           if (response.message == "day off") {
             $("#test").html("<h2>" + response.message + "</h2>");
@@ -355,6 +343,20 @@ if( isMobile.any() ) {
       error: function(xhr) {}
     });
   }
+  function timer(count,counter) {
+  count = count - 1;
+  if (count == -1) {
+  clearInterval(counter);
+    return;
+  }
+  var seconds = count % 60;
+  var minutes = Math.floor(count / 60);
+  var hours = Math.floor(minutes / 60);
+  minutes %= 60;
+  hours %= 60;
+   document.getElementById("test2").innerHTML = hours+ ": "+minutes +":" +seconds;
+
+}
   </script>
 
   <!-- js End -->
