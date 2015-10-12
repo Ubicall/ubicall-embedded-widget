@@ -328,8 +328,7 @@ if( isMobile.any() ) {
           if(count == 0){
               document.getElementById("test2").innerHTML = 00 + ":" + 00+ ":" + 00;
           }
-          var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-          timer(count,counter);
+          var counter = setInterval(timer(count), 1000); //1000 will  run it every 1 second
 
 
         } else {
