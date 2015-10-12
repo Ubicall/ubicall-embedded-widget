@@ -15,6 +15,7 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function _goTosubmitPhoneCall() {
         window.location.hash = "submitPhoneCall";
+
     }
 
     function _someThingGoWrong() {
@@ -90,6 +91,9 @@ var UbiCallManager = UbiCallManager || (function() {
         }
         return deferred.promise();
     }
+
+
+
 
     function sipSign() {
         var deferred = $.Deferred();

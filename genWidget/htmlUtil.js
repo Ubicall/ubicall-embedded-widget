@@ -344,7 +344,7 @@ function createCall($, pageId, queue, title) {
         .attr("onclick", "this.disabled=true;UbiCallManager.scheduleSipCall(" + queue + ");this.disabled=false");
 
     var $buttonb = $("<button/>").attr("class", "btn btn-default").text("Receive a call on Cell phone")
-        .attr("onclick", "this.disabled=true;UbiCallManager.setPhoneCallQueue(" + queue + ");UbiCallManager.goTosubmitPhoneCall();this.disabled=false");
+        .attr("onclick", "this.disabled=true;UbiCallManager.setPhoneCallQueue(" + queue + ");UbiCallManager.goTosubmitPhoneCall();this.disabled=false;getWorkingHours(" + queue + ");");
 
 
     $div.append($buttona);

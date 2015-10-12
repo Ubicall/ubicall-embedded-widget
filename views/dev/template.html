@@ -51,9 +51,11 @@
         <h3>Support Agent</h3>
       </div>
       <div class="ubi-pages-phone">
+        <div id="result">
         <img src="https://cdn.dev.ubicall.com/static/ubicall/images/time-icon.png" class="phone-icon" alt="" />
-        <h2>Average Waiting Time</h2>
-        <h3>ASAP</h3>
+        <h2 >Average Waiting Time</h2>
+        <h3>  <div id ="asap2">ASAP</div></h3>
+
         <div class="ubi-phone-02">
           <h4>Schedule a call in:</h4>
           <form>
@@ -65,16 +67,21 @@
               <label>
                 <input type="radio" name="optradio" id="sele-time">Select Time</label>
             </div>
-            <div class="input-time">
-              <input type="text" class="form-control input-phone" placeholder="Hours" id="hou" readonly> -
-              <input type="text" class="form-control input-phone" placeholder="Minutes" id="min" readonly>
-            </div>
+              <div class="input-time">
+                <label>Hours
+                  <select id="hou"></select>
+                </label>
+                <label>Minutes
+                <select id="min"></select>
+              </label>
+              </div>
             <div class="phoneNumber form-group">
               <input type="text" id="phone" name="phone" class="form-control" placeholder="Please enter your phone number">
             </div>
             <button type="submit" class="btn btn-default btn-02" onclick="helpers.submitPhoneCall()">Call Me</button>
             <button type="submit" class="btn btn-default btn-03" onclick="UbiCallManager.goToHomeScreen()">Cancel</button>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -213,7 +220,7 @@
       }
 
 
-    
+
             $(".search_input").keyup(function() {
                 $(".search-list").empty();
 
@@ -221,22 +228,22 @@
                 count = 0;
                 $("body div[data-role="page"]  ").each(function() {
 
-                  
+
                  if( $(this).attr("id") ==="callOptions" ||$(this).attr("id") ==="submitPhoneCall" ||$(this).attr("id") ==="phoneCallScheduled" ||$(this).attr("id") ==="callFeedback" ||$(this).attr("id") === "sorry" ){}
-                    
+
                     else{
 
                         if ($(this).find("h3").text().search(new RegExp(filter, "i")) > 0) {
-                           
+
                             var id = $(this).attr("id");
                             var a = $("<a/>").attr("href", "#" + id).append($(this).find("h3").text());
                             var li = $("<li/>").append(a);
                             $(".search-list").append(li);
                             count++;
                         }
-                        
+
                     }
-                    
+
                 });
 
                 //$("#filter-count").text("Number of Comments = "+count);
@@ -278,6 +285,68 @@ if( isMobile.any() ) {
 
 }
 
+  </script>
+  <script>
+  function getWorkingHours(queue) {
+    var offset = new Date().getTimezoneOffset()/60;
+    $.ajax({
+      type: "GET",
+      url: "https://api.dev.ubicall.com/v1/workinghours/"+offset+"/"+queue+"/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwZXJtaXNzaW9ucyI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImxhc3RfbG9naW4iOjE0NDQ2NDMwMDg2MjksImlhdCI6MTQ0NDY0MzAwOCwiZXhwIjoxNDQ1MjQ3ODA4LCJpc3MiOiJ1YmljYWxsIn0.lzyILhavfofrMIsJrvfvsYXg1Q-gcaSBhUsB_7S74Ho",
+      contentType: "application/json",
+      success: function(response) {
+        if (response.message == "successful") {
+          var select = document.getElementById("hou");
+          var select2 = document.getElementById("min");
+          var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
+          var waiting_time = Math.floor(response.waiting);
+          var i,j;
+          if (remaining_hours > 0) {
+             i = 0;
+            j = 0;
+            for (i = 0; i < remaining_hours-1; i++) {
+              select.options[select.options.length] = new Option(i, i);
+            }
+            for (j = 0; j <= 59; j++) {
+              select2.options[select2.options.length] = new Option(j, j);
+            }
+          } else {
+            var min = Math.floor(response.remaining);
+            var i = 0;
+            select.options[select.options.length] = new Option(i, i);
+            for (i = 0; i <= min; i++) {
+              select2.options[select2.options.length] = new Option(i, i);
+            }
+          }
+          var count = waiting_time * 60;
+          if(count == 0){
+              document.getElementById("asap2").innerHTML = 00 + ":" + 00+ ":" + 00;
+          }
+          var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+          function timer() {
+          count = count - 1;
+          if (count == -1) {
+          clearInterval(counter);
+            return;
+          }
+          var seconds = count % 60;
+          var minutes = Math.floor(count / 60);
+          var hours = Math.floor(minutes / 60);
+          minutes %= 60;
+          hours %= 60;
+           document.getElementById("asap2").innerHTML = hours+ ": "+minutes +":" +seconds;
+        }
+        } else {
+          if (response.message == "day off") {
+            $("#result").html("<h2>" + response.message + "</h2>");
+          }
+          if (response.message == 'closed') {
+            $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
+          }
+        }
+      },
+      error: function(xhr) {}
+    });
+  }
   </script>
 
   <!-- js End -->
