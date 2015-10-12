@@ -261,23 +261,23 @@ var UbiCallManager = UbiCallManager || (function() {
         localStorage.setItem("formData", JSON.stringify(data));
     }
 
-    function send_form(data,email_id){
+    function send_form(data, email_id) {
         $.ajax({
             type: "get",
-            url: "https://ws.ubicall.com/webservice/get_send_mail.php?email_id="+email_id+"&json="+data+"&license_key="+LICENSE,
+            url: "https://ws.ubicall.com/webservice/get_send_mail.php?email_id=" + email_id + "&json=" + data + "&license_key=" + LICENSE,
             contentType: "application/json",
             success: function(response) {
-              if (response.status == 200) {
-               goToHomeScreen();
-           } else {
-               _someThingGoWrong();
-           }
-       },
-       error: function(xhr) {
+                if (response.status === 200) {
+                    goToHomeScreen();
+                } else {
+                    _someThingGoWrong();
+                }
+            },
+            error: function(xhr) {
 
-        _someThingGoWrong();
-    }
-});
+                _someThingGoWrong();
+            }
+        });
 
     }
 
@@ -316,7 +316,7 @@ var UbiCallManager = UbiCallManager || (function() {
         cancleCurrentSipCall: cancleCurrentSipCall,
         setPhoneCallQueue: setPhoneCallQueue,
         setFormDate: setFormDate,
-        send_form:send_form,
+        send_form: send_form,
         getSipInfo: _getSipInfo,
         clearSipInfo: _removeSipInfo,
         goToHomeScreen: goToHomeScreen,
