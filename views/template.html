@@ -196,9 +196,10 @@
         $("#min").prop("readonly", false);
       });
       $("#asap").click(function() {
-        document.getElementById("hou").innerHTML.disabled=true;
-        $("#hou").attr("readonly", "readonly");
-        $("#min").attr("readonly", "readonly");
+        $('#hou').attr('disabled', true);
+        $('#min').attr('disabled', true);
+      //  $("#hou").attr("readonly", "readonly");
+      //  $("#min").attr("readonly", "readonly");
       });
 
       helpers.submitPhoneCall = function() {
