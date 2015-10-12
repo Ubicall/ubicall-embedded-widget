@@ -283,7 +283,7 @@ var UbiCallManager = UbiCallManager || (function() {
     function send_form(data,email_id){
         $.ajax({
             type: "get",
-            url: "https://ws.ubicall.com/webservice/get_send_mail.php?email_id="+email_id+"&json="+data+"license_key="+LICENSE,
+            url: "https://ws.ubicall.com/webservice/get_send_mail.php?email_id="+email_id+"&json="+data+"&license_key="+LICENSE,
             contentType: "application/json",
             success: function(response) {
               if (response.status == 200) {
