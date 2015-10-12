@@ -167,14 +167,29 @@
     var helpers = helpers || {};
     $(document).ready(function() {
       var feedback = {};
+      
+      $.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
 
       helpers.submitCallForm = function(form_id) {
         if ( !form_id ) {
           UbiCallManager.fallBackToErrorPage();
         } else {
-          var formData = JSON.stringify($("form#"+form_id).serializeArray());
-          // formData like // [{"name":"Enter the last name of the person you wish to speak with","value":"name xxx"}]
-          //TODO should be replaced to be {'Enter the last name of the person you wish to speak with' : 'name xxx' }
+          var formData = JSON.stringify($("form#"+form_id).serializeObject());
           var qid = $('form#' + form_id + ' #did').val();
           UbiCallManager.setFormDate(formData);
           UbiCallManager.setPhoneCallQueue(qid);
@@ -185,7 +200,7 @@
         if ( !form_id ) {
           UbiCallManager.fallBackToErrorPage();
         } else {
-          var formData = JSON.stringify($('form#'+form_id).serializeArray());
+             var formData = JSON.stringify($("form#"+form_id).serializeObject());
     
           var qid = $('form#' + form_id + ' #did').val();
           UbiCallManager.send_form(formData,qid);
