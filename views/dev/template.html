@@ -286,68 +286,7 @@ if( isMobile.any() ) {
 }
 
   </script>
-  <script>
-  function getWorkingHours(queue) {
-    var offset = new Date().getTimezoneOffset()/60;
-    $.ajax({
-      type: "GET",
-      url: "https://api.dev.ubicall.com/v1/workinghours/"+offset+"/"+queue+"/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwZXJtaXNzaW9ucyI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImxhc3RfbG9naW4iOjE0NDQ2NDMwMDg2MjksImlhdCI6MTQ0NDY0MzAwOCwiZXhwIjoxNDQ1MjQ3ODA4LCJpc3MiOiJ1YmljYWxsIn0.lzyILhavfofrMIsJrvfvsYXg1Q-gcaSBhUsB_7S74Ho",
-      contentType: "application/json",
-      success: function(response) {
-        if (response.message == "successful") {
-          var select = document.getElementById("hou");
-          var select2 = document.getElementById("min");
-          var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
-          var waiting_time = Math.floor(response.waiting);
-          var i,j;
-          if (remaining_hours > 0) {
-             i = 0;
-            j = 0;
-            for (i = 0; i < remaining_hours-1; i++) {
-              select.options[select.options.length] = new Option(i, i);
-            }
-            for (j = 0; j <= 59; j++) {
-              select2.options[select2.options.length] = new Option(j, j);
-            }
-          } else {
-            var min = Math.floor(response.remaining);
-            var i = 0;
-            select.options[select.options.length] = new Option(i, i);
-            for (i = 0; i <= min; i++) {
-              select2.options[select2.options.length] = new Option(i, i);
-            }
-          }
-          var count = waiting_time * 60;
-          if(count == 0){
-              document.getElementById("asap2").innerHTML = 00 + ":" + 00+ ":" + 00;
-          }
-          var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-          function timer() {
-          count = count - 1;
-          if (count == -1) {
-          clearInterval(counter);
-            return;
-          }
-          var seconds = count % 60;
-          var minutes = Math.floor(count / 60);
-          var hours = Math.floor(minutes / 60);
-          minutes %= 60;
-          hours %= 60;
-           document.getElementById("asap2").innerHTML = hours+ ": "+minutes +":" +seconds;
-        }
-        } else {
-          if (response.message == "day off") {
-            $("#result").html("<h2>" + response.message + "</h2>");
-          }
-          if (response.message == 'closed') {
-            $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
-          }
-        }
-      },
-      error: function(xhr) {}
-    });
-  }
-  </script>
+
 
   <!-- js End -->
 
