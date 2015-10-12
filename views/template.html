@@ -293,6 +293,8 @@ if( isMobile.any() ) {
 
   <script>
   function getWorkingHours() {
+    var offset = new Date().getTimezoneOffset();
+    alert(offset);
     var waiting_time;
     $.ajax({
       type: "GET",
