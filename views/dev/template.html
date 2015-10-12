@@ -189,18 +189,13 @@
         }
       }
 
-        $("#sele-time").click(function() {
-        //  $("#hou").prop("readonly", false);
-      //    $("#min").prop("readonly", false);
-      document.getElementById("hou").disabled=false;
-      document.getElementById("min").disabled=false;
-
-        });
-        $("#asap").click(function() {
-          document.getElementById("hou").disabled=true;
-          document.getElementById("min").disabled=true;
-    //    $("#hou").attr("readonly", "readonly");
-    //    $("#min").attr("readonly", "readonly");
+      $("#sele-time").click(function() {
+        $("#hou").prop("readonly", false);
+        $("#min").prop("readonly", false);
+      });
+      $("#asap").click(function() {
+        $("#hou").attr("readonly", "readonly");
+        $("#min").attr("readonly", "readonly");
       });
 
       helpers.submitPhoneCall = function() {
@@ -305,7 +300,7 @@ if( isMobile.any() ) {
           var select = document.getElementById("hou");
           var select2 = document.getElementById("min");
           var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
-          var waiting_time = Math.floor(response.waiting);
+          waiting_time = Math.floor(response.waiting);
           var i,j;
           if (remaining_hours > 0) {
              i = 0;
@@ -325,12 +320,12 @@ if( isMobile.any() ) {
             }
           }
           var count = waiting_time * 60;
-          var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
           alert(count);
           if(count == 0){
-              document.getElementById("test2").innerHTML = 00 +":"+ 00+":" + 00;
+              document.getElementById("test2").innerHTML = 00 + ":" + 00+ ":" + 00;
           }
-          function timer(count) {
+          var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+          function timer() {
           count = count - 1;
           if (count == -1) {
           clearInterval(counter);
@@ -344,6 +339,7 @@ if( isMobile.any() ) {
            document.getElementById("test2").innerHTML = hours+ ": "+minutes +":" +seconds;
 
         }
+
         } else {
           if (response.message == "day off") {
             $("#test").html("<h2>" + response.message + "</h2>");
