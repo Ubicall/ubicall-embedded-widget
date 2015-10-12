@@ -289,7 +289,6 @@ if( isMobile.any() ) {
   <script>
   function getWorkingHours() {
     var offset = new Date().getTimezoneOffset()/60;
-    alert("ttps://api.dev.ubicall.com/v1/workinghours/"+offset+"/4/");
     var waiting_time;
     $.ajax({
       type: "GET",
