@@ -14,7 +14,6 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
     function _goTosubmitPhoneCall() {
-      alert("here");
         window.location.hash = "submitPhoneCall";
 
     }
@@ -93,70 +92,8 @@ var UbiCallManager = UbiCallManager || (function() {
         return deferred.promise();
     }
 
-    function timer(count, counter) {
-        count = count - 1;
-        if (count === -1) {
-            clearInterval(counter);
-            return;
-        }
-        var seconds = count % 60;
-        var minutes = Math.floor(count / 60);
-        var hours = Math.floor(minutes / 60);
-        minutes %= 60;
-        hours %= 60;
-        document.getElementById("test2").innerHTML = hours + ": " + minutes + ":" + seconds;
-    }
 
-    function getWorkingHours() {
-        var waiting_time;
-        alert("here");
-        $.ajax({
-            type: "GET",
-            url: "https://api.dev.ubicall.com/v1/time/-2/4/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfaWQiOiIxMjM0NTY3OCIsImVtYWlsIjoiYWF0ZWZAcm9ja2V0bWFpbC5jb20iLCJsaWNlbnNlX2tleSI6ImU2MDUzZWI4ZDM1ZTAyYWU0MGJlZWVhY2VmMjAzYzFhIiwibGFzdF9sb2dpbiI6IjE0OjA0OjE0IiwiaWF0IjoxNDQyNzU3ODgyLCJleHAiOjE0NDMzNjI2ODJ9.QNcUed2l8e2N8NzCUwCirfLM9Mu_hLSHZ8-JCeHolZ0",
-            contentType: "application/json",
-            success: function(response) {
-                if (response.message === "successful") {
-                    var select = document.getElementById("hou");
-                    var select2 = document.getElementById("min");
-                    var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
-                    waiting_time = Math.floor(response.waiting);
-                    var i, j;
-                    if (remaining_hours > 0) {
-                        i = 0,
-                            j = 0;
-                        for (i = 0; i < remaining_hours - 1; i++) {
-                            select.options[select.options.length] = new Option(i, i);
-                        }
-                        for (j = 0; j <= 59; j++) {
-                            select2.options[select2.options.length] = new Option(j, j);
-                        }
-                    } else {
-                        var min = Math.floor(response.remaining);
-                        i = 0;
-                        select.options[select.options.length] = new Option(i, i);
-                        for (i = 0; i <= min; i++) {
-                            //  select.options[select.options.length] = new Option(i,i);
-                            select2.options[select2.options.length] = new Option(i, i);
-                        }
-                    }
-                    var count = waiting_time * 60;
-                    var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-                    timer(count, counter);
 
-                } else {
-                    if (response.message === "day off") {
-
-                        $("#test").html("<h2>" + response.message + "</h2>");
-                    }
-                    if (response.message === "closed") {
-
-                        $("#test").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
-                    }
-                }
-            },
-            error: function(xhr) {}
-        });
-    }
 
     function sipSign() {
         var deferred = $.Deferred();
@@ -368,7 +305,6 @@ var UbiCallManager = UbiCallManager || (function() {
         goTosubmitPhoneCall: _goTosubmitPhoneCall,
         goToFeedBackScreen: goToFeedBackScreen,
         fallBackToErrorPage: _someThingGoWrong,
-        submitFeedback: submitFeedback,
-        getWorkingHours: getWorkingHours
+        submitFeedback: submitFeedback
     };
 }());
