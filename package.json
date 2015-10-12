@@ -6,7 +6,7 @@
     "scripts": {
         "test": "node_modules/.bin/mocha -w",
         "js-beautify": "node_modules/.bin/js-beautify -r **/*.js",
-        "jshint": "jshint -c .jshintrc --exclude-path .gitignore .",
+        "jshint": "node_modules/.bin/jshint -c .jshintrc --exclude-path .gitignore .",
         "git-add": "git add --all"
     },
     "pre-commit": [
