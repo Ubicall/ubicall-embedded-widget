@@ -52,11 +52,11 @@
 
       <div class="ubi-pages-phone">
 
-        <div id= "test" >
+        <div id= "result" >
         <img src="https://cdn.ubicall.com/static/ubicall/images/time-icon.png" class="phone-icon" alt="" />
         <h2>Average Waiting Time</h2>
 
-        <h3>  <div id ="test2">ASAP</div></h3>
+        <h3>  <div id ="asap2">ASAP</div></h3>
 
         <div class="ubi-phone-02">
           <h4>Schedule a call in:</h4>
@@ -196,8 +196,8 @@
         $("#min").prop("readonly", false);
       });
       $("#asap").click(function() {
-        $("#hou").attr("readonly", "readonly");
-        $("#min").attr("readonly", "readonly");
+       $("#hou").attr("readonly", "readonly");
+      $("#min").attr("readonly", "readonly");
       });
 
       helpers.submitPhoneCall = function() {
@@ -292,19 +292,18 @@ if( isMobile.any() ) {
   </script>
 
   <script>
-  function getWorkingHours() {
+  function getWorkingHours(queue) {
     var offset = new Date().getTimezoneOffset()/60;
-    var waiting_time;
     $.ajax({
       type: "GET",
-      url: "https://api.dev.ubicall.com/v1/workinghours/"+offset+"/4/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwZXJtaXNzaW9ucyI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImxhc3RfbG9naW4iOjE0NDQ2NDMwMDg2MjksImlhdCI6MTQ0NDY0MzAwOCwiZXhwIjoxNDQ1MjQ3ODA4LCJpc3MiOiJ1YmljYWxsIn0.lzyILhavfofrMIsJrvfvsYXg1Q-gcaSBhUsB_7S74Ho",
+      url: "https://api.dev.ubicall.com/v1/workinghours/"+offset+"/"+queue+"/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwZXJtaXNzaW9ucyI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImxhc3RfbG9naW4iOjE0NDQ2NDMwMDg2MjksImlhdCI6MTQ0NDY0MzAwOCwiZXhwIjoxNDQ1MjQ3ODA4LCJpc3MiOiJ1YmljYWxsIn0.lzyILhavfofrMIsJrvfvsYXg1Q-gcaSBhUsB_7S74Ho",
       contentType: "application/json",
       success: function(response) {
         if (response.message == "successful") {
           var select = document.getElementById("hou");
           var select2 = document.getElementById("min");
           var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
-          waiting_time = Math.floor(response.waiting);
+          var waiting_time = Math.floor(response.waiting);
           if (remaining_hours > 0) {
             var i = 0,
               j = 0;
@@ -323,35 +322,36 @@ if( isMobile.any() ) {
             }
           }
           var count = waiting_time * 60;
+          if(count == 0){
+              document.getElementById("asap2").innerHTML = 00 + ":" + 00+ ":" + 00;
+          }
           var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-           timer(count,counter);
-             document.getElementById("test2").innerHTML = hours + ": " + minutes + ":" + seconds;
+          function timer() {
+          count = count - 1;
+          if (count == -1) {
+          clearInterval(counter);
+            return;
+          }
+          var seconds = count % 60;
+          var minutes = Math.floor(count / 60);
+          var hours = Math.floor(minutes / 60);
+          minutes %= 60;
+          hours %= 60;
+           document.getElementById("asap2").innerHTML = hours+ ": "+minutes +":" +seconds;
+
+        }
 
         } else {
           if (response.message == "day off") {
-            $("#test").html("<h2>" + response.message + "</h2>");
+            $("#result").html("<h2>" + response.message + "</h2>");
           }
           if (response.message == 'closed') {
-            $("#test").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
+            $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
           }
         }
       },
       error: function(xhr) {}
     });
-  }
-  function timer(count,counter) {
-    count = count - 1;
-    if (count == -1) {
-      clearInterval(counter);
-      document.getElementById("test2").innerHTML = 00 + ":" + 00+ ":" + 00;
-      return;
-    }
-    var seconds = count % 60;
-    var minutes = Math.floor(count / 60);
-    var hours = Math.floor(minutes / 60);
-    minutes %= 60;
-    hours %= 60;
-    document.getElementById("test2").innerHTML = hours + ": " + minutes + ":" + seconds;
   }
   </script>
 
