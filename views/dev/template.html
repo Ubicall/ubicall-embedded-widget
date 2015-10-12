@@ -289,7 +289,6 @@ if( isMobile.any() ) {
       url: "https://api.dev.ubicall.com/v1/workinghours/-2/4/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwZXJtaXNzaW9ucyI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImxhc3RfbG9naW4iOjE0NDQ2NDMwMDg2MjksImlhdCI6MTQ0NDY0MzAwOCwiZXhwIjoxNDQ1MjQ3ODA4LCJpc3MiOiJ1YmljYWxsIn0.lzyILhavfofrMIsJrvfvsYXg1Q-gcaSBhUsB_7S74Ho",
       contentType: "application/json",
       success: function(response) {
-          alert('hereee');
         if (response.message == "successful") {
           alert('successful');
           var select = document.getElementById("hou");
@@ -331,7 +330,6 @@ if( isMobile.any() ) {
           }
         } else {
           if (response.message == "day off") {
-            alert('day offff');
             $("#test").html("<h2>" + response.message + "</h2>");
           }
           if (response.message == 'closed') {
