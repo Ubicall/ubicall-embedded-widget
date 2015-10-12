@@ -190,12 +190,16 @@
       }
 
       $("#sele-time").click(function() {
-        $("#hou").prop("readonly", false);
-        $("#min").prop("readonly", false);
+        document.getElementById("hou").disabled = false;
+        document.getElementById("min").disabled = false;
+      //  $("#hou").prop("readonly", false);
+    //    $("#min").prop("readonly", false);
       });
       $("#asap").click(function() {
-        $("#hou").attr("readonly", "readonly");
-        $("#min").attr("readonly", "readonly");
+        document.getElementById("hou").disabled = true;
+        document.getElementById("min").disabled = true;
+    //    $("#hou").attr("readonly", "readonly");
+    //    $("#min").attr("readonly", "readonly");
       });
 
       helpers.submitPhoneCall = function() {
@@ -301,7 +305,6 @@ if( isMobile.any() ) {
           var select2 = document.getElementById("min");
           var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
           //var waiting_time = Math.floor(response.waiting);
-          var waiting_time=300;
           var i,j;
           if (remaining_hours > 0) {
              i = 0;
