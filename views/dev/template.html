@@ -194,6 +194,8 @@
         $("#min").prop("readonly", false);
       });
       $("#asap").click(function() {
+        document.getElementById("hou").disabled=true;
+
         $("#hou").attr("readonly", "readonly");
         $("#min").attr("readonly", "readonly");
       });
@@ -300,8 +302,7 @@ if( isMobile.any() ) {
           var select = document.getElementById("hou");
           var select2 = document.getElementById("min");
           var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
-          //var waiting_time = Math.floor(response.waiting);
-           waiting_time=300;
+          var waiting_time = Math.floor(response.waiting);
 
           var i,j;
           if (remaining_hours > 0) {
