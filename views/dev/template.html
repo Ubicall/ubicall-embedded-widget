@@ -291,7 +291,7 @@ alert('hereee');
       contentType: "application/json",
       success: function(response) {
         if (response.message == "successful") {
-
+          alert('successful');
           var select = document.getElementById("hou");
           var select2 = document.getElementById("min");
           var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
@@ -331,6 +331,7 @@ alert('hereee');
           }
         } else {
           if (response.message == "day off") {
+            alert('day offff');
             $("#test").html("<h2>" + response.message + "</h2>");
           }
           if (response.message == 'closed') {
