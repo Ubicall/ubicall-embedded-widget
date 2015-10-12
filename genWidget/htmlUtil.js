@@ -238,11 +238,11 @@ function createForm($, pageId, formFields, Destination, FormTitle, title, form_t
     var $form;
     if (form_type === "email") {
         $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-            .attr("onsubmit", "helpers.submitFormEmail('form - " + formId + "');return false;");
+            .attr("onsubmit", "helpers.submitFormEmail(form-" + formId + ");return false;");
 
     } else {
         $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-            .attr("onsubmit", "helpers.submitCallForm('form-" + formId + "');return false;");
+            .attr("onsubmit", "helpers.submitCallForm(form-" + formId + ");return false;");
     }
     formFields.forEach(function(field) {
 
