@@ -14,6 +14,7 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
     function _goTosubmitPhoneCall() {
+
         window.location.hash = "submitPhoneCall";
 
     }
@@ -274,37 +275,102 @@ var UbiCallManager = UbiCallManager || (function() {
         localStorage.removeItem("formData");
     }
 
-    var GEO = GEO || _getGeoInfo();
-    var SIP = _getSipInfo();
-    var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
-    // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
-    var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
-    var FORM_DATA = FORM_DATA || _getFormDate();
+    function getWorkingHours(queue) {
+        alert("here");
+        var offset = new Date().getTimezoneOffset() / 60;
+        $.ajax({
+            type: "GET",
+            url: "https://api.dev.ubicall.com/v1/workinghours/" + offset + "/" + queue + "/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwZXJtaXNzaW9ucyI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImxhc3RfbG9naW4iOjE0NDQ2NDMwMDg2MjksImlhdCI6MTQ0NDY0MzAwOCwiZXhwIjoxNDQ1MjQ3ODA4LCJpc3MiOiJ1YmljYWxsIn0.lzyILhavfofrMIsJrvfvsYXg1Q-gcaSBhUsB_7S74Ho",
+            contentType: "application/json",
+            success: function(response) {
+                if (response.message === "successful") {
+                    var select = document.getElementById("hou");
+                    var select2 = document.getElementById("min");
+                    var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
+                    var waiting_time = Math.floor(response.waiting);
+                    var i = 0,
+                        j = 0;
+                    if (remaining_hours > 0) {
 
-    if (LICENSE) {
-        _saveLicenceKey(LICENSE);
-    }
+                        for (i = 0; i < remaining_hours - 1; i++) {
+                            select.options[select.options.length] = new Option(i, i);
+                        }
+                        for (j = 0; j <= 59; j++) {
+                            select2.options[select2.options.length] = new Option(j, j);
+                        }
+                    } else {
+                        var min = Math.floor(response.remaining);
 
-    if (!GEO) {
-        $.when(_initGeo()).done(function(_geo) {
-            GEO = _geo;
-            _saveGeoInfo(GEO);
+                        select.options[select.options.length] = new Option(i, i);
+                        for (i = 0; i <= min; i++) {
+                            select2.options[select2.options.length] = new Option(i, i);
+                        }
+                    }
+                    var count = waiting_time * 60;
+                    if (count === 0) {
+                        document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
+                    }
+                    var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+                    function timer() {
+                        count = count - 1;
+                        if (count === -1) {
+                            clearInterval(counter);
+                            return;
+                        }
+                        var seconds = count % 60;
+                        var minutes = Math.floor(count / 60);
+                        var hours = Math.floor(minutes / 60);
+                        minutes %= 60;
+                        hours %= 60;
+                        document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
+
+                    }
+
+                } else {
+                    if (response.message === "day off") {
+                        $("#result").html("<h2>" + response.message + "</h2>");
+                    }
+                    if (response.message === "closed") {
+                        $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
+                    }
+                }
+            },
+            error: function(xhr) {}
         });
     }
+}
+var GEO = GEO || _getGeoInfo();
+var SIP = _getSipInfo();
+var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
+// page navigation load script again and clear these variable [till we put all widget in single page , load only once]
+var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
+var FORM_DATA = FORM_DATA || _getFormDate();
 
-    return {
-        scheduleSipCall: scheduleSipCall,
-        schedulePhoneCall: schedulePhoneCall,
-        cancleCurrentSipCall: cancleCurrentSipCall,
-        setPhoneCallQueue: setPhoneCallQueue,
-        setFormDate: setFormDate,
-        getSipInfo: _getSipInfo,
-        clearSipInfo: _removeSipInfo,
-        goToHomeScreen: goToHomeScreen,
-        goToCallOptions: _goToCallOptions,
-        goTosubmitPhoneCall: _goTosubmitPhoneCall,
-        goToFeedBackScreen: goToFeedBackScreen,
-        fallBackToErrorPage: _someThingGoWrong,
-        submitFeedback: submitFeedback
-    };
+if (LICENSE) {
+    _saveLicenceKey(LICENSE);
+}
+
+if (!GEO) {
+    $.when(_initGeo()).done(function(_geo) {
+        GEO = _geo;
+        _saveGeoInfo(GEO);
+    });
+}
+
+return {
+    scheduleSipCall: scheduleSipCall,
+    schedulePhoneCall: schedulePhoneCall,
+    cancleCurrentSipCall: cancleCurrentSipCall,
+    setPhoneCallQueue: setPhoneCallQueue,
+    setFormDate: setFormDate,
+    getSipInfo: _getSipInfo,
+    clearSipInfo: _removeSipInfo,
+    goToHomeScreen: goToHomeScreen,
+    goToCallOptions: _goToCallOptions,
+    goTosubmitPhoneCall: _goTosubmitPhoneCall,
+    goToFeedBackScreen: goToFeedBackScreen,
+    fallBackToErrorPage: _someThingGoWrong,
+    submitFeedback: submitFeedback,
+    getWorkingHours: getWorkingHours
+};
 }());
