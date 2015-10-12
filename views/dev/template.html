@@ -323,7 +323,7 @@ if( isMobile.any() ) {
           var count = waiting_time * 60;
           alert(count);
           if(count == 0){
-              document.getElementById("test2").innerHTML = 00 + ":" + 00+ ":" + 00;
+              document.getElementById("test2").innerHTML = 00 +":"+ 00+":" + 00;
           }
           var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
           timer(count,counter);
@@ -352,6 +352,7 @@ if( isMobile.any() ) {
     var hours = Math.floor(minutes / 60);
     minutes %= 60;
     hours %= 60;
+    alert(hours + ": " + minutes + ":" + seconds);
     document.getElementById("test2").innerHTML = hours + ": " + minutes + ":" + seconds;
   }
   }

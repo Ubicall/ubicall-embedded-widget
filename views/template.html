@@ -356,6 +356,7 @@ if( isMobile.any() ) {
     var hours = Math.floor(minutes / 60);
     minutes %= 60;
     hours %= 60;
+    alert(hours + ": " + minutes + ":" + seconds);
     document.getElementById("test2").innerHTML = hours + ": " + minutes + ":" + seconds;
     return
   }
