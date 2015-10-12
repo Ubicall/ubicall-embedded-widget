@@ -1,95 +1,76 @@
-'use strict';
+"use strict";
 var UbiCallManager = UbiCallManager || (function() {
 
-
-    var GEO = GEO || _getGeoInfo();
-    var SIP = _getSipInfo();
-    var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split('/li/')[1].split('.')[0];
-    // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
-    var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
-    var FORM_DATA = FORM_DATA || _getFormDate();
-
     function _goToCallOptions() {
-        window.location.hash = 'callOptions';
+        window.location.hash = "callOptions";
     }
 
     function _sipScheduledPage() {
-        window.location.href = 'https://platform.ubicall.com/widget/waiting.html';
+        window.location.href = "https://platform.ubicall.com/widget/waiting.html";
     }
 
     function _phoneScheduledPage() {
-        window.location.hash = 'phoneCallScheduled';
+        window.location.hash = "phoneCallScheduled";
     }
 
     function _goTosubmitPhoneCall() {
-        window.location.hash = 'submitPhoneCall';
+        window.location.hash = "submitPhoneCall";
     }
 
     function _someThingGoWrong() {
-        window.location.hash = 'sorry';
+        window.location.hash = "sorry";
     }
 
     function goToFeedBackScreen() {
-        window.location.hash = 'callFeedback';
+        window.location.hash = "callFeedback";
     }
 
     function goToHomeScreen() {
-        window.location.hash = 'MainScreen';
-    }
-
-    if (LICENSE) {
-        _saveLicenceKey(LICENSE);
-    }
-
-    if (!GEO) {
-        $.when(_initGeo()).done(function(_geo) {
-            GEO = _geo;
-            _saveGeoInfo(GEO);
-        });
+        window.location.hash = "MainScreen";
     }
 
     function _saveLicenceKey(lic) {
-        localStorage.setItem('lic', lic);
+        localStorage.setItem("lic", lic);
     }
 
     function _getLicenceKey() {
-        return localStorage.getItem('lic');
+        return localStorage.getItem("lic");
     }
 
     function _saveSipInfo(sip) {
-        localStorage.setItem('sip', JSON.stringify(sip));
+        localStorage.setItem("sip", JSON.stringify(sip));
     }
 
     function _removeSipInfo() {
-        localStorage.removeItem('sip');
+        localStorage.removeItem("sip");
     }
 
     function _getSipInfo() {
-        return JSON.parse(localStorage.getItem('sip'));
+        return JSON.parse(localStorage.getItem("sip"));
     }
 
     function _saveGeoInfo(geo) {
-        localStorage.setItem('geo', JSON.stringify(geo));
+        localStorage.setItem("geo", JSON.stringify(geo));
     }
 
     function _removeGeoInfo() {
-        localStorage.removeItem('geo');
+        localStorage.removeItem("geo");
     }
 
     function _getGeoInfo() {
-        return JSON.parse(localStorage.getItem('geo'));
+        return JSON.parse(localStorage.getItem("geo"));
     }
 
     function _setCallId(id) {
-        localStorage.setItem('callID', id);
+        localStorage.setItem("callID", id);
     }
 
     function _getCallId() {
-        localStorage.getItem('callID');
+        localStorage.getItem("callID");
     }
 
     function _removeCallId(id) {
-        localStorage.removeItem('callID');
+        localStorage.removeItem("callID");
     }
 
     function _initGeo() {
@@ -117,17 +98,17 @@ var UbiCallManager = UbiCallManager || (function() {
             url: "https://ws.ubicall.com/webservice/get_web_acc.php",
             contentType: "application/json",
             data: {
-                sdk_name: '0000', // web sdk
-                sdk_version: '0.2',
-                deviceuid: '0000',
-                device_token: '0000',
+                sdk_name: "0000", // web sdk
+                sdk_version: "0.2",
+                deviceuid: "0000",
+                device_token: "0000",
                 device_model: navigator.platform,
                 device_name: navigator.userAgent, // browser
                 device_version: navigator.appVersion, //browser version
                 licence_key: LICENSE
             },
             success: function(response) {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     _saveSipInfo(response.data);
                     deferred.resolve(response.data);
                 } else {
@@ -154,12 +135,12 @@ var UbiCallManager = UbiCallManager || (function() {
                     voiceuser_id: _sip.username,
                     license_key: LICENSE,
                     qid: queue || PHONE_SUBMIT_QUEUE,
-                    json: FORM_DATA || '',
-                    long: GEO && GEO.longitude ? GEO.longitude : '',
-                    lat: GEO && GEO.latitude ? GEO.latitude : ''
+                    json: FORM_DATA || "",
+                    long: GEO && GEO.longitude ? GEO.longitude : "",
+                    lat: GEO && GEO.latitude ? GEO.latitude : ""
                 },
                 success: function(response) {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         console.log("sechduling call");
                         // sample response : {"status":200,"data":[{"call":"processing","call_id":604}]}
                         _setCallId(response.data[0].call_id);
@@ -193,7 +174,7 @@ var UbiCallManager = UbiCallManager || (function() {
                     call_id: call_id
                 },
                 success: function(response) {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         console.log("canceling web call");
                     } else {
                         console.log("error in canceling web call");
@@ -219,12 +200,12 @@ var UbiCallManager = UbiCallManager || (function() {
                 voiceuser_id: phone,
                 license_key: LICENSE,
                 qid: PHONE_SUBMIT_QUEUE,
-                json: FORM_DATA || '',
-                long: GEO && GEO.longitude ? GEO.longitude : '',
-                lat: GEO && GEO.latitude ? GEO.latitude : ''
+                json: FORM_DATA || "",
+                long: GEO && GEO.longitude ? GEO.longitude : "",
+                lat: GEO && GEO.latitude ? GEO.latitude : ""
             },
             success: function(response) {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     console.log("sechduling call");
                     _clearPhoneCallQueue();
                     _clearFormDate();
@@ -243,7 +224,7 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function submitFeedback(feedback) {
         var callId = _getCallId();
-        if (callId && (feedback.text || (feedback.feel && feedback.feel != 1))) {
+        if (callId && (feedback.text || (feedback.feel && feedback.feel !== 1))) {
             $.ajax({
                 type: "get",
                 url: "https://ws.ubicall.com/webservice/get_feedback.php",
@@ -255,7 +236,7 @@ var UbiCallManager = UbiCallManager || (function() {
                 }
             });
         } else {
-            console.log('no thing inportant to feedback it');
+            console.log("no thing inportant to feedback it");
         }
         _removeCallId();
         goToHomeScreen();
@@ -263,21 +244,21 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function setPhoneCallQueue(queue) {
         PHONE_SUBMIT_QUEUE = queue;
-        localStorage.setItem('queue', queue);
+        localStorage.setItem("queue", queue);
     }
 
     function _getPhoneCallQueue() {
-        return localStorage.getItem('queue');
+        return localStorage.getItem("queue");
     }
 
     function _clearPhoneCallQueue() {
         PHONE_SUBMIT_QUEUE = null;
-        localStorage.removeItem('queue');
+        localStorage.removeItem("queue");
     }
 
     function setFormDate(data) {
         FORM_DATA = data;
-        localStorage.setItem('formData', JSON.stringify(data));
+        localStorage.setItem("formData", JSON.stringify(data));
     }
 
     function send_form(data,email_id){
@@ -303,12 +284,30 @@ var UbiCallManager = UbiCallManager || (function() {
 
 
     function _getFormDate(data) {
-        return JSON.parse(localStorage.getItem('formData'));
+        return JSON.parse(localStorage.getItem("formData"));
     }
 
     function _clearFormDate() {
         FORM_DATA = null;
-        localStorage.removeItem('formData');
+        localStorage.removeItem("formData");
+    }
+
+    var GEO = GEO || _getGeoInfo();
+    var SIP = _getSipInfo();
+    var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
+    // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
+    var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
+    var FORM_DATA = FORM_DATA || _getFormDate();
+
+    if (LICENSE) {
+        _saveLicenceKey(LICENSE);
+    }
+
+    if (!GEO) {
+        $.when(_initGeo()).done(function(_geo) {
+            GEO = _geo;
+            _saveGeoInfo(GEO);
+        });
     }
 
     return {
@@ -326,5 +325,5 @@ var UbiCallManager = UbiCallManager || (function() {
         goToFeedBackScreen: goToFeedBackScreen,
         fallBackToErrorPage: _someThingGoWrong,
         submitFeedback: submitFeedback
-    }
+    };
 }());

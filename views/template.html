@@ -171,10 +171,15 @@
         if ( !form_id ) {
           UbiCallManager.fallBackToErrorPage();
         } else {
-          var formData = JSON.stringify($('form#'+form_id).serializeArray());
+          var formData = JSON.stringify($("form#"+form_id).serializeArray());
           // formData like // [{"name":"Enter the last name of the person you wish to speak with","value":"name xxx"}]
+<<<<<<< HEAD
           //TODO should be replaced to be {'Enter the last name of the person you wish to speak with' : 'name xxx' }
           var qid = $('form#' + form_id + ' #did').val();
+=======
+          //TODO should be replaced to be {"Enter the last name of the person you wish to speak with" : "name xxx" }
+          var qid = $("form#" + form_id + " #qid").val();
+>>>>>>> 040c532bb1764bd51c4dd1258951914fcc17a2c0
           UbiCallManager.setFormDate(formData);
           UbiCallManager.setPhoneCallQueue(qid);
           UbiCallManager.goToCallOptions();
@@ -193,24 +198,24 @@
       }
 
       $("#sele-time").click(function() {
-        $('#hou').prop('readonly', false);
-        $('#min').prop('readonly', false);
+        $("#hou").prop("readonly", false);
+        $("#min").prop("readonly", false);
       });
       $("#asap").click(function() {
-        $('#hou').attr('readonly', 'readonly');
-        $('#min').attr('readonly', 'readonly');
+        $("#hou").attr("readonly", "readonly");
+        $("#min").attr("readonly", "readonly");
       });
 
       helpers.submitPhoneCall = function() {
-        var phoneNumber = $('#phone').val();
+        var phoneNumber = $("#phone").val();
         var time;
-        if ($('#sele-time').is(':checked')) {
-          time = $('#hou').text() + ':' + $('#min').text();
+        if ($("#sele-time").is(":checked")) {
+          time = $("#hou").text() + ":" + $("#min").text();
         }
         if (phoneNumber) {
           UbiCallManager.schedulePhoneCall(phoneNumber, time);
         } else {
-          $('.phoneNumber').addClass('has-error');
+          $(".phoneNumber").addClass("has-error");
         }
       }
 
@@ -218,7 +223,7 @@
         feedback.feel = you;
       }
       helpers.sendFeedBack = function() {
-        feedback.text = $('#feedback-message').val();
+        feedback.text = $("#feedback-message").val();
         UbiCallManager.submitFeedback(feedback)
       }
 
@@ -234,18 +239,18 @@
 
                 var filter = $(this).val(),
                 count = 0;
-                $("body div[data-role='page']  ").each(function() {
+                $("body div[data-role="page"]  ").each(function() {
 
                   
-                 if( $(this).attr("id") =='callOptions' ||$(this).attr("id") =='submitPhoneCall' ||$(this).attr("id") =='phoneCallScheduled' ||$(this).attr("id") =='callFeedback' ||$(this).attr("id") == 'sorry' ){}
+                 if( $(this).attr("id") ==="callOptions" ||$(this).attr("id") ==="submitPhoneCall" ||$(this).attr("id") ==="phoneCallScheduled" ||$(this).attr("id") ==="callFeedback" ||$(this).attr("id") === "sorry" ){}
                     
                     else{
 
                         if ($(this).find("h3").text().search(new RegExp(filter, "i")) > 0) {
                            
                             var id = $(this).attr("id");
-                            var a = $('<a/>').attr('href', '#' + id).append($(this).find("h3").text());
-                            var li = $('<li/>').append(a);
+                            var a = $("<a/>").attr("href", "#" + id).append($(this).find("h3").text());
+                            var li = $("<li/>").append(a);
                             $(".search-list").append(li);
                             count++;
                         }
@@ -291,7 +296,7 @@ var isMobile = {
 };
 if( isMobile.any() ) {
 
-  document.getElementById('receive-web').style.visibility = 'hidden';
+  document.getElementById("receive-web").style.visibility = "hidden";
 
 }
 
