@@ -14,7 +14,7 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
     function _goTosubmitPhoneCall() {
-      alert("here");
+        alert("here");
         window.location.hash = "submitPhoneCall";
 
     }

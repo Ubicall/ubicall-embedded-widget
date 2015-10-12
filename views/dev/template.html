@@ -51,7 +51,7 @@
         <h3>Support Agent</h3>
       </div>
       <div class="ubi-pages-phone">
-        <div id="test">
+        <div id="test"  onload="UbicallManager.getWorkingHours()">
         <img src="https://cdn.dev.ubicall.com/static/ubicall/images/time-icon.png" class="phone-icon" alt="" />
         <h2>Average Waiting Time</h2>
         <h3>ASAP</h3>
@@ -66,10 +66,11 @@
               <label>
                 <input type="radio" name="optradio" id="sele-time">Select Time</label>
             </div>
-            <div class="input-time">
-              <input type="text" class="form-control input-phone" placeholder="Hours" id="hou" readonly> -
-              <input type="text" class="form-control input-phone" placeholder="Minutes" id="min" readonly>
-            </div>
+              <div class="input-time">
+                <select id="hou" readonly></select>
+                <select id="min" readonly></select>
+              </div>
+
             <div class="phoneNumber form-group">
               <input type="text" id="phone" name="phone" class="form-control" placeholder="Please enter your phone number">
             </div>
