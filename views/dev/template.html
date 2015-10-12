@@ -300,9 +300,8 @@ if( isMobile.any() ) {
           var select = document.getElementById("hou");
           var select2 = document.getElementById("min");
           var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
-          var waiting_time = Math.floor(response.waiting);
+          //var waiting_time = Math.floor(response.waiting);
           var waiting_time=10;
-
           var i,j;
           if (remaining_hours > 0) {
              i = 0;
