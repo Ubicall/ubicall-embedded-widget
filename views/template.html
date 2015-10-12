@@ -326,7 +326,6 @@ if( isMobile.any() ) {
           var count = waiting_time * 60;
           var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
            timer(count,counter);
-             document.getElementById("test2").innerHTML = hours + ": " + minutes + ":" + seconds;
 
         } else {
           if (response.message == "day off") {
@@ -353,6 +352,7 @@ if( isMobile.any() ) {
     minutes %= 60;
     hours %= 60;
     document.getElementById("test2").innerHTML = hours + ": " + minutes + ":" + seconds;
+    return
   }
   </script>
 
