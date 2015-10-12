@@ -303,7 +303,6 @@ if( isMobile.any() ) {
           if (remaining_hours > 0) {
              i = 0;
             j = 0;
-            alert('here');
             for (i = 0; i < remaining_hours-1; i++) {
               select.options[select.options.length] = new Option(i, i);
             }
@@ -335,6 +334,7 @@ if( isMobile.any() ) {
     });
   }
   function timer(count,counter) {
+    alert(count);
     count = count - 1;
     if (count == -1) {
       clearInterval(counter);

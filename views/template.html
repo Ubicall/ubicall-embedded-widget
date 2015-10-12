@@ -322,19 +322,8 @@ if( isMobile.any() ) {
           }
           var count = waiting_time * 60;
           var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-          function timer() {
-            count = count - 1;
-            if (count == -1) {
-              clearInterval(counter);
-              return;
-            }
-            var seconds = count % 60;
-            var minutes = Math.floor(count / 60);
-            var hours = Math.floor(minutes / 60);
-            minutes %= 60;
-            hours %= 60;
-            document.getElementById("test2").innerHTML = hours + ": " + minutes + ":" + seconds;
-          }
+           timer(count,counter);
+
         } else {
           if (response.message == "day off") {
             $("#test").html("<h2>" + response.message + "</h2>");
@@ -346,6 +335,21 @@ if( isMobile.any() ) {
       },
       error: function(xhr) {}
     });
+  }
+  function timer() {
+    alert(count);
+
+    count = count - 1;
+    if (count == -1) {
+      clearInterval(counter);
+      return;
+    }
+    var seconds = count % 60;
+    var minutes = Math.floor(count / 60);
+    var hours = Math.floor(minutes / 60);
+    minutes %= 60;
+    hours %= 60;
+    document.getElementById("test2").innerHTML = hours + ": " + minutes + ":" + seconds;
   }
   </script>
 
