@@ -194,11 +194,8 @@
         $("#min").prop("readonly", false);
       });
       $("#asap").click(function() {
-        $('#hou').attr('disabled', true);
-        $('#min').attr('disabled', true);
-
-    //    $("#hou").attr("readonly", "readonly");
-    //    $("#min").attr("readonly", "readonly");
+        $("#hou").attr("readonly", "readonly");
+        $("#min").attr("readonly", "readonly");
       });
 
       helpers.submitPhoneCall = function() {
@@ -292,8 +289,6 @@ if( isMobile.any() ) {
   <script>
   function getWorkingHours(queue) {
     var offset = new Date().getTimezoneOffset()/60;
-    alert("https://api.dev.ubicall.com/v1/workinghours/"+offset+"/"+queue+"/");
-    var waiting_time;
     $.ajax({
       type: "GET",
       url: "https://api.dev.ubicall.com/v1/workinghours/"+offset+"/"+queue+"/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwZXJtaXNzaW9ucyI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImxhc3RfbG9naW4iOjE0NDQ2NDMwMDg2MjksImlhdCI6MTQ0NDY0MzAwOCwiZXhwIjoxNDQ1MjQ3ODA4LCJpc3MiOiJ1YmljYWxsIn0.lzyILhavfofrMIsJrvfvsYXg1Q-gcaSBhUsB_7S74Ho",
@@ -304,7 +299,6 @@ if( isMobile.any() ) {
           var select2 = document.getElementById("min");
           var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
           var waiting_time = Math.floor(response.waiting);
-
           var i,j;
           if (remaining_hours > 0) {
              i = 0;
@@ -324,7 +318,6 @@ if( isMobile.any() ) {
             }
           }
           var count = waiting_time * 60;
-          alert(count);
           if(count == 0){
               document.getElementById("test2").innerHTML = 00 + ":" + 00+ ":" + 00;
           }
@@ -341,9 +334,7 @@ if( isMobile.any() ) {
           minutes %= 60;
           hours %= 60;
            document.getElementById("test2").innerHTML = hours+ ": "+minutes +":" +seconds;
-
         }
-
         } else {
           if (response.message == "day off") {
             $("#test").html("<h2>" + response.message + "</h2>");
