@@ -109,7 +109,6 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function getWorkingHours() {
         var waiting_time;
-        alert("here");
         $.ajax({
             type: "GET",
             url: "https://api.dev.ubicall.com/v1/time/-2/4/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcHBfaWQiOiIxMjM0NTY3OCIsImVtYWlsIjoiYWF0ZWZAcm9ja2V0bWFpbC5jb20iLCJsaWNlbnNlX2tleSI6ImU2MDUzZWI4ZDM1ZTAyYWU0MGJlZWVhY2VmMjAzYzFhIiwibGFzdF9sb2dpbiI6IjE0OjA0OjE0IiwiaWF0IjoxNDQyNzU3ODgyLCJleHAiOjE0NDMzNjI2ODJ9.QNcUed2l8e2N8NzCUwCirfLM9Mu_hLSHZ8-JCeHolZ0",
@@ -368,7 +367,6 @@ var UbiCallManager = UbiCallManager || (function() {
         goTosubmitPhoneCall: _goTosubmitPhoneCall,
         goToFeedBackScreen: goToFeedBackScreen,
         fallBackToErrorPage: _someThingGoWrong,
-        submitFeedback: submitFeedback,
-        getWorkingHours: getWorkingHours
+        submitFeedback: submitFeedback
     };
 }());
