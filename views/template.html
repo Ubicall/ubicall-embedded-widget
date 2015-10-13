@@ -195,10 +195,10 @@
           if(output[0]==="closed"){
             document.getElementById("result").innerHTML=output[0] + "\n"+"Starts:"+output[1]+ "\n"+"Closes:"+output[2];
           }
-          elseif(output[0]==="day off"){
+          if(output[0]==="day off"){
             document.getElementById("result").innerHTML=output[0] ;
           }
-          else{
+            if(output[0]=='successful'){
             var select = document.getElementById("hou");
             var select2 = document.getElementById("min");
             if(output[0] > 0){
