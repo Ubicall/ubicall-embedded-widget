@@ -275,9 +275,8 @@ var UbiCallManager = UbiCallManager || (function() {
         localStorage.removeItem("formData");
     }
 
-    function getWorkingHours(queue) {
+    function getWorkingHours(queue, result) {
         var offset = new Date().getTimezoneOffset() / 60;
-        var result;
         $.ajax({
             type: "GET",
             url: "https://api.dev.ubicall.com/v1/workinghours/" + queue + "/" + offset + "/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0.VcOh1Eemx3Qr6KXIJRT2M1dHQBwJbkHhGIoaywWcVDg",
@@ -334,7 +333,7 @@ var UbiCallManager = UbiCallManager || (function() {
                     }
                     if (response.message === "closed") {
                         console.log("it is closed");
-                        result = response.message;
+                        result(response.message);
 
                         //  $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
                     }
@@ -342,7 +341,6 @@ var UbiCallManager = UbiCallManager || (function() {
             },
             error: function(xhr) {}
         });
-        return result;
     }
 
     var GEO = GEO || _getGeoInfo();
