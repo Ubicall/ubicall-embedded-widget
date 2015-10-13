@@ -193,7 +193,7 @@
         UbiCallManager.getWorkingHours(queue,function(output){
           if(output[0]==="closed"){
             console.log('it is closed');
-             document.getElementById("result").innerHTML=output[0] +":"+output[1]+":"+output[2];
+            document.getElementById("result").innerHTML=output[0] + "\n Starts"+output[1]+ "\n Closes:"+output[2];
           }
     //        document.getElementById("result").innerHTML=output.message +":"+output.starts+":"+output.ends;
         });
