@@ -200,7 +200,7 @@
           if(output[0]=='successful'){
             var select = document.getElementById("hou");
             var select2 = document.getElementById("min");
-            if(output[0] > 0){
+            if(output[1] > 0){
               for (i = 0; i < output[1] - 1; i++) {
                   select.options[select.options.length] = new Option(i, i);
               }
