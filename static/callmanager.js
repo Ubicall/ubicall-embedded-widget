@@ -338,38 +338,38 @@ var UbiCallManager = UbiCallManager || (function() {
             error: function(xhr) {}
         });
     }
-}
-var GEO = GEO || _getGeoInfo();
-var SIP = _getSipInfo();
-var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
-// page navigation load script again and clear these variable [till we put all widget in single page , load only once]
-var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
-var FORM_DATA = FORM_DATA || _getFormDate();
 
-if (LICENSE) {
-    _saveLicenceKey(LICENSE);
-}
+    var GEO = GEO || _getGeoInfo();
+    var SIP = _getSipInfo();
+    var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
+    // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
+    var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
+    var FORM_DATA = FORM_DATA || _getFormDate();
 
-if (!GEO) {
-    $.when(_initGeo()).done(function(_geo) {
-        GEO = _geo;
-        _saveGeoInfo(GEO);
-    });
-}
+    if (LICENSE) {
+        _saveLicenceKey(LICENSE);
+    }
 
-return {
-    scheduleSipCall: scheduleSipCall,
-    schedulePhoneCall: schedulePhoneCall,
-    cancleCurrentSipCall: cancleCurrentSipCall,
-    setPhoneCallQueue: setPhoneCallQueue,
-    setFormDate: setFormDate,
-    getSipInfo: _getSipInfo,
-    clearSipInfo: _removeSipInfo,
-    goToHomeScreen: goToHomeScreen,
-    goToCallOptions: _goToCallOptions,
-    goTosubmitPhoneCall: _goTosubmitPhoneCall,
-    goToFeedBackScreen: goToFeedBackScreen,
-    fallBackToErrorPage: _someThingGoWrong,
-    submitFeedback: submitFeedback
-};
+    if (!GEO) {
+        $.when(_initGeo()).done(function(_geo) {
+            GEO = _geo;
+            _saveGeoInfo(GEO);
+        });
+    }
+
+    return {
+        scheduleSipCall: scheduleSipCall,
+        schedulePhoneCall: schedulePhoneCall,
+        cancleCurrentSipCall: cancleCurrentSipCall,
+        setPhoneCallQueue: setPhoneCallQueue,
+        setFormDate: setFormDate,
+        getSipInfo: _getSipInfo,
+        clearSipInfo: _removeSipInfo,
+        goToHomeScreen: goToHomeScreen,
+        goToCallOptions: _goToCallOptions,
+        goTosubmitPhoneCall: _goTosubmitPhoneCall,
+        goToFeedBackScreen: goToFeedBackScreen,
+        fallBackToErrorPage: _someThingGoWrong,
+        submitFeedback: submitFeedback
+    };
 }());
