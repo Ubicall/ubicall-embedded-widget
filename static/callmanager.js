@@ -333,7 +333,11 @@ var UbiCallManager = UbiCallManager || (function() {
                     }
                     if (response.message === "closed") {
                         console.log("it is closed");
-                        result(response.message, response.starts, response.ends);
+                        var array = [];
+                        array[0] = response.message;
+                        array[1] = response.starts;
+                        array[2] = response.ends;
+                        result(array);
 
                         //  $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
                     }
