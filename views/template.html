@@ -190,7 +190,11 @@
           UbiCallManager.goToCallOptions();
         }
       }
-
+      helpers.getHours=function(queue){
+        UbiCallManager.getWorkingHours(queue,function(output){
+            document.getElementById("result").innerHTML=output;
+        });
+}
       $("#sele-time").click(function() {
         $("#hou").prop("readonly", false);
         $("#min").prop("readonly", false);
@@ -228,7 +232,7 @@
 
                 var filter = $(this).val(),
                 count = 0;
-                $("body div[data-role="page"]  ").each(function() {
+                $("body div[data-role='page']  ").each(function() {
 
 
                  if( $(this).attr("id") ==="callOptions" ||$(this).attr("id") ==="submitPhoneCall" ||$(this).attr("id") ==="phoneCallScheduled" ||$(this).attr("id") ==="callFeedback" ||$(this).attr("id") === "sorry" ){}

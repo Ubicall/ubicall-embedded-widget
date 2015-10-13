@@ -177,6 +177,7 @@
 
       helpers.submitCallForm = function(form_id) {
         if ( !form_id ) {
+
           UbiCallManager.fallBackToErrorPage();
         } else {
           var formData = JSON.stringify($("form#"+form_id).serializeArray());
@@ -188,6 +189,10 @@
           UbiCallManager.goToCallOptions();
         }
       }
+      helpers.getHours=function(queue){
+        var result = UbiCallManager.getWorkingHours(queue,function(output));
+        document.getElementById("result").innerHTML=result;
+    }
 
       $("#sele-time").click(function() {
         $("#hou").prop("readonly", false);
@@ -226,7 +231,7 @@
 
                 var filter = $(this).val(),
                 count = 0;
-                $("body div[data-role="page"]  ").each(function() {
+                $("body div[data-role='page']  ").each(function() {
 
 
                  if( $(this).attr("id") ==="callOptions" ||$(this).attr("id") ==="submitPhoneCall" ||$(this).attr("id") ==="phoneCallScheduled" ||$(this).attr("id") ==="callFeedback" ||$(this).attr("id") === "sorry" ){}
