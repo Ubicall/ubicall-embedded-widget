@@ -279,7 +279,7 @@ var UbiCallManager = UbiCallManager || (function() {
         var offset = new Date().getTimezoneOffset() / 60;
         $.ajax({
             type: "GET",
-            url: "https://api.dev.ubicall.com/v1/workinghours/-2/26?access_token=eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0",
+            url: "https://api.dev.ubicall.com/v1/workinghours/" + queue + "/" + offset + "/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0.VcOh1Eemx3Qr6KXIJRT2M1dHQBwJbkHhGIoaywWcVDg",
             contentType: "application/json",
 
             success: function(response) {
