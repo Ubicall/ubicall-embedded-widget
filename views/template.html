@@ -201,6 +201,7 @@
             if(output[0]=='successful'){
             var select = document.getElementById("hou");
             var select2 = document.getElementById("min");
+            var i,j;
             if(output[1] > 0){
               for (i = 0; i < array[0] - 1; i++) {
                   select.options[select.options.length] = new Option(i, i);
@@ -210,6 +211,7 @@
               }
             }
             else {
+                i=0;
                 select.options[select.options.length] = new Option(i, i);
                 for (i = 0; i <= array[0]; i++) {
                     select2.options[select2.options.length] = new Option(i, i);
