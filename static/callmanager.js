@@ -277,9 +277,10 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function getWorkingHours(queue, result) {
         var offset = new Date().getTimezoneOffset() / 60;
+        var array = [];
         $.ajax({
             type: "GET",
-            url: "https://api.dev.ubicall.com/v1/workinghours/" + queue + "/" + offset + "/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0.VcOh1Eemx3Qr6KXIJRT2M1dHQBwJbkHhGIoaywWcVDg",
+            url: "https://api.dev.ubicall.com/v1/workinghours/" + offset + "/" + queue + "/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0.VcOh1Eemx3Qr6KXIJRT2M1dHQBwJbkHhGIoaywWcVDg",
             contentType: "application/json",
 
             success: function(response) {
@@ -332,8 +333,6 @@ var UbiCallManager = UbiCallManager || (function() {
                         $("#result").html("<h2>" + response.message + "</h2>");
                     }
                     if (response.message === "closed") {
-                        console.log("it is closed");
-                        var array = [];
                         array[0] = response.message;
                         array[1] = response.starts;
                         array[2] = response.ends;
