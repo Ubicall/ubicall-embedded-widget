@@ -192,7 +192,8 @@
       }
       helpers.getHours=function(queue){
         UbiCallManager.getWorkingHours(queue,function(output){
-            document.getElementById("result").innerHTML=output;
+          console.log(output.starts);
+        //    document.getElementById("result").innerHTML=output.message +":"+output.starts+":"+output.ends;
         });
 }
       $("#sele-time").click(function() {
