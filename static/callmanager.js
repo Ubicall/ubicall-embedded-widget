@@ -331,8 +331,6 @@ var UbiCallManager = UbiCallManager || (function() {
                 } else {
                     if (response.message === "day off") {
                         array[0] = response.message;
-                        array[1] = response.starts;
-                        array[2] = response.ends;
                         result(array);
                     }
                     if (response.message === "closed") {
