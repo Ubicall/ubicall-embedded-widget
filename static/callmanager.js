@@ -277,22 +277,25 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function getWorkingHours(queue, result) {
         var offset = new Date().getTimezoneOffset() / 60;
+        var array = [];
         $.ajax({
             type: "GET",
-            url: "https://api.dev.ubicall.com/v1/workinghours/" + queue + "/" + offset + "/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0.VcOh1Eemx3Qr6KXIJRT2M1dHQBwJbkHhGIoaywWcVDg",
+            url: "https://api.dev.ubicall.com/v1/workinghours/" + offset + "/" + queue + "/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0.VcOh1Eemx3Qr6KXIJRT2M1dHQBwJbkHhGIoaywWcVDg",
             contentType: "application/json",
 
             success: function(response) {
                 if (response.message === "successful") {
-
+                    array[0] = response.message;
                     var select = document.getElementById("hou");
                     var select2 = document.getElementById("min");
                     var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
                     var waiting_time = Math.floor(response.waiting);
+
                     var i = 0,
                         j = 0;
                     if (remaining_hours > 0) {
-
+                        array[1] = remaining_hours;
+                        array[2] = waiting_time;
                         for (i = 0; i < remaining_hours - 1; i++) {
                             select.options[select.options.length] = new Option(i, i);
                         }
@@ -301,7 +304,7 @@ var UbiCallManager = UbiCallManager || (function() {
                         }
                     } else {
                         var min = Math.floor(response.remaining);
-
+                        array[1] = min;
                         select.options[select.options.length] = new Option(i, i);
                         for (i = 0; i <= min; i++) {
                             select2.options[select2.options.length] = new Option(i, i);
@@ -326,14 +329,18 @@ var UbiCallManager = UbiCallManager || (function() {
                                     document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
 
                                 }*/
+                    result(array);
 
                 } else {
                     if (response.message === "day off") {
-                        $("#result").html("<h2>" + response.message + "</h2>");
+                        array[0] = response.message;
+                        result(array);
                     }
                     if (response.message === "closed") {
-                        console.log("it is closed");
-                        result(response.message, response.starts, response.ends);
+                        array[0] = response.message;
+                        array[1] = response.starts;
+                        array[2] = response.ends;
+                        result(array);
 
                         //  $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
                     }
