@@ -190,8 +190,10 @@
         }
       }
       helpers.getHours=function(queue){
-        var result = UbiCallManager.getWorkingHours(queue,function(output));
-        document.getElementById("result").innerHTML=result;
+        UbiCallManager.getWorkingHours(queue,function(output){
+            document.getElementById("result").innerHTML=output;
+        });
+
     }
 
       $("#sele-time").click(function() {
