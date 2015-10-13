@@ -191,7 +191,8 @@
       }
       helpers.getHours=function(queue){
         UbiCallManager.getWorkingHours(queue,function(output){
-            document.getElementById("asap2").innerHTML=output;
+          console.log(output.starts);
+            document.getElementById("result").innerHTML=output.message +":"+output.starts+":"+output.ends+;
         });
 
     }
