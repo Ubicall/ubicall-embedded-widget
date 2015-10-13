@@ -279,7 +279,7 @@ var UbiCallManager = UbiCallManager || (function() {
       console.log('heree');
         var offset = new Date().getTimezoneOffset() / 60;
         return offset;
-      /*  $.ajax({
+        $.ajax({
             type: "GET",
             url: "https://api.dev.ubicall.com/v1/workinghours/-2/26?access_token=eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0",
             contentType: "application/json",
@@ -338,7 +338,7 @@ var UbiCallManager = UbiCallManager || (function() {
                 }
             },
             error: function(xhr) {}
-        });*/
+        });
     }
 
     var GEO = GEO || _getGeoInfo();
