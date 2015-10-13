@@ -335,13 +335,14 @@ var UbiCallManager = UbiCallManager || (function() {
                     if (response.message === "closed") {
                         console.log("it is closed");
                         result = response.message;
-                        return result;
+
                         //  $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
                     }
                 }
             },
             error: function(xhr) {}
         });
+        return result;
     }
 
     var GEO = GEO || _getGeoInfo();
