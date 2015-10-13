@@ -276,9 +276,7 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
     function getWorkingHours(queue) {
-      console.log('heree');
         var offset = new Date().getTimezoneOffset() / 60;
-        return offset;
         $.ajax({
             type: "GET",
             url: "https://api.dev.ubicall.com/v1/workinghours/-2/26?access_token=eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0",
@@ -286,6 +284,7 @@ var UbiCallManager = UbiCallManager || (function() {
 
             success: function(response) {
                 if (response.message === "successful") {
+
                     var select = document.getElementById("hou");
                     var select2 = document.getElementById("min");
                     var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
@@ -312,28 +311,31 @@ var UbiCallManager = UbiCallManager || (function() {
                     if (count === 0) {
                         document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
                     }
-                    var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-                    function timer() {
-                        count = count - 1;
-                        if (count === -1) {
-                            clearInterval(counter);
-                            return;
-                        }
-                        var seconds = count % 60;
-                        var minutes = Math.floor(count / 60);
-                        var hours = Math.floor(minutes / 60);
-                        minutes %= 60;
-                        hours %= 60;
-                        document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
+                    //    var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+                    /*            function timer() {
+                                    count = count - 1;
+                                    if (count === -1) {
+                                        clearInterval(counter);
+                                        return;
+                                    }
+                                    var seconds = count % 60;
+                                    var minutes = Math.floor(count / 60);
+                                    var hours = Math.floor(minutes / 60);
+                                    minutes %= 60;
+                                    hours %= 60;
+                                    document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
 
-                    }
+                                }*/
 
                 } else {
                     if (response.message === "day off") {
                         $("#result").html("<h2>" + response.message + "</h2>");
                     }
                     if (response.message === "closed") {
-                        $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
+                        console.log("it is closed");
+                        var result = response.message;
+                        return result;
+                        //  $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
                     }
                 }
             },
@@ -373,6 +375,6 @@ var UbiCallManager = UbiCallManager || (function() {
         goToFeedBackScreen: goToFeedBackScreen,
         fallBackToErrorPage: _someThingGoWrong,
         submitFeedback: submitFeedback,
-        getWorkingHours:getWorkingHours
+        getWorkingHours: getWorkingHours
     };
 }());
