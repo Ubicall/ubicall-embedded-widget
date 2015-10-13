@@ -190,6 +190,14 @@
           UbiCallManager.goToCallOptions();
         }
       }
+      helpers.getHours=function(queue){
+        if(queue){
+
+        var result = UbiCallManager.getWorkingHours(queue);
+        document.getElementById("asap2").innerHTML="here";
+        )
+      }
+    }
 
       $("#sele-time").click(function() {
         $("#hou").prop("readonly", false);
