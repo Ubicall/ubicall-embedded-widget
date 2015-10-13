@@ -177,6 +177,7 @@
 
       helpers.submitCallForm = function(form_id) {
         if ( !form_id ) {
+
           UbiCallManager.fallBackToErrorPage();
         } else {
           var formData = JSON.stringify($("form#"+form_id).serializeArray());
@@ -188,7 +189,14 @@
           UbiCallManager.goToCallOptions();
         }
       }
+      helpers.getHours=function(queue){
+        if(queue){
 
+        var result = UbiCallManager.getWorkingHours(queue);
+        document.getElementById("asap2").innerHTML="here";
+        )
+      }
+    }
       $("#sele-time").click(function() {
         $("#hou").prop("readonly", false);
         $("#min").prop("readonly", false);
