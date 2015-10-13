@@ -370,6 +370,7 @@ var UbiCallManager = UbiCallManager || (function() {
         goTosubmitPhoneCall: _goTosubmitPhoneCall,
         goToFeedBackScreen: goToFeedBackScreen,
         fallBackToErrorPage: _someThingGoWrong,
-        submitFeedback: submitFeedback
+        submitFeedback: submitFeedback,
+        getWorkingHours:getWorkingHours
     };
 }());
