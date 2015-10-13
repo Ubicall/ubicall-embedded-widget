@@ -285,15 +285,16 @@ var UbiCallManager = UbiCallManager || (function() {
 
             success: function(response) {
                 if (response.message === "successful") {
-
                     var select = document.getElementById("hou");
                     var select2 = document.getElementById("min");
                     var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer
                     var waiting_time = Math.floor(response.waiting);
+
                     var i = 0,
                         j = 0;
                     if (remaining_hours > 0) {
-
+                        array[0] = remaining_hours;
+                        array[1] = waiting_time;
                         for (i = 0; i < remaining_hours - 1; i++) {
                             select.options[select.options.length] = new Option(i, i);
                         }
@@ -302,7 +303,7 @@ var UbiCallManager = UbiCallManager || (function() {
                         }
                     } else {
                         var min = Math.floor(response.remaining);
-
+                        array[0] = min;
                         select.options[select.options.length] = new Option(i, i);
                         for (i = 0; i <= min; i++) {
                             select2.options[select2.options.length] = new Option(i, i);

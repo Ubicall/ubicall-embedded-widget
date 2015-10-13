@@ -194,8 +194,26 @@
           if(output[0]==="closed"){
             document.getElementById("result").innerHTML=output[0] + "\n"+"Starts:"+output[1]+ "\n"+"Closes:"+output[2];
           }
-          if(output[0]==="day off"){
+          elseif(output[0]==="day off"){
             document.getElementById("result").innerHTML=output[0] ;
+          }
+          else{
+            var select = document.getElementById("hou");
+            var select2 = document.getElementById("min");
+            if(output[0] > 0){
+              for (i = 0; i < array[0] - 1; i++) {
+                  select.options[select.options.length] = new Option(i, i);
+              }
+              for (j = 0; j <= 59; j++) {
+                  select2.options[select2.options.length] = new Option(j, j);
+              }
+            }
+            else {
+                select.options[select.options.length] = new Option(i, i);
+                for (i = 0; i <= array[0]; i++) {
+                    select2.options[select2.options.length] = new Option(i, i);
+                }
+            }
           }
     //        document.getElementById("result").innerHTML=output.message +":"+output.starts+":"+output.ends;
         });
