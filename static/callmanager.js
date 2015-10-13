@@ -370,7 +370,6 @@ return {
     goTosubmitPhoneCall: _goTosubmitPhoneCall,
     goToFeedBackScreen: goToFeedBackScreen,
     fallBackToErrorPage: _someThingGoWrong,
-    submitFeedback: submitFeedback,
-    getWorkingHours: getWorkingHours
+    submitFeedback: submitFeedback
 };
 }());
