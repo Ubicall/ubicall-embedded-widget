@@ -291,7 +291,8 @@ var UbiCallManager = UbiCallManager || (function() {
                     array[1] = remaining_hours;
                     array[2] = waiting_time;
                     array[3] = min;
-                    var count = waiting_time * 60;
+                    //var count = waiting_time * 60;
+                    var count = 5 * 60;
                     array[4] = count;
                     var counter = setInterval(timer(count, counter), 1000); //1000 will  run it every 1 second
                     result(array);
