@@ -217,16 +217,34 @@
                     select2.options[select2.options.length] = new Option(i, i);
                 }
             }
-            if (array[4] === 0) {
+            if (output[4] === 0) {
                 document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
             }
             else{
-              
-                document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
+              var count = 5 * 60;
+              //array[4] = count;
+              var counter = setInterval(timer(count, counter), 1000); //1000 will  run it every 1 second
+              //  document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
             }
           }
         });
 
+    }
+    function timer(count, counter) {
+        count = count - 1;
+        if (count === -1) {
+            clearInterval(counter);
+            return;
+        }
+        var seconds = count % 60;
+        var minutes = Math.floor(count / 60);
+        var hours = Math.floor(minutes / 60);
+        minutes %= 60;
+        hours %= 60;
+        console.log(seconds);
+        console.log(minutes);
+        console.log(hours);
+        document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
     }
 
       $("#sele-time").click(function() {
