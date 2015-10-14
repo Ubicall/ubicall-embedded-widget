@@ -69,10 +69,10 @@
             </div>
               <div class="input-time">
                 <label>Hours
-                  <select id="hou"></select>
+                  <select id="hou" disabled></select>
                 </label>
                 <label>Minutes
-                <select id="min"></select>
+                <select id="min" disabled></select>
               </label>
               </div>
             <div class="phoneNumber form-group">
@@ -200,9 +200,9 @@
           if(output[0]=='successful'){
             var select = document.getElementById("hou");
             var select2 = document.getElementById("min");
-            var i,j0;
             if(output[1] > 0){
-              for (i = 0; i < output[1] - 1; i++) {
+              var i,j;
+              for (i = 0; i < output[1] ; i++) {
                   select.options[select.options.length] = new Option(i, i);
               }
               for (j = 0; j <= 59; j++) {
@@ -212,23 +212,46 @@
             else {
               i=0;
                 select.options[select.options.length] = new Option(i, i);
-                for (i = 0; i <= output[1]; i++) {
+                for (i = 0; i <= output[3]; i++) {
                     select2.options[select2.options.length] = new Option(i, i);
                 }
             }
+            if (output[2] === 0) {
+                document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
+            }
+            else{
+              console.log(output[2]);
+             var count = output[2] * 60;
+             var counter = setInterval(function(){
+               count = count - 1;
+               if (count == -1) {
+               clearInterval(counter);
+                 return;
+               }
+               var seconds = count % 60;
+               var minutes = Math.floor(count / 60);
+               var hours = Math.floor(minutes / 60);
+               minutes %= 60;
+               hours %= 60;
+                document.getElementById("asap2").innerHTML = hours+ ": "+minutes +":" +seconds;
+             }, 1000); //1000 will  run it every 1 second
+            }
           }
-    //        document.getElementById("result").innerHTML=output.message +":"+output.starts+":"+output.ends;
         });
 
     }
 
       $("#sele-time").click(function() {
-        $("#hou").prop("readonly", false);
-        $("#min").prop("readonly", false);
+        document.getElementById("hou").disabled=false;
+          document.getElementById("min").disabled=false;
+    //   $("#hou").prop("readonly", false);
+//        $("#min").prop("readonly", false);
       });
       $("#asap").click(function() {
-        $("#hou").attr("readonly", "readonly");
-        $("#min").attr("readonly", "readonly");
+        document.getElementById("hou").disabled=true;
+          document.getElementById("min").disabled=true;
+    //    $("#hou").attr("readonly", "readonly");
+    //    $("#min").attr("readonly", "readonly");
       });
 
       helpers.submitPhoneCall = function() {
