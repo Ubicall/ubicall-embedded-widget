@@ -198,6 +198,7 @@
             document.getElementById("result").innerHTML=output[0] ;
           }
           if(output[0]=='successful'){
+            console.log('hereeee');
             var select = document.getElementById("hou");
             var select2 = document.getElementById("min");
             console.log(output[1]);
@@ -214,7 +215,7 @@
               i=0;
               console.log(output[1]);
                 select.options[select.options.length] = new Option(i, i);
-                for (i = 0; i <= output[1]; i++) {
+                for (i = 0; i <= output[3]; i++) {
                     select2.options[select2.options.length] = new Option(i, i);
                 }
             }

@@ -287,23 +287,27 @@ var UbiCallManager = UbiCallManager || (function() {
                     array[0] = response.message;
                     var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer output[0]
                     var waiting_time = Math.floor(response.waiting); //waiting time
-                    /*    if (remaining_hours > 0) {
-                            array[1] = remaining_hours;
-                            array[2] = waiting_time;
-                            for (i = 0; i < remaining_hours - 1; i++) {
-                                select.options[select.options.length] = new Option(i, i);
-                            }
-                            for (j = 0; j <= 59; j++) {
-                                select2.options[select2.options.length] = new Option(j, j);
-                            }
-                        } else {
-                            var min = Math.floor(response.remaining);
-                            array[1] = min;
-                            select.options[select.options.length] = new Option(i, i);
-                            for (i = 0; i <= min; i++) {
-                                select2.options[select2.options.length] = new Option(i, i);
-                            }
-                        }*/
+                    var min = Math.floor(response.remaining);
+                    array[1] = remaining_hours;
+                    array[2] = waiting_time;
+                    array[3] = min;
+                    /*  if (remaining_hours > 0) {
+                          array[1] = remaining_hours;
+                          array[2] = waiting_time;
+                          for (i = 0; i < remaining_hours - 1; i++) {
+                              select.options[select.options.length] = new Option(i, i);
+                          }
+                          for (j = 0; j <= 59; j++) {
+                              select2.options[select2.options.length] = new Option(j, j);
+                          }
+                      } else {
+
+                          array[1] = min;
+                          select.options[select.options.length] = new Option(i, i);
+                          for (i = 0; i <= min; i++) {
+                              select2.options[select2.options.length] = new Option(i, i);
+                          }
+                      }*/
                     var count = waiting_time * 60;
                     if (count === 0) {
                         document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
