@@ -294,7 +294,7 @@ var UbiCallManager = UbiCallManager || (function() {
                     //var count = waiting_time * 60;
                     //    var count = 5 * 60;
                     //  array[4] = count;
-                    //  var counter = setInterval(timer(count, counter), 1000); //1000 will  run it every 1 second
+                    //  var counter = setInterval(timer(), 1000); //1000 will  run it every 1 second
                     result(array);
 
                 } else {
@@ -314,23 +314,6 @@ var UbiCallManager = UbiCallManager || (function() {
         });
     }
 
-    function timer(count, counter) {
-        count = count - 1;
-        if (count === -1) {
-            clearInterval(counter);
-            return;
-        }
-        var seconds = count % 60;
-        var minutes = Math.floor(count / 60);
-        var hours = Math.floor(minutes / 60);
-        minutes %= 60;
-        hours %= 60;
-        console.log(seconds);
-        console.log(minutes);
-        console.log(hours);
-        //      document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
-
-    }
     var GEO = GEO || _getGeoInfo();
     var SIP = _getSipInfo();
     var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
