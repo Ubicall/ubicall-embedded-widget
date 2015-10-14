@@ -6,12 +6,14 @@
     "main": "index.js",
     "scripts": {
         "test": "node_modules/.bin/mocha -w",
-        "js-beautify": "node_modules/.bin/js-beautify -r **/*.js",
+        "js-beautify": "node_modules/.bin/js-beautify -r **/*.js **/**/*.js",
+        "html-beautify": "node_modules/.bin/js-beautify -r --html **/*.html **/**/*.html",
         "jshint": "jshint -c .jshintrc --exclude-path .gitignore .",
         "git-add": "git add --all"
     },
     "pre-commit": [
         "js-beautify",
+        "html-beautify",
         "jshint",
         "git-add"
     ],

@@ -2,217 +2,217 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <link href="https://cdn.ubicall.com/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.ubicall.com/static/font-awesome/css/font-awesome.css" rel="stylesheet">
-  <link href="https://cdn.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <link href="https://cdn.ubicall.com/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.ubicall.com/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="https://cdn.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet">
 
-  <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
-  <script src="https://cdn.ubicall.com/static/jquery-mobile/js/jquery.mobile-1.4.5.min.js"></script>
-  <script src="https://cdn.ubicall.com/static/swfobject/swfobject/swfobject.js"></script>
-  <script src="https://platform.ubicall.com/widget/callmanager.js"></script>
-  <script language="javascript" content-type="text/javascript">
-    var currentCall = {};
-    var rtmpSession;
-    var sessionUser;
-    var flashvars;
+    <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.ubicall.com/static/jquery-mobile/js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://cdn.ubicall.com/static/swfobject/swfobject/swfobject.js"></script>
+    <script src="https://platform.ubicall.com/widget/callmanager.js"></script>
+    <script language="javascript" content-type="text/javascript">
+        var currentCall = {};
+        var rtmpSession;
+        var sessionUser;
+        var flashvars;
 
-    var cred = UbiCallManager.getSipInfo();
+        var cred = UbiCallManager.getSipInfo();
 
-    if (cred.domain && cred.username && cred.password) {
-      flashvars = {
-        rtmp_url: "rtmp://" + cred.domain + "/phone"
-      };
-    } else {
-      UbiCallManager.fallBackToErrorPage();
-    }
+        if (cred.domain && cred.username && cred.password) {
+            flashvars = {
+                rtmp_url: "rtmp://" + cred.domain + "/phone"
+            };
+        } else {
+            UbiCallManager.fallBackToErrorPage();
+        }
 
-    var params = {
-      allowScriptAccess: "always"
-    };
+        var params = {
+            allowScriptAccess: "always"
+        };
 
-    function hangup() {
-      if (currentCall.uuid) {
-        $("#flash")[0].hangup(currentCall.uuid);
-      } else {
-        error("no call to hangup");
-      }
-      $("#answer").addClass("hide");
-      $("#hangup").addClass("hide");
-      $("#agent-img").addClass("hide");
-    }
+        function hangup() {
+            if (currentCall.uuid) {
+                $("#flash")[0].hangup(currentCall.uuid);
+            } else {
+                error("no call to hangup");
+            }
+            $("#answer").addClass("hide");
+            $("#hangup").addClass("hide");
+            $("#agent-img").addClass("hide");
+        }
 
-    function answer() {
-      if (currentCall.uuid) {
-        $("#flash")[0].answer(currentCall.uuid);
-        $("#answer").addClass("disabled");
-        $("#answer").prop("disabled", true);
-      } else {
-        error("no call to answer");
-        $("#answer").addClass("hide");
-        $("#hangup").addClass("hide");
-        $("#agent-img").addClass("hide");
-      }
-    }
+        function answer() {
+            if (currentCall.uuid) {
+                $("#flash")[0].answer(currentCall.uuid);
+                $("#answer").addClass("disabled");
+                $("#answer").prop("disabled", true);
+            } else {
+                error("no call to answer");
+                $("#answer").addClass("hide");
+                $("#hangup").addClass("hide");
+                $("#agent-img").addClass("hide");
+            }
+        }
 
-    function onCallState(uuid, state) {
-      if (currentCall.uuid === uuid) {
-        currentCall.log = currentCall.log || [];
-        currentCall.log.push(state);
-      }
-    }
+        function onCallState(uuid, state) {
+            if (currentCall.uuid === uuid) {
+                currentCall.log = currentCall.log || [];
+                currentCall.log.push(state);
+            }
+        }
 
-    function onIncomingCall(uuid, name, number, account, evt) {
-      currentCall = {};
-      currentCall.uuid = uuid;
-      currentCall.name = name;
-      currentCall.number = number;
-      currentCall.account = account;
-      currentCall.log = [];
-      currentCall.start = currentCall.end = currentCall.duration = null;
-      currentCall.started = false;
-      $("#answer").removeClass("hide");
-      $("#hangup").removeClass("hide");
-      $("#agent-img").removeClass("hide");
-    }
+        function onIncomingCall(uuid, name, number, account, evt) {
+            currentCall = {};
+            currentCall.uuid = uuid;
+            currentCall.name = name;
+            currentCall.number = number;
+            currentCall.account = account;
+            currentCall.log = [];
+            currentCall.start = currentCall.end = currentCall.duration = null;
+            currentCall.started = false;
+            $("#answer").removeClass("hide");
+            $("#hangup").removeClass("hide");
+            $("#agent-img").removeClass("hide");
+        }
 
-    function onDisconnected() {
-      error("Disconnected");
-      setTimeout(function() {
-        info("Connecting...");
-        $("#flash")[0].connect();
-      }, 5000);
-    }
+        function onDisconnected() {
+            error("Disconnected");
+            setTimeout(function() {
+                info("Connecting...");
+                $("#flash")[0].connect();
+            }, 5000);
+        }
 
-    function onHangup(uuid, cause) {
-      callEnded();
-    }
+        function onHangup(uuid, cause) {
+            callEnded();
+        }
 
-    function onDebug(message) {
-      console.log("freeswitch debug : " + message)
-      if (message === "Closing media streams") { // call ended from otherside
-        callEnded();
-      }
-    }
+        function onDebug(message) {
+            console.log("freeswitch debug : " + message)
+            if (message === "Closing media streams") { // call ended from otherside
+                callEnded();
+            }
+        }
 
-    // logout from FS
-    // clear sip data
-    // go to feedback page
-    function callEnded() {
-      logout(sessionUser);
-      UbiCallManager.clearSipInfo();
-      UbiCallManager.goToFeedBackScreen();
-    }
+        // logout from FS
+        // clear sip data
+        // go to feedback page
+        function callEnded() {
+            logout(sessionUser);
+            UbiCallManager.clearSipInfo();
+            UbiCallManager.goToFeedBackScreen();
+        }
 
-    function onConnected(sessionid) {
-      rtmpSession = sessionid;
-      ok("connectd to communication server");
-      login(cred.username + "@" + cred.domain, cred.password);
-    }
+        function onConnected(sessionid) {
+            rtmpSession = sessionid;
+            ok("connectd to communication server");
+            login(cred.username + "@" + cred.domain, cred.password);
+        }
 
-    function login(user, pass) {
-      $("#flash")[0].login(user, pass);
-    }
+        function login(user, pass) {
+            $("#flash")[0].login(user, pass);
+        }
 
-    function logout(account) {
-      $("#flash")[0].logout(account);
-    }
+        function logout(account) {
+            $("#flash")[0].logout(account);
+        }
 
-    function onLogin(status, user, domain) {
-      if (status !== "success") {
-        error("unable to login to communication server, will be redirected to home screen in 4 seconds...");
-        setTimeout(function() {
-          logout(sessionUser);
-          UbiCallManager.goToHomeScreen();
-        }, 4000);
-      } else {
-        sessionUser = user + "@" + domain;
-        $("#flash")[0].register(sessionUser, "");
-        ok("Connected,Please do not close this browser in order to receive the web call");
-      }
-    }
+        function onLogin(status, user, domain) {
+            if (status !== "success") {
+                error("unable to login to communication server, will be redirected to home screen in 4 seconds...");
+                setTimeout(function() {
+                    logout(sessionUser);
+                    UbiCallManager.goToHomeScreen();
+                }, 4000);
+            } else {
+                sessionUser = user + "@" + domain;
+                $("#flash")[0].register(sessionUser, "");
+                ok("Connected,Please do not close this browser in order to receive the web call");
+            }
+        }
 
-    function onLogout(user, domain) {}
+        function onLogout(user, domain) {}
 
-    function onInit() {
-      var mics = eval($("#flash")[0].micList());
-      var current_mic = $("#flash")[0].getMic();
-      ok("connecting with communication server...");
-    }
+        function onInit() {
+            var mics = eval($("#flash")[0].micList());
+            var current_mic = $("#flash")[0].getMic();
+            ok("connecting with communication server...");
+        }
 
-    function ok(message) {
-      $("#info").removeClass("hide");
-      $("#info").addClass("alert alert-success");
-      $("#info").text(message);
-    }
+        function ok(message) {
+            $("#info").removeClass("hide");
+            $("#info").addClass("alert alert-success");
+            $("#info").text(message);
+        }
 
-    function error(message) {
-      $("#info").removeClass("hide");
-      $("#info").addClass("alert alert-danger");
-      $("#info").text(message);
-    }
+        function error(message) {
+            $("#info").removeClass("hide");
+            $("#info").addClass("alert alert-danger");
+            $("#info").text(message);
+        }
 
-    function info(message) {
-      $("#info").removeClass("hide");
-      $("#info").addClass("alert alert-info");
-      $("#info").text(message);
-    }
+        function info(message) {
+            $("#info").removeClass("hide");
+            $("#info").addClass("alert alert-info");
+            $("#info").text(message);
+        }
 
-    $(document).ready(function() {
-      swfobject.embedSWF("https://cdn.ubicall.com/static/ubicall/other/flex/freeswitch.swf",
-        "flash", "250", "150", "9.0.0",
-        "https://cdn.ubicall.com/static/swfobject/swfobject/expressInstall.swf", flashvars, params, []);
+        $(document).ready(function() {
+            swfobject.embedSWF("https://cdn.ubicall.com/static/ubicall/other/flex/freeswitch.swf",
+                "flash", "250", "150", "9.0.0",
+                "https://cdn.ubicall.com/static/swfobject/swfobject/expressInstall.swf", flashvars, params, []);
 
-      if (swfobject.ua.ie) {
-        $("#flash").css("top", "-500px");
-        $("#flash").css("left", "-500px");
-      } else {
-        $("#flash").css("visibility", "hidden");
-      }
-    });
-  </script>
+            if (swfobject.ua.ie) {
+                $("#flash").css("top", "-500px");
+                $("#flash").css("left", "-500px");
+            } else {
+                $("#flash").css("visibility", "hidden");
+            }
+        });
+    </script>
 </head>
 
 <body>
-  <!-- Header -->
+    <!-- Header -->
 
-  <div data-role="page" id="waitingCall">
-    <div data-role="content">
-      <div class="ubi-header">
-        <a onclick="UbiCallManager.cancleCurrentSipCall();javascript:history.go(-1)">
-          <i class="fa fa-chevron-left fa-left"></i>
-        </a>
-        <a href="#" onclick="UbiCallManager.cancleCurrentSipCall();UbiCallManager.goToHomeScreen()">
-          <i class="fa fa-home fa-right"></i>
-        </a>
-        <h3 class="header">Wait For Your Call</h3>
-      </div>
-      <div class="ubi-pages-phone">
-        <div class="ubi-phone-02">
-          <div id="info" class="hide alert alert-info" role="alert">Please do not close this browser in order to receive the web call</div>
-          <div id="agent-img" class="hide phone-img">
-            <img src="https://cdn.ubicall.com/static/ubicall/images/home-pic-01.jpg" alt="" />
-          </div>
+    <div data-role="page" id="waitingCall">
+        <div data-role="content">
+            <div class="ubi-header">
+                <a onclick="UbiCallManager.cancleCurrentSipCall();javascript:history.go(-1)">
+                    <i class="fa fa-chevron-left fa-left"></i>
+                </a>
+                <a href="#" onclick="UbiCallManager.cancleCurrentSipCall();UbiCallManager.goToHomeScreen()">
+                    <i class="fa fa-home fa-right"></i>
+                </a>
+                <h3 class="header">Wait For Your Call</h3>
+            </div>
+            <div class="ubi-pages-phone">
+                <div class="ubi-phone-02">
+                    <div id="info" class="hide alert alert-info" role="alert">Please do not close this browser in order to receive the web call</div>
+                    <div id="agent-img" class="hide phone-img">
+                        <img src="https://cdn.ubicall.com/static/ubicall/images/home-pic-01.jpg" alt="" />
+                    </div>
 
-          <button id="answer" onclick="answer()" class="col-xs-6 col-md-6 btn btn-success hide btn-02">
-            Answer
-          </button>
-          <button id="hangup" onclick="hangup()" class="col-xs-6 col-md-6  btn btn-danger hide btn-04">
-            Hangup
-          </button>
+                    <button id="answer" onclick="answer()" class="col-xs-6 col-md-6 btn btn-success hide btn-02">
+                        Answer
+                    </button>
+                    <button id="hangup" onclick="hangup()" class="col-xs-6 col-md-6  btn btn-danger hide btn-04">
+                        Hangup
+                    </button>
+                </div>
+
+                <div id="flash">
+                    <h1>Alternative content</h1>
+                    <p>
+                        <a href="https://www.adobe.com/go/getflashplayer">
+                            <img src="https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+                        </a>
+                    </p>
+                </div>
+            </div>
         </div>
-
-        <div id="flash">
-          <h1>Alternative content</h1>
-          <p>
-            <a href="https://www.adobe.com/go/getflashplayer">
-              <img src="https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
-            </a>
-          </p>
-        </div>
-      </div>
     </div>
-  </div>
 </body>
 
 </html>
