@@ -51,9 +51,11 @@
         <h3>Support Agent</h3>
       </div>
       <div class="ubi-pages-phone">
+        <div id="result">
         <img src="https://cdn.dev.ubicall.com/static/ubicall/images/time-icon.png" class="phone-icon" alt="" />
-        <h2>Average Waiting Time</h2>
-        <h3>ASAP</h3>
+        <h2 >Average Waiting Time</h2>
+        <h3>  <div id ="asap2">ASAP</div></h3>
+
         <div class="ubi-phone-02">
           <h4>Schedule a call in:</h4>
           <form>
@@ -65,16 +67,21 @@
               <label>
                 <input type="radio" name="optradio" id="sele-time">Select Time</label>
             </div>
-            <div class="input-time">
-              <input type="text" class="form-control input-phone" placeholder="Hours" id="hou" readonly> -
-              <input type="text" class="form-control input-phone" placeholder="Minutes" id="min" readonly>
-            </div>
+              <div class="input-time">
+                <label>Hours
+                  <select id="hou" disabled></select>
+                </label>
+                <label>Minutes
+                <select id="min" disabled></select>
+              </label>
+              </div>
             <div class="phoneNumber form-group">
               <input type="text" id="phone" name="phone" class="form-control" placeholder="Please enter your phone number">
             </div>
             <button type="submit" class="btn btn-default btn-02" onclick="helpers.submitPhoneCall()">Call Me</button>
             <button type="submit" class="btn btn-default btn-03" onclick="UbiCallManager.goToHomeScreen()">Cancel</button>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -170,6 +177,7 @@
 
       helpers.submitCallForm = function(form_id) {
         if ( !form_id ) {
+
           UbiCallManager.fallBackToErrorPage();
         } else {
           var formData = JSON.stringify($("form#"+form_id).serializeArray());
@@ -181,14 +189,69 @@
           UbiCallManager.goToCallOptions();
         }
       }
+      helpers.getHours=function(queue){
+        UbiCallManager.getWorkingHours(queue,function(output){
+          if(output[0]==="closed"){
+            document.getElementById("result").innerHTML=output[0] + "\n"+"Starts:"+output[1]+ "\n"+"Closes:"+output[2];
+          }
+          if(output[0]==="day off"){
+            document.getElementById("result").innerHTML=output[0] ;
+          }
+          if(output[0]=='successful'){
+            var select = document.getElementById("hou");
+            var select2 = document.getElementById("min");
+            if(output[1] > 0){
+              var i,j;
+              for (i = 0; i < output[1] ; i++) {
+                  select.options[select.options.length] = new Option(i, i);
+              }
+              for (j = 0; j <= 59; j++) {
+                  select2.options[select2.options.length] = new Option(j, j);
+              }
+            }
+            else {
+              i=0;
+                select.options[select.options.length] = new Option(i, i);
+                for (i = 0; i <= output[3]; i++) {
+                    select2.options[select2.options.length] = new Option(i, i);
+                }
+            }
+            if (output[2] === 0) {
+                document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
+            }
+            else{
+              console.log(output[2]);
+             var count = output[2] * 60;
+             var counter = setInterval(function(){
+               count = count - 1;
+               if (count == -1) {
+               clearInterval(counter);
+                 return;
+               }
+               var seconds = count % 60;
+               var minutes = Math.floor(count / 60);
+               var hours = Math.floor(minutes / 60);
+               minutes %= 60;
+               hours %= 60;
+                document.getElementById("asap2").innerHTML = hours+ ": "+minutes +":" +seconds;
+             }, 1000); //1000 will  run it every 1 second
+            }
+          }
+        });
+
+    }
 
       $("#sele-time").click(function() {
-        $("#hou").prop("readonly", false);
-        $("#min").prop("readonly", false);
+        document.getElementById("hou").disabled=false;
+          document.getElementById("min").disabled=false;
+    //   $("#hou").prop("readonly", false);
+//        $("#min").prop("readonly", false);
       });
       $("#asap").click(function() {
-        $("#hou").attr("readonly", "readonly");
-        $("#min").attr("readonly", "readonly");
+        document.getElementById("hou").disabled=true;
+          document.getElementById("min").disabled=true;
+    //    $("#hou").attr("readonly", "readonly");
+    //    $("#min").attr("readonly", "readonly");
       });
 
       helpers.submitPhoneCall = function() {
@@ -213,30 +276,30 @@
       }
 
 
-    
+
             $(".search_input").keyup(function() {
                 $(".search-list").empty();
 
                 var filter = $(this).val(),
                 count = 0;
-                $("body div[data-role="page"]  ").each(function() {
+                $("body div[data-role='page']  ").each(function() {
 
-                  
+
                  if( $(this).attr("id") ==="callOptions" ||$(this).attr("id") ==="submitPhoneCall" ||$(this).attr("id") ==="phoneCallScheduled" ||$(this).attr("id") ==="callFeedback" ||$(this).attr("id") === "sorry" ){}
-                    
+
                     else{
 
                         if ($(this).find("h3").text().search(new RegExp(filter, "i")) > 0) {
-                           
+
                             var id = $(this).attr("id");
                             var a = $("<a/>").attr("href", "#" + id).append($(this).find("h3").text());
                             var li = $("<li/>").append(a);
                             $(".search-list").append(li);
                             count++;
                         }
-                        
+
                     }
-                    
+
                 });
 
                 //$("#filter-count").text("Number of Comments = "+count);
@@ -279,6 +342,7 @@ if( isMobile.any() ) {
 }
 
   </script>
+
 
   <!-- js End -->
 
