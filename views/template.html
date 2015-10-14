@@ -222,22 +222,21 @@
                   document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
               }
               else{
-                var count = 5 * 60;
-                console.log(count);
-                var counter = setInterval(function(){
-                  count = count - 1;
-                  if (count === -1) {
-                      clearInterval(counter);
-                      return;
-                  }
-                  var seconds = count % 60;console.log('seconds',seconds);
-                  var minutes = Math.floor(count / 60);
-                  var hours = Math.floor(minutes / 60);
-                  minutes %= 60;console.log('minutes',minutes);
-                  hours %= 60;console.log('hours',hours);
-                  document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
-                }, 1000); //1000 will  run it every 1 second
-                //  document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
+                var count = 5 * 60
+              //  var count = waiting_time * 60;
+               var counter = setInterval(function(){
+                 count = count - 1;
+                 if (count == -1) {
+                 clearInterval(counter);
+                   return;
+                 }
+                 var seconds = count % 60;
+                 var minutes = Math.floor(count / 60);
+                 var hours = Math.floor(minutes / 60);
+                 minutes %= 60;
+                 hours %= 60;
+                  document.getElementById("asap2").innerHTML = hours+ ": "+minutes +":" +seconds;
+               }, 1000); //1000 will  run it every 1 second
               }
           }
         });
