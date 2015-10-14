@@ -69,10 +69,10 @@
             </div>
               <div class="input-time">
                 <label>Hours
-                  <select id="hou" readonly></select>
+                  <select id="hou" disabled></select>
                 </label>
                 <label>Minutes
-                <select id="min" readonly></select>
+                <select id="min" disabled></select>
               </label>
               </div>
             <div class="phoneNumber form-group">
@@ -220,7 +220,7 @@
                 document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
             }
             else{
-             var count = waiting_time * 60;
+             var count = output[2] * 60;
              var counter = setInterval(function(){
                count = count - 1;
                if (count == -1) {
@@ -241,12 +241,16 @@
     }
 
       $("#sele-time").click(function() {
-        $("#hou").prop("readonly", false);
-        $("#min").prop("readonly", false);
+        document.getElementById("hou").disabled=false;
+          document.getElementById("min").disabled=false;
+    //   $("#hou").prop("readonly", false);
+//        $("#min").prop("readonly", false);
       });
       $("#asap").click(function() {
-        $("#hou").attr("readonly", "readonly");
-        $("#min").attr("readonly", "readonly");
+        document.getElementById("hou").disabled=true;
+          document.getElementById("min").disabled=true;
+    //    $("#hou").attr("readonly", "readonly");
+    //    $("#min").attr("readonly", "readonly");
       });
 
       helpers.submitPhoneCall = function() {
