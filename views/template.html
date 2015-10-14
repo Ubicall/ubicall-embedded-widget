@@ -221,6 +221,7 @@
                   document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
               }
               else{
+                  console.log(output[2]);
                   var count = output[2] * 60;
                   var counter = setInterval(function(){
                    count = count - 1;
