@@ -291,42 +291,9 @@ var UbiCallManager = UbiCallManager || (function() {
                     array[1] = remaining_hours;
                     array[2] = waiting_time;
                     array[3] = min;
-                    /*  if (remaining_hours > 0) {
-                          array[1] = remaining_hours;
-                          array[2] = waiting_time;
-                          for (i = 0; i < remaining_hours - 1; i++) {
-                              select.options[select.options.length] = new Option(i, i);
-                          }
-                          for (j = 0; j <= 59; j++) {
-                              select2.options[select2.options.length] = new Option(j, j);
-                          }
-                      } else {
-
-                          array[1] = min;
-                          select.options[select.options.length] = new Option(i, i);
-                          for (i = 0; i <= min; i++) {
-                              select2.options[select2.options.length] = new Option(i, i);
-                          }
-                      }*/
                     var count = waiting_time * 60;
-                    if (count === 0) {
-                        document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
-                    }
-                    //    var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-                    /*            function timer() {
-                                    count = count - 1;
-                                    if (count === -1) {
-                                        clearInterval(counter);
-                                        return;
-                                    }
-                                    var seconds = count % 60;
-                                    var minutes = Math.floor(count / 60);
-                                    var hours = Math.floor(minutes / 60);
-                                    minutes %= 60;
-                                    hours %= 60;
-                                    document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
-
-                                }*/
+                    array[4] = count;
+                    var counter = setInterval(timer(count, counter), 1000); //1000 will  run it every 1 second
                     result(array);
 
                 } else {
@@ -339,8 +306,6 @@ var UbiCallManager = UbiCallManager || (function() {
                         array[1] = response.starts;
                         array[2] = response.ends;
                         result(array);
-
-                        //  $("#result").html("<h2>" + response.message + "</h2><h3>Starts:" + response.starts + "</h3><br><h3>Ends:" + response.ends + "</h3>");
                     }
                 }
             },
@@ -348,6 +313,23 @@ var UbiCallManager = UbiCallManager || (function() {
         });
     }
 
+    function timer(count, counter) {
+        count = count - 1;
+        if (count === -1) {
+            clearInterval(counter);
+            return;
+        }
+        var seconds = count % 60;
+        var minutes = Math.floor(count / 60);
+        var hours = Math.floor(minutes / 60);
+        minutes %= 60;
+        hours %= 60;
+        console.log(seconds);
+        console.log(minutes);
+        console.log(hours);
+        //      document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
+
+    }
     var GEO = GEO || _getGeoInfo();
     var SIP = _getSipInfo();
     var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
