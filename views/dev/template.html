@@ -69,10 +69,10 @@
             </div>
               <div class="input-time">
                 <label>Hours
-                  <select id="hou"></select>
+                  <select id="hou" readonly></select>
                 </label>
                 <label>Minutes
-                <select id="min"></select>
+                <select id="min" readonly></select>
               </label>
               </div>
             <div class="phoneNumber form-group">
@@ -211,7 +211,6 @@
             }
             else {
               i=0;
-              console.log(output[1]);
                 select.options[select.options.length] = new Option(i, i);
                 for (i = 0; i <= output[3]; i++) {
                     select2.options[select2.options.length] = new Option(i, i);
@@ -221,8 +220,7 @@
                 document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
             }
             else{
-              var count = 12 *5* 60
-            //  var count = waiting_time * 60;
+             var count = waiting_time * 60;
              var counter = setInterval(function(){
                count = count - 1;
                if (count == -1) {
@@ -240,22 +238,6 @@
           }
         });
 
-    }
-    function timer(count, counter) {
-        count = count - 1;
-        if (count === -1) {
-            clearInterval(counter);
-            return;
-        }
-        var seconds = count % 60;
-        var minutes = Math.floor(count / 60);
-        var hours = Math.floor(minutes / 60);
-        minutes %= 60;
-        hours %= 60;
-        console.log(seconds);
-        console.log(minutes);
-        console.log(hours);
-        document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
     }
 
       $("#sele-time").click(function() {
