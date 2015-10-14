@@ -285,8 +285,8 @@ var UbiCallManager = UbiCallManager || (function() {
             success: function(response) {
                 if (response.message === "successful") {
                     array[0] = response.message;
-                    var remaining_hours = Math.floor(response.remaining / 60); //getting hours as integer output[0]
-                    var waiting_time = Math.floor(response.waiting); //waiting time
+                    var remaining_hours = Math.floor(response.remaining / 60);
+                    var waiting_time = Math.floor(response.waiting);
                     var min = Math.floor(response.remaining);
                     array[1] = remaining_hours;
                     array[2] = waiting_time;
