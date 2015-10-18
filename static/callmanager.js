@@ -21,6 +21,10 @@ var UbiCallManager = UbiCallManager || (function() {
         window.location.hash = "sorry";
     }
 
+    function _sent_successfully() {
+        window.location.hash = "email_Succes";
+    }
+
     function goToFeedBackScreen() {
         window.location.hash = "callFeedback";
     }
