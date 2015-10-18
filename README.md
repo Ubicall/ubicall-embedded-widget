@@ -1,4 +1,4 @@
-# embedded-call-center-widget
+# ubicall-embedded-widget
 > embeddable web component provide facility to browse your call center IVR in web browser
 
 ## How To use

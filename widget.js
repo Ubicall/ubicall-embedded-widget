@@ -1,9 +1,12 @@
 var fs = require("fs");
 var path = require("path");
+var when = require("when");
 var express = require("express");
 var bodyParser = require("body-parser");
 var http = require("http");
 var request = require("request");
+var passport = require("passport");
+var needsPermission = require("ubicall-oauth").needsPermission;
 var settings = require("./settings");
 var genWidget = require("./genWidget");
 var log = require("./log");
@@ -20,6 +23,7 @@ platformApp.use(bodyParser.json());
 platformApp.use(bodyParser.urlencoded({
   extended: false
 }));
+platformApp.use(passport.initialize());
 
 
 function __endsWith(str, suffix) {
@@ -28,7 +32,7 @@ function __endsWith(str, suffix) {
 
 function extractIvr(req, res, next) {
   var ivr = {};
-  ivr.licence_key = req.params.licence_key;
+  ivr.licence_key = req.user.licence_key;
   ivr.version = req.params.version;
 
   if (!ivr.licence_key) {
@@ -56,7 +60,7 @@ function extractIvr(req, res, next) {
     plistHost += "/";
   }
 
-  ivr.plistUrl = plistHost + ivr.licence_key + "/" + ivr.version;
+  ivr.plistUrl = plistHost + ivr.version;
 
   req.ubi = req.ubi || {};
   req.ubi.plistUrl = ivr.plistUrl;
@@ -65,26 +69,51 @@ function extractIvr(req, res, next) {
 
 }
 
+
+function __fetchPlist(plistUrl, authz) {
+    return when.promise(function(resolve, reject) {
+        request({
+            url: plistUrl,
+            method: "GET",
+            headers: {
+                Authorization: authz
+            }
+        }, function(error, response, body) {
+            if (error || response.statusCode !== 200) {
+                return reject(error || response.statusCode);
+            }
+            return resolve(body);
+        });
+    });
+}
+
 function updateWidget(req, res, next) {
   //End generate plist url
   //TODO check if plist hosted under *.ubicall.com otherwise 401 unauthorized
   var plistUrl = req.ubi.plistUrl;
-  genWidget.generate(plistUrl).then(function() {
-    log.info("Widget generated successfully from " + plistUrl);
-    res.status(200).json({
-      message: "Widget generated successfully"
+  var authz = req.user.authz;
+  __fetchPlist(plistUrl, authz).then(function(plist){
+    genWidget.parsePlist(plist).then(function(){
+      log.info("Widget generated successfully from " + plistUrl);
+      res.status(200).json({
+        message: "Widget generated successfully"
+      });
+    }).otherwise(function(err){
+      log.error("Error generating widget from " + plistUrl + " " + err);
+      res.status(500).json({
+        message: "Error generating widget , plist may be courrpted"
+      });
     });
-  }).otherwise(function(err) {
-    log.error("Error generating widget from " + plistUrl + " " + err);
+  }).otherwise(function(err){
+    log.error("Error fetching widget from " + plistUrl + " " + err);
     res.status(500).json({
-      message: "Error generating widget , plist may be courrpted"
+      message: "Error fetching widget from " + plistUrl
     });
   });
 }
 
-platformApp.post("/api/widget/:licence_key/:version", extractIvr, updateWidget);
-
-platformApp.put("/api/widget/:licence_key/:version", extractIvr, updateWidget);
+platformApp.post("/api/widget/:version", needsPermission("ivr.write"), extractIvr, updateWidget);
+platformApp.put("/api/widget/:version", needsPermission ("ivr.write"), extractIvr, updateWidget);
 
 
 function getListenPath() {
