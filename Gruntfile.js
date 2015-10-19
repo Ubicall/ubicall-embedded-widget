@@ -74,8 +74,8 @@ module.exports = function (grunt) {
                 from: "https://cdn.ubicall.com/static/",
                 to: "https://cdn.dev.ubicall.com/static/"
               },{
-                from: "https://api.ubicall.com/v1/",
-                to: "https://api.dev.ubicall.com/v1/"
+                from: "https://api.ubicall.com",
+                to: "https://api.dev.ubicall.com"
               }]
             }
           }
