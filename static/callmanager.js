@@ -271,8 +271,8 @@ var UbiCallManager = UbiCallManager || (function() {
             url: "https://ws.ubicall.com/webservice/get_send_mail.php?email_id=" + email_id + "&json=" + data + "&license_key=" + LICENSE,
             contentType: "application/json",
             success: function(response) {
-                if (response.status === 200) {
-                    goToHomeScreen();
+                if (response.status == "200") {
+                    _sent_successfully
                 } else {
                     _someThingGoWrong();
                 }
