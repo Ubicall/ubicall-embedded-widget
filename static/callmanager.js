@@ -304,14 +304,13 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
 
-    function send_form(data, email_id) {
+    function send_form(data, email_id) {    
 
  $.ajax({
             type: "POST",
             url: V1 + "/email",
             data: {
                 json: data, 
-                json: queue || PHONE_SUBMIT_QUEUE,
                 long: GEO && GEO.longitude ? GEO.longitude : "",
                 lat: GEO && GEO.latitude ? GEO.latitude : "",
                 email_id:email_id
