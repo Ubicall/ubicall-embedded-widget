@@ -2,12 +2,12 @@
 <html>
 
 <head>
-  <meta charset="utf-8" />
+    <meta charset="utf-8" />
 
-  <link href="https://cdn.dev.ubicall.com/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.dev.ubicall.com/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-  <link href="https://cdn.dev.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet" />
-  <link href="https://cdn.dev.ubicall.com/static/jquery-mobile/css/jquery.mobile.ubicall.custom-1.4.5.css" rel="stylesheet" />
+    <link href="https://cdn.dev.ubicall.com/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.dev.ubicall.com/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdn.dev.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet" />
+    <link href="https://cdn.dev.ubicall.com/static/jquery-mobile/css/jquery.mobile.ubicall.custom-1.4.5.css" rel="stylesheet" />
 
 
 
@@ -15,149 +15,160 @@
 
 <body>
 
-  <!--choose your call type voip vs pstn  , replace call.html-->
-  <div data-role="page" id="callOptions">
-    <div data-role="content">
-      <div class="ubi-header">
-        <a onClick="javascript:history.go(-1)">
-          <i class="fa fa-chevron-left fa-left"></i>
-        </a>
-        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
-          <i class="fa fa-home fa-right"></i>
-        </a>
-        <h3>Call Type</h3>
-      </div>
-      <div class="ubi-pages">
-        <div>
-          <button id="receive-web" onclick="UbiCallManager.scheduleSipCall()" class="btn btn-default">Receive web VoIP call</button>
-          <a href="#submitPhoneCall">
-            <button class="btn btn-default">Receive Phone Call</button>
-          </a>
+    <!--choose your call type voip vs pstn  , replace call.html-->
+    <div data-role="page" id="callOptions">
+        <div data-role="content">
+            <div class="ubi-header">
+                <a onClick="javascript:history.go(-1)">
+                    <i class="fa fa-chevron-left fa-left"></i>
+                </a>
+                <a href="#" onclick="UbiCallManager.goToHomeScreen()">
+                    <i class="fa fa-home fa-right"></i>
+                </a>
+                <h3>Call Type</h3>
+            </div>
+            <div class="ubi-pages">
+                <div>
+                    <button id="receive-web" onclick="UbiCallManager.scheduleSipCall()" class="btn btn-default">Receive web VoIP call</button>
+                    <a href="#submitPhoneCall">
+                        <button class="btn btn-default">Receive Phone Call</button>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!--choose your phone call , replace submitCall.html-->
-  <div data-role="page" id="submitPhoneCall">
-    <div data-role="content">
-      <div class="ubi-header">
-        <a onClick="javascript:history.go(-1)">
-          <i class="fa fa-chevron-left fa-left"></i>
-        </a>
-        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
-          <i class="fa fa-home fa-right"></i>
-        </a>
-        <h3>Support Agent</h3>
-      </div>
-      <div class="ubi-pages-phone">
-        <img src="https://cdn.dev.ubicall.com/static/ubicall/images/time-icon.png" class="phone-icon" alt="" />
-        <h2>Average Waiting Time</h2>
-        <h3>ASAP</h3>
-        <div class="ubi-phone-02">
-          <h4>Schedule a call in:</h4>
-          <form>
-            <div class="radio wid-48">
-              <label>
-                <input type="radio" name="optradio" id="asap" checked>ASAP</label>
+    <!--choose your phone call , replace submitCall.html-->
+    <div data-role="page" id="submitPhoneCall">
+        <div data-role="content">
+            <div class="ubi-header">
+                <a onClick="javascript:history.go(-1)">
+                    <i class="fa fa-chevron-left fa-left"></i>
+                </a>
+                <a href="#" onclick="UbiCallManager.goToHomeScreen()">
+                    <i class="fa fa-home fa-right"></i>
+                </a>
+                <h3>Support Agent</h3>
             </div>
-            <div class="radio wid-48">
-              <label>
-                <input type="radio" name="optradio" id="sele-time">Select Time</label>
+            <div class="ubi-pages-phone">
+                <div id="result">
+                    <img src="https://cdn.dev.ubicall.com/static/ubicall/images/time-icon.png" class="phone-icon" alt="" />
+                    <h2>Average Waiting Time</h2>
+                    <h3>
+                        <div id="asap2">ASAP</div>
+                    </h3>
+
+                    <div class="ubi-phone-02">
+                        <h4>Schedule a call in:</h4>
+                        <form>
+                            <div class="radio wid-48">
+                                <label>
+                                    <input type="radio" name="optradio" id="asap" checked>ASAP</label>
+                            </div>
+                            <div class="radio wid-48">
+                                <label>
+                                    <input type="radio" name="optradio" id="sele-time">Select Time</label>
+                            </div>
+                            <div class="input-time">
+                                <label>Hours
+                                    <select id="hou" disabled></select>
+                                </label>
+                                <label>Minutes
+                                    <select id="min" disabled></select>
+                                </label>
+                            </div>
+                            <div class="phoneNumber form-group">
+                                <input type="text" id="phone" name="phone" class="form-control" placeholder="Please enter your phone number">
+                            </div>
+                            <button type="submit" class="btn btn-default btn-02" onclick="helpers.submitPhoneCall()">Call Me</button>
+                            <button type="submit" class="btn btn-default btn-03" onclick="UbiCallManager.goToHomeScreen()">Cancel</button>
+                    </div>
+                </div>
             </div>
-            <div class="input-time">
-              <input type="text" class="form-control input-phone" placeholder="Hours" id="hou" readonly> -
-              <input type="text" class="form-control input-phone" placeholder="Minutes" id="min" readonly>
-            </div>
-            <div class="phoneNumber form-group">
-              <input type="text" id="phone" name="phone" class="form-control" placeholder="Please enter your phone number">
-            </div>
-            <button type="submit" class="btn btn-default btn-02" onclick="helpers.submitPhoneCall()">Call Me</button>
-            <button type="submit" class="btn btn-default btn-03" onclick="UbiCallManager.goToHomeScreen()">Cancel</button>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!--phone call scheduled , replace phoneCallSchedule.html -->
-  <div data-role="page" id="phoneCallScheduled">
-    <div data-role="content">
-      <div class="ubi-header">
-        <a onclick="javascript:history.go(-1)">
-          <i class="fa fa-chevron-left fa-left"></i>
-        </a>
-        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
-          <i class="fa fa-home fa-right"></i>
-        </a>
-        <h3 class="header">successfully scheduled phone call </h3>
-      </div>
-      <div class="ubi-pages">
-        <h2>
-          Thank you for contacting us. Our agent will call you as soon as possible.<a onclick="UbiCallManager.goToHomeScreen()" href="#"> you can continue broswing .</a>
-        </h2>
-      </div>
-    </div>
-  </div>
-
-  <!-- submit feedback after voip call accurred , replace feedback.html-->
-  <div data-role="page" id="callFeedback">
-    <div data-role="content">
-      <div class="ubi-header">
-        <a onClick="javascript:history.go(-1)">
-          <i class="fa fa-chevron-left fa-left"></i>
-        </a>
-        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
-          <i class="fa fa-home fa-right"></i>
-        </a>
-        <h3>Feedback</h3>
-      </div>
-      <div class="feedback">
-        <h2>Thank You!</h2>
-        <h3>For Your Call</h3>
-        <div class="phone-02">
-          <h4>How do you feel about our service?</h4>
-          <div class="face-img">
-            <!-- 1 happy , 2 so lala , 3 unhappy-->
-            <a href="#" onclick="helpers.iam(1)">
-              <img src="https://cdn.dev.ubicall.com/static/ubicall/images/face-01.png" alt="happy">
-            </a>
-            <a href="#" onclick="helpers.iam(2)">
-              <img src="https://cdn.dev.ubicall.com/static/ubicall/images/face-02.png" alt="satisfied">
-            </a>
-            <a href="#" onclick="helpers.iam(3)">
-              <img src="https://cdn.dev.ubicall.com/static/ubicall/images/face-03.png" alt="unhappy">
-            </a>
-          </div>
-
-          <textarea id="feedback-message" type="text" class="form-control" name="Feedback" placeholder="Anything to add? (Optional)"></textarea>
-
-          <button type="submit" class="btn btn-default btn-03" onclick="UbiCallManager.goToHomeScreen()">No, Thanks</button>
-          <button type="submit" class="btn btn-default btn-02" onclick="helpers.sendFeedBack()">Send Feedback</button>
-
+    <!--phone call scheduled , replace phoneCallSchedule.html -->
+    <div data-role="page" id="phoneCallScheduled">
+        <div data-role="content">
+            <div class="ubi-header">
+                <a onclick="javascript:history.go(-1)">
+                    <i class="fa fa-chevron-left fa-left"></i>
+                </a>
+                <a href="#" onclick="UbiCallManager.goToHomeScreen()">
+                    <i class="fa fa-home fa-right"></i>
+                </a>
+                <h3 class="header">successfully scheduled phone call </h3>
+            </div>
+            <div class="ubi-pages">
+                <h2>
+                    Thank you for contacting us. Our agent will call you as soon as possible.<a onclick="UbiCallManager.goToHomeScreen()" href="#"> you can continue broswing .</a>
+                </h2>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- fall back page when unexpected behaviour occurred, replace unexpected.html-->
-  <div data-role="page" id="sorry">
-    <div data-role="content">
-      <div class="ubi-header">
-        <a onclick="javascript:history.go(-1)">
-          <i class="fa fa-chevron-left fa-left"></i>
-        </a>
-        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
-          <i class="fa fa-home fa-right"></i>
-        </a>
-        <h3 class="header">unexpected behaviour</h3>
-      </div>
-      <div class="ubi-pages">
-        <h2>
-          Sorry, an unexpected event occurred...<br><a onclick="UbiCallManager.goToHomeScreen()" href="#"> You can go on using the tool.</a>
-        </h2>
-      </div>
+    <!-- submit feedback after voip call accurred , replace feedback.html-->
+    <div data-role="page" id="callFeedback">
+        <div data-role="content">
+            <div class="ubi-header">
+                <a onClick="javascript:history.go(-1)">
+                    <i class="fa fa-chevron-left fa-left"></i>
+                </a>
+                <a href="#" onclick="UbiCallManager.goToHomeScreen()">
+                    <i class="fa fa-home fa-right"></i>
+                </a>
+                <h3>Feedback</h3>
+            </div>
+            <div class="feedback">
+                <h2>Thank You!</h2>
+                <h3>For Your Call</h3>
+                <div class="phone-02">
+                    <h4>How do you feel about our service?</h4>
+                    <div class="face-img">
+                        <!-- 1 happy , 2 so lala , 3 unhappy-->
+                        <a href="#" onclick="helpers.iam(1)">
+                            <img src="https://cdn.dev.ubicall.com/static/ubicall/images/face-01.png" alt="happy">
+                        </a>
+                        <a href="#" onclick="helpers.iam(2)">
+                            <img src="https://cdn.dev.ubicall.com/static/ubicall/images/face-02.png" alt="satisfied">
+                        </a>
+                        <a href="#" onclick="helpers.iam(3)">
+                            <img src="https://cdn.dev.ubicall.com/static/ubicall/images/face-03.png" alt="unhappy">
+                        </a>
+                    </div>
+
+                    <textarea id="feedback-message" type="text" class="form-control" name="Feedback" placeholder="Anything to add? (Optional)"></textarea>
+
+                    <button type="submit" class="btn btn-default btn-03" onclick="UbiCallManager.goToHomeScreen()">No, Thanks</button>
+                    <button type="submit" class="btn btn-default btn-02" onclick="helpers.sendFeedBack()">Send Feedback</button>
+
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+
+    <!-- fall back page when unexpected behaviour occurred, replace unexpected.html-->
+    <div data-role="page" id="sorry">
+        <div data-role="content">
+            <div class="ubi-header">
+                <a onclick="javascript:history.go(-1)">
+                    <i class="fa fa-chevron-left fa-left"></i>
+                </a>
+                <a href="#" onclick="UbiCallManager.goToHomeScreen()">
+                    <i class="fa fa-home fa-right"></i>
+                </a>
+                <h3 class="header">unexpected behaviour</h3>
+            </div>
+            <div class="ubi-pages">
+                <h2>
+                    Sorry, an unexpected event occurred...
+                    <br><a onclick="UbiCallManager.goToHomeScreen()" href="#"> You can go on using the tool.</a>
+                </h2>
+            </div>
+        </div>
+    </div>
+
 
  <div data-role="page" id="email_Succes">
     <div data-role="content">
@@ -177,17 +188,16 @@
       </div>
     </div>
   </div>
-  
-  <!-- js -->
-  <script src="https://cdn.dev.ubicall.com/static/jquery/dist/jquery.min.js"></script>
-  <script src="https://cdn.dev.ubicall.com/static/jquery-mobile/js/jquery.mobile-1.4.5.min.js"></script>
-  <script src="https://platform.dev.ubicall.com/widget/callmanager.js"></script>
+    <!-- js -->
+    <script src="https://cdn.dev.ubicall.com/static/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.dev.ubicall.com/static/jquery-mobile/js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://platform.dev.ubicall.com/widget/callmanager.js"></script>
 
-  <script>
-    var helpers = helpers || {};
-    $(document).ready(function() {
-      var feedback = {};
-      
+    <script>
+        var helpers = helpers || {};
+        $(document).ready(function() {
+            var feedback = {};
+    
       $.fn.serializeObject = function()
 {
     var o = {};
@@ -227,108 +237,158 @@
      
         }
       }
+            helpers.getHours = function(queue) {
+                UbiCallManager.getWorkingHours(queue, function(output) {
+                    if (output[0] === "closed") {
+                        document.getElementById("result").innerHTML = output[0] + "\n" + "Starts:" + output[1] + "\n" + "Closes:" + output[2];
+                    }
+                    if (output[0] === "day off") {
+                        document.getElementById("result").innerHTML = output[0];
+                    }
+                    if (output[0] == 'successful') {
+                        var select = document.getElementById("hou");
+                        var select2 = document.getElementById("min");
+                        if (output[1] > 0) {
+                            var i, j;
+                            for (i = 0; i < output[1]; i++) {
+                                select.options[select.options.length] = new Option(i, i);
+                            }
+                            for (j = 0; j <= 59; j++) {
+                                select2.options[select2.options.length] = new Option(j, j);
+                            }
+                        } else {
+                            i = 0;
+                            select.options[select.options.length] = new Option(i, i);
+                            for (i = 0; i <= output[3]; i++) {
+                                select2.options[select2.options.length] = new Option(i, i);
+                            }
+                        }
+                        if (output[2] === 0) {
+                            document.getElementById("asap2").innerHTML = 0 + ":" + 0 + ":" + 0;
+                        } else {
+                            var count = output[2] * 60;
+                            var counter = setInterval(function() {
+                                count = count - 1;
+                                if (count == -1) {
+                                    clearInterval(counter);
+                                    return;
+                                }
+                                var seconds = count % 60;
+                                var minutes = Math.floor(count / 60);
+                                var hours = Math.floor(minutes / 60);
+                                minutes %= 60;
+                                hours %= 60;
+                                document.getElementById("asap2").innerHTML = hours + ": " + minutes + ":" + seconds;
+                            }, 1000); //1000 will  run it every 1 second
+                        }
+                    }
+                });
+
+            }
+
+            $("#sele-time").click(function() {
+                document.getElementById("hou").disabled = false;
+                document.getElementById("min").disabled = false;
+                //   $("#hou").prop("readonly", false);
+                //        $("#min").prop("readonly", false);
+            });
+            $("#asap").click(function() {
+                document.getElementById("hou").disabled = true;
+                document.getElementById("min").disabled = true;
+                //    $("#hou").attr("readonly", "readonly");
+                //    $("#min").attr("readonly", "readonly");
+            });
+
+            helpers.submitPhoneCall = function() {
+                var phoneNumber = $("#phone").val();
+                var time;
+                if ($("#sele-time").is(":checked")) {
+                    time = $("#hou").text() + ":" + $("#min").text();
+                }
+                if (phoneNumber) {
+                    UbiCallManager.schedulePhoneCall(phoneNumber, time);
+                } else {
+                    $(".phoneNumber").addClass("has-error");
+                }
+            }
+
+            helpers.iam = function(you) {
+                feedback.feel = you;
+            }
+            helpers.sendFeedBack = function() {
+                feedback.text = $("#feedback-message").val();
+                UbiCallManager.submitFeedback(feedback)
+            }
 
 
 
-      $("#sele-time").click(function() {
-        $("#hou").prop("readonly", false);
-        $("#min").prop("readonly", false);
-      });
-      $("#asap").click(function() {
-        $("#hou").attr("readonly", "readonly");
-        $("#min").attr("readonly", "readonly");
-      });
 
-      helpers.submitPhoneCall = function() {
-        var phoneNumber = $("#phone").val();
-        var time;
-        if ($("#sele-time").is(":checked")) {
-          time = $("#hou").text() + ":" + $("#min").text();
-        }
-        if (phoneNumber) {
-          UbiCallManager.schedulePhoneCall(phoneNumber, time);
-        } else {
-          $(".phoneNumber").addClass("has-error");
-        }
-      }
-
-      helpers.iam = function(you) {
-        feedback.feel = you;
-      }
-      helpers.sendFeedBack = function() {
-        feedback.text = $("#feedback-message").val();
-        UbiCallManager.submitFeedback(feedback)
-      }
-
-
-    
             $(".search_input").keyup(function() {
                 $(".search-list").empty();
 
                 var filter = $(this).val(),
-                count = 0;
-                $("body div[data-role='page'] ").each(function() {
+                    count = 0;
+                $("body div[data-role='page']  ").each(function() {
 
-                  
-                 if( $(this).attr("id") ==="callOptions" ||$(this).attr("id") ==="submitPhoneCall" ||$(this).attr("id") ==="phoneCallScheduled" ||$(this).attr("id") ==="callFeedback" ||$(this).attr("id") === "sorry" ){}
-                    
-                    else{
+
+
+                    if ($(this).attr("id") === "callOptions" || $(this).attr("id") === "submitPhoneCall" || $(this).attr("id") === "phoneCallScheduled" || $(this).attr("id") === "callFeedback" || $(this).attr("id") === "sorry") {} else {
 
                         if ($(this).find("h3").text().search(new RegExp(filter, "i")) > 0) {
-                           
+
                             var id = $(this).attr("id");
                             var a = $("<a/>").attr("href", "#" + id).append($(this).find("h3").text());
                             var li = $("<li/>").append(a);
                             $(".search-list").append(li);
                             count++;
                         }
-                        
+
                     }
-                    
+
                 });
 
                 //$("#filter-count").text("Number of Comments = "+count);
             });
 
 
- $(".search-list").click(function() {
+            $(".search-list").click(function() {
 
 
                 $(".search-list").empty();
 
-       });
-    });
+            });
+        });
 
 
-var isMobile = {
-    Android: function() {
-        return navigator.userAgent.match(/Android/i);
-    },
-    BlackBerry: function() {
-        return navigator.userAgent.match(/BlackBerry/i);
-    },
-    iOS: function() {
-        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-    },
-    Opera: function() {
-        return navigator.userAgent.match(/Opera Mini/i);
-    },
-    Windows: function() {
-        return navigator.userAgent.match(/IEMobile/i);
-    },
-    any: function() {
-        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-    }
-};
-if( isMobile.any() ) {
+        var isMobile = {
+            Android: function() {
+                return navigator.userAgent.match(/Android/i);
+            },
+            BlackBerry: function() {
+                return navigator.userAgent.match(/BlackBerry/i);
+            },
+            iOS: function() {
+                return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+            },
+            Opera: function() {
+                return navigator.userAgent.match(/Opera Mini/i);
+            },
+            Windows: function() {
+                return navigator.userAgent.match(/IEMobile/i);
+            },
+            any: function() {
+                return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+            }
+        };
+        if (isMobile.any()) {
 
-  document.getElementById("receive-web").style.visibility = "hidden";
+            document.getElementById("receive-web").style.visibility = "hidden";
 
-}
+        }
+    </script>
 
-  </script>
 
-  <!-- js End -->
+    <!-- js End -->
 
 </body>
 

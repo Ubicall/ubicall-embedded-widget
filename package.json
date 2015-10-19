@@ -1,52 +1,55 @@
+
 {
-    "name": "embeddable-ubi-widget",
-    "private": true,
-    "version": "1.0.0",
-    "description": "ubi widget that are embeddable on 3rd party sites",
-    "main": "index.js",
-    "scripts": {
-        "test": "node_modules/.bin/mocha -w",
-        "js-beautify": "node_modules/.bin/js-beautify -r **/*.js",
-        "jshint": "jshint -c .jshintrc --exclude-path .gitignore .",
-        "git-add": "git add --all"
-    },
-    "pre-commit": [
-        "js-beautify",
-        "jshint",
-        "git-add"
-    ],
-    "author": "bguiz",
-    "license": "GPLv3",
-    "dependencies": {
-        "body-parser": "^1.13.2",
-        "cheerio": "^0.19.0",
-        "ejs": "^1.0.0",
-        "express": "^4.8.3",
-        "grunt": "^0.4.5",
-        "grunt-bower-task": "^0.4.0",
-        "grunt-contrib-clean": "^0.6.0",
-        "grunt-contrib-copy": "^0.8.0",
-        "grunt-contrib-uglify": "^0.9.1",
-        "js-beautify": "^1.5.10",
-        "mkdirp": "^0.5.1",
-        "node-remote-config-loader": "git://github.com/Ubicall/node-remote-config-loader.git",
-        "plist": "git://github.com/TooTallNate/plist.js.git",
-        "request": "^2.60.0",
-        "when": "^3.7.3",
-        "winston": "^1.0.1"
-    },
-    "devDependencies": {
-        "grunt": "^0.4.5",
-        "grunt-cli": "^0.1.13",
-        "grunt-contrib-copy": "^0.8.1",
-        "grunt-text-replace": "^0.4.0",
-        "js-beautify": "^1.5.10",
-        "jshint": "^2.8.0",
-        "load-grunt-config": "^0.17.2",
-        "load-grunt-tasks": "^3.2.0",
-        "mocha": "^2.2.5",
-        "pre-commit": "^1.1.1",
-        "should": "^7.0.2",
-        "time-grunt": "^1.2.1"
-    }
+  "name": "embeddable-ubi-widget",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ubi widget that are embeddable on 3rd party sites",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha -w",
+    "js-beautify": "node_modules/.bin/js-beautify -r **/*.js **/**/*.js",
+    "html-beautify": "node_modules/.bin/js-beautify -r --html **/*.html **/**/*.html",
+    "jshint": "node_modules/.bin/jshint -c .jshintrc --exclude-path .gitignore .",
+    "git-add": "git add --all"
+  },
+  "pre-commit": [
+    "jshint",
+    "js-beautify",
+    "html-beautify",
+    "git-add"
+  ],
+  "author": "bguiz",
+  "license": "GPLv3",
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "cheerio": "^0.19.0",
+    "ejs": "^1.0.0",
+    "express": "^4.8.3",
+    "js-beautify": "^1.5.10",
+    "mkdirp": "^0.5.1",
+    "node-remote-config-loader": "git://github.com/Ubicall/node-remote-config-loader.git",
+    "passport": "^0.3.0",
+    "plist": "git://github.com/TooTallNate/plist.js.git",
+    "request": "^2.60.0",
+    "ubicall-oauth": "git://github.com/Ubicall/ubicall-oauth.git",
+    "when": "^3.7.3",
+    "winston": "^1.0.1"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt": "^0.4.5",
+    "grunt-bower-task": "^0.4.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-copy": "^0.8.1",
+    "grunt-text-replace": "^0.4.0",
+    "jshint": "^2.8.0",
+    "load-grunt-config": "^0.17.2",
+    "load-grunt-tasks": "^3.2.0",
+    "mocha": "^2.2.5",
+    "pre-commit": "^1.1.1",
+    "should": "^7.0.2",
+    "time-grunt": "^1.2.1"
+  }
 }

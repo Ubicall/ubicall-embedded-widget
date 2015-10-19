@@ -1,12 +1,12 @@
 var fs = require("fs");
+var when = require("when");
+var cheerio = require("cheerio");
 var beautify_html = require("js-beautify").html;
 var plist = require("plist");
 var request = require("request");
 var mkdirp = require("mkdirp");
 var htmlUtil = require("./htmlUtil.js");
 var settings = require("../settings");
-var when = require("when");
-var cheerio = require("cheerio");
 
 function _MakeStream(html, licence_key) {
     mkdirp.sync(settings.platformTemplatesPath, 0777);
@@ -17,7 +17,7 @@ function _MakeStream(html, licence_key) {
     });
 }
 
-function _parsePlist(plistContent) {
+function parsePlist(plistContent) {
     return when.promise(function(resolve, reject) {
         var plistObject = plist.parse(plistContent);
         var licence_key = plistObject.key;
@@ -59,17 +59,6 @@ function _parsePlist(plistContent) {
     });
 }
 
-function generate(plistUrl) {
-    return when.promise(function(resolve, reject) {
-        request(plistUrl, function(error, response, body) {
-            if (error) {
-                return reject(error);
-            }
-            return resolve(_parsePlist(body));
-        });
-    });
-}
-
 module.exports = {
-    generate: generate
+    parsePlist: parsePlist
 };
