@@ -1,6 +1,10 @@
 "use strict";
 var UbiCallManager = UbiCallManager || (function() {
 
+    var API = "https://api.ubicall.com";
+    var V1 = API + "/v1";
+    var AUTH = API + "/auth";
+
     function _goToCallOptions() {
         window.location.hash = "callOptions";
     }
@@ -39,6 +43,14 @@ var UbiCallManager = UbiCallManager || (function() {
         return localStorage.getItem("lic");
     }
 
+    function _saveAccessToken(at) {
+        localStorage.setItem("access_token", at);
+    }
+
+    function _getAccessToken() {
+        return localStorage.getItem("access_token");
+    }
+
     function _saveSipInfo(sip) {
         localStorage.setItem("sip", JSON.stringify(sip));
     }
@@ -75,6 +87,30 @@ var UbiCallManager = UbiCallManager || (function() {
         localStorage.removeItem("callID");
     }
 
+    function _getAT() {
+        var deferred = $.Deferred();
+        $.ajax({
+            type: "POST",
+            url: AUTH + "/token",
+            data: {
+                client_id: "ubicall-widget",
+                grant_type: "authorization_code",
+                code: LICENSE
+            },
+            success: function(response, status, xhr) {
+                if (xhr.status === 200) {
+                    deferred.resolve(response);
+                } else {
+                    deferred.reject();
+                }
+            },
+            error: function(xhr, status) {
+                deferred.reject();
+            }
+        });
+        return deferred.promise();
+    }
+
     function _initGeo() {
         var deferred = $.Deferred();
         var geo = {};
@@ -93,15 +129,11 @@ var UbiCallManager = UbiCallManager || (function() {
         return deferred.promise();
     }
 
-
-
-
     function sipSign() {
         var deferred = $.Deferred();
         $.ajax({
-            type: "get",
-            url: "https://ws.ubicall.com/webservice/get_web_acc.php",
-            contentType: "application/json",
+            type: "POST",
+            url: V1 + "/web/account",
             data: {
                 sdk_name: "0000", // web sdk
                 sdk_version: "0.2",
@@ -109,21 +141,20 @@ var UbiCallManager = UbiCallManager || (function() {
                 device_token: "0000",
                 device_model: navigator.platform,
                 device_name: navigator.userAgent, // browser
-                device_version: navigator.appVersion, //browser version
-                licence_key: LICENSE
+                device_version: navigator.appVersion //browser version
             },
-            success: function(response) {
-                if (response.status === 200) {
-                    _saveSipInfo(response.data);
-                    deferred.resolve(response.data);
+            success: function(response, status, xhr) {
+                if (xhr.status === 200) {
+                    _saveSipInfo(response);
+                    deferred.resolve(response);
                 } else {
-                    console.log("error un able to get your sip credentials ");
-                    deferred.reject("error un able to get your sip credentials ");
+                    console.log("error unable to get your sip credentials ");
+                    deferred.reject("error unable to get your sip credentials ");
                 }
             },
             error: function(xhr) {
                 console.log("error un able to get your sip credentials ");
-                deferred.reject("error un able to get your sip credentials ");
+                deferred.reject("error unable to get your sip credentials ");
             }
         });
         return deferred.promise();
@@ -132,23 +163,21 @@ var UbiCallManager = UbiCallManager || (function() {
     function scheduleSipCall(queue) {
         sipSign().done(function(_sip) {
             $.ajax({
-                type: "get",
-                url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
-                contentType: "application/json",
+                type: "POST",
+                url: V1 + "/web/call",
                 data: {
-                    pstn: 2, // flag mean this is usuall web call
+                    caller_type: 2, // flag mean this is usuall web call
                     voiceuser_id: _sip.username,
-                    license_key: LICENSE,
                     qid: queue || PHONE_SUBMIT_QUEUE,
                     json: FORM_DATA || "",
                     long: GEO && GEO.longitude ? GEO.longitude : "",
                     lat: GEO && GEO.latitude ? GEO.latitude : ""
                 },
-                success: function(response) {
-                    if (response.status === 200) {
+                success: function(response, status, xhr) {
+                    if (xhr.status === 200) {
                         console.log("sechduling call");
-                        // sample response : {"status":200,"data":[{"call":"processing","call_id":604}]}
-                        _setCallId(response.data[0].call_id);
+                        // sample response : {message: "call scheduled successfully", call: XXXX }
+                        _setCallId(response.call);
                         _clearPhoneCallQueue();
                         _clearFormDate();
                         _sipScheduledPage();
@@ -172,14 +201,13 @@ var UbiCallManager = UbiCallManager || (function() {
         var call_id = _getCallId();
         if (call_id) {
             $.ajax({
-                type: "get",
-                url: "https://ws.ubicall.com/webservice/cancle_web_call.php",
-                contentType: "application/json",
+                type: "DELETE",
+                url: V1 + "/call/" + call_id,
                 data: {
                     call_id: call_id
                 },
-                success: function(response) {
-                    if (response.status === 200) {
+                success: function(response, status, xhr) {
+                    if (xhr.status === 200) {
                         console.log("canceling web call");
                     } else {
                         console.log("error in canceling web call");
@@ -197,20 +225,18 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function schedulePhoneCall(phone, time) {
         $.ajax({
-            type: "get",
-            url: "https://ws.ubicall.com/webservice/get_schedule_web_call.php",
-            contentType: "application/json",
+            type: "POST",
+            url: V1 + "web/call",
             data: {
-                pstn: 3, // flag mean this is pstn phone call
+                caller_type: 3,
                 voiceuser_id: phone,
-                license_key: LICENSE,
                 qid: PHONE_SUBMIT_QUEUE,
                 json: FORM_DATA || "",
                 long: GEO && GEO.longitude ? GEO.longitude : "",
                 lat: GEO && GEO.latitude ? GEO.latitude : ""
             },
-            success: function(response) {
-                if (response.status === 200) {
+            success: function(response, status, xhr) {
+                if (xhr.status === 200) {
                     console.log("sechduling call");
                     _clearPhoneCallQueue();
                     _clearFormDate();
@@ -231,9 +257,8 @@ var UbiCallManager = UbiCallManager || (function() {
         var callId = _getCallId();
         if (callId && (feedback.text || (feedback.feel && feedback.feel !== 1))) {
             $.ajax({
-                type: "get",
-                url: "https://ws.ubicall.com/webservice/get_feedback.php",
-                contentType: "application/json",
+                type: "POST",
+                url: V1 + "/call/" + callId + "/feedback",
                 data: {
                     call_id: callId,
                     feedback: feedback.feel || 1,
@@ -280,8 +305,7 @@ var UbiCallManager = UbiCallManager || (function() {
         var array = [];
         $.ajax({
             type: "GET",
-            url: "https://api.dev.ubicall.com/v1/workinghours/" + offset + "/" + queue + "/?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0X2xvZ2luIjoxNDQ0NzI3ODM0NTA1LCJzY29wZSI6WyJ3ZWIuYWNjb3VudC53cml0ZSIsIndlYi5jYWxsLndyaXRlIiwiY2FsbC5yZWFkIiwiY2FsbC5kZWxldGUiLCJmZWVkYmFjay53cml0ZSIsIndvcmtpbmdob3Vycy5yZWFkIiwiZW1haWwud3JpdGUiXSwiYXBwaWQiOiJ1YmljYWxsLXdpZGdldCIsImlhdCI6MTQ0NDcyNzgzNCwiZXhwIjoxNDQ1MzMyNjM0LCJpc3MiOiJ1YmljYWxsIn0.VcOh1Eemx3Qr6KXIJRT2M1dHQBwJbkHhGIoaywWcVDg",
-            contentType: "application/json",
+            url: V1 + "/workinghours/" + offset + "/" + queue,
             success: function(response) {
                 if (response.message === "successful") {
                     array[0] = response.message;
@@ -312,13 +336,25 @@ var UbiCallManager = UbiCallManager || (function() {
 
     var GEO = GEO || _getGeoInfo();
     var SIP = _getSipInfo();
+
     var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
+
+    var ACCESS_TOKEN = ACCESS_TOKEN || _getAccessToken();
+
     // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
     var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
     var FORM_DATA = FORM_DATA || _getFormDate();
 
     if (LICENSE) {
         _saveLicenceKey(LICENSE);
+    }
+    if (ACCESS_TOKEN) {
+        _saveAccessToken(ACCESS_TOKEN);
+    } else {
+        $.when(_getAT()).done(function(at) {
+            ACCESS_TOKEN = at.access_token;
+            _saveAccessToken(ACCESS_TOKEN);
+        });
     }
 
     if (!GEO) {
@@ -328,6 +364,14 @@ var UbiCallManager = UbiCallManager || (function() {
         });
     }
 
+    $.ajaxSetup({
+        beforeSend: function(jqXHR, settings) {
+            var auth_token = ACCESS_TOKEN;
+            if (auth_token) {
+                jqXHR.setRequestHeader("Authorization", "Bearer " + auth_token);
+            }
+        }
+    });
     return {
         scheduleSipCall: scheduleSipCall,
         schedulePhoneCall: schedulePhoneCall,
