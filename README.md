@@ -9,7 +9,7 @@
 </script>
 ```
 
-**generate & deploy API documentation :**
+**fetch configuration :**
 
   *make sure you add the below line to your* **/etc/hosts** *file :*
 
@@ -18,7 +18,7 @@
     ```
 
 ``` bash
-npm install
+nvm use 0.12 && npm install
 # [preserve | prebuild] package app in development or production respectively
 # node_env [test | development | production] - default _development_
 # config_version - which configuration version you like to use i.e. 20150920 - default _specified in settings.js_
