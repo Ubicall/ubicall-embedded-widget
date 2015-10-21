@@ -26,26 +26,8 @@ platformApp.use(bodyParser.urlencoded({
 platformApp.use(passport.initialize());
 
 
-function __endsWith(str, suffix) {
-  return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
-
 function extractIvr(req, res, next) {
-  var ivr = {};
-  ivr.licence_key = req.user.licence_key;
-  ivr.version = req.params.version;
-
-  if (!ivr.licence_key) {
-    res.status(422).json({
-      message: "Validation Failed",
-      errors: [{
-        field: "licence_key",
-        code: "missing_field"
-      }]
-    });
-  }
-
-  if (!ivr.version) {
+  if (!req.params.version) {
     res.status(422).json({
       message: "Validation Failed",
       errors: [{
@@ -54,24 +36,13 @@ function extractIvr(req, res, next) {
       }]
     });
   }
-
-  var plistHost = req.header("plistHost") || settings.plistHost;
-  if (!__endsWith(plistHost, "/")) {
-    plistHost += "/";
-  }
-
-  ivr.plistUrl = plistHost + ivr.version;
-
-  req.ubi = req.ubi || {};
-  req.ubi.plistUrl = ivr.plistUrl;
-
   next();
-
 }
 
 
 function __fetchPlist(plistUrl, authz) {
     return when.promise(function(resolve, reject) {
+        log.verbose("fetching plist from " + plistUrl);
         request({
             url: plistUrl,
             method: "GET",
@@ -88,10 +59,9 @@ function __fetchPlist(plistUrl, authz) {
 }
 
 function updateWidget(req, res, next) {
-  //End generate plist url
-  //TODO check if plist hosted under *.ubicall.com otherwise 401 unauthorized
-  var plistUrl = req.ubi.plistUrl;
+  var plistUrl = settings.plistHost + req.params.version;
   var authz = req.user.authz;
+  log.verbose("working on updating widget from plist at " + plistUrl);
   __fetchPlist(plistUrl, authz).then(function(plist){
     genWidget.parsePlist(plist).then(function(){
       log.info("Widget generated successfully from " + plistUrl);
