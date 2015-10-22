@@ -75,6 +75,9 @@ module.exports = function (grunt) {
               src: ["<%= app.dist %>/**/*.*"],
               overwrite: true,                 // overwrite matched source files
               replacements: [{
+                from: "https://platform.ubicall.com/widget/callmanager.min.js",
+                to: "https://platform.ubicall.com/widget/callmanager.js"
+              },{
                 from: "https://platform.ubicall.com/widget/",
                 to: "https://platform.dev.ubicall.com/widget/"
               },{
