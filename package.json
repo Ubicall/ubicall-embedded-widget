@@ -1,4 +1,3 @@
-
 {
   "name": "embeddable-ubi-widget",
   "private": true,
@@ -18,8 +17,8 @@
     "html-beautify",
     "git-add"
   ],
-  "author": "bguiz",
-  "license": "GPLv3",
+  "author": "waleed_samy@ymail.com",
+  "license": "GPL-3.0",
   "dependencies": {
     "body-parser": "^1.13.2",
     "cheerio": "^0.19.0",
@@ -37,12 +36,12 @@
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt": "^0.4.5",
     "grunt-bower-task": "^0.4.0",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-copy": "^0.8.1",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-nginx": "^0.2.2",
     "grunt-text-replace": "^0.4.0",
     "jshint": "^2.8.0",
     "load-grunt-config": "^0.17.2",

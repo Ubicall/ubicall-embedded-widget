@@ -11,7 +11,8 @@ module.exports = function (grunt) {
     var appConfig = {
       dist: "dist",
       static : "./static/",
-      platformDeployment:"/var/www/widget/"
+      platformDeployment:"/var/www/widget/",
+      nginx: "conf/nginx"
     };
 
     grunt.initConfig({
@@ -60,6 +61,12 @@ module.exports = function (grunt) {
               cwd : "<%= app.dist%>",
               src : ["**/*.*"],
               dest: "<%= app.platformDeployment %>"
+            },
+            nginx: {
+              expand: true,
+              cwd: appConfig.nginx,
+              src:  ["**/*.conf"],
+              dest: "/etc/nginx/conf.d/"
             }
         },
 
@@ -85,12 +92,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-text-replace");
+    grunt.loadNpmTasks("grunt-nginx");
 
     grunt.registerTask("preserve", "Clean then build to dist as a development", [
         "clean",
         "copy:static",
         "replace:widgetDevResourcesHost",
         "copy:deployPlatform",
+        "copy:nginx",
+        "nginx:restart"
     ]);
 
     grunt.registerTask("prebuild", "Clean then build to dist", [
@@ -98,6 +108,8 @@ module.exports = function (grunt) {
         "copy:staticHTML",
         "uglify:widget",
         "copy:deployPlatform",
+        "copy:nginx",
+        "nginx:restart"
     ]);
 
     grunt.registerTask("default", [
