@@ -21,9 +21,10 @@
 nvm use 0.12 && npm install
 # [preserve | prebuild] package app in development or production respectively
 # node_env [test | development | production] - default _development_
+# db_env - [internal | external] control db connections attributes , default *internal* which use internal_ip and internal_port to connect to DB - default _internel_
 # config_version - which configuration version you like to use i.e. 20150920 - default _specified in settings.js_
 # in production we use forever : https://github.com/foreverjs/forever
-sudo grunt preserve && node widget.js
+sudo grunt preserve && db_env=external node widget.js
 ```
 **how to contribute :**
 
