@@ -79,13 +79,13 @@ module.exports = function (grunt) {
                 to: "https://platform.ubicall.com/widget/callmanager.js"
               },{
                 from: "https://platform.ubicall.com/widget/",
-                to: "https://platform.dev.ubicall.com/widget/"
+                to: "https://platform-dev.ubicall.com/widget/"
               },{
                 from: "https://cdn.ubicall.com/static/",
-                to: "https://cdn.dev.ubicall.com/static/"
+                to: "https://cdn-dev.ubicall.com/static/"
               },{
                 from: "https://api.ubicall.com",
-                to: "https://api.dev.ubicall.com"
+                to: "https://api-dev.ubicall.com"
               }]
             }
           }
