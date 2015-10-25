@@ -42,6 +42,7 @@ describe("htmlUtil functionality used to convert plist component to html ones", 
             (grids[1].UrlImage).should.be.exactly($("#pages ul :nth-child(2) a img").attr("src"));
 
             // console.log(beautify_html($("#pages").html()));
+
         });
     });
 

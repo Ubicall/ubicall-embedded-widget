@@ -226,7 +226,7 @@ function createGrid($, pageId, grids, title) {
         <input type="hidden" id="qid" value="@param queue">
     </div>
  **/
-function createForm($, pageId, formFields, queue, FormTitle, title) {
+function createForm($, pageId, formFields, Destination, FormTitle, title, form_type) {
 
     var formId = pageId.replace(/[^a-z0-9\s]/gi, "").replace(/[_\s]/g, "-");
     var header = setTitle($, title);
@@ -236,8 +236,15 @@ function createForm($, pageId, formFields, queue, FormTitle, title) {
 
     var $p = $("<p/>").text(FormTitle);
 
-    var $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-        .attr("onsubmit", "helpers.submitCallForm(form-" + formId + ");return false;");
+    var $form;
+    if (form_type === "email") {
+        $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
+            .attr("onsubmit", "helpers.submitFormEmail('form-" + formId + "');return false;");
+
+    } else {
+        $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
+            .attr("onsubmit", "helpers.submitCallForm('form-" + formId + "');return false;");
+    }
 
     formFields.forEach(function(field) {
 
@@ -270,9 +277,11 @@ function createForm($, pageId, formFields, queue, FormTitle, title) {
 
     });
 
-    var $Hinput = $("<input/>").attr("type", "hidden").attr("id", "qid").val(queue);
+    var $HinputId = $("<input/>").attr("type", "hidden").attr("id", "did").val(Destination.id);
+    var $HinputName = $("<input/>").attr("type", "hidden").attr("id", "dname").val(Destination.name);
     var $button = $("<button/>").attr("type", "submit").attr("class", "btn btn-default").text("Submit");
-    $form.append($Hinput);
+    $form.append($HinputId);
+    $form.append($HinputName);
     $form.append($button);
     $maidiv.append($p);
     $maidiv.append($form);
