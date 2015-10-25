@@ -14,7 +14,7 @@
   *make sure you add the below line to your* **/etc/hosts** *file :*
 
     ```
-    10.0.0.170  developer.dev.ubicall.com
+    10.0.0.170  developer-dev.ubicall.com
     ```
 
 ``` bash
