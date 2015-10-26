@@ -264,7 +264,18 @@ function createForm($, pageId, formFields, Destination, FormTitle, title, form_t
                 var $option = $("<option/>").text(op).val(op);
                 $input.append($option);
             });
-        } else {
+             if (field.isMandatory === true) {
+            $input.attr("required", "required");
+        }
+        } 
+else if (field.FieldType === "Text Area") {
+            $input = $("<textarea/>").attr("class", "form-control").attr("name", field.FieldLabel).attr("placeholder", field.Placeholder);
+         if (field.isMandatory === true) {
+            $input.attr("required", "required");
+        }
+        }
+
+        else {
             if (field.Keyboard === "0") {
                 $input.attr("type", "number");
             } else {
