@@ -128,7 +128,7 @@ function createChoices($, pageId, choices, title) {
         if (choice.url) {
             $a.attr("href", choice.url).attr("target", "_blank");
         } else {
-            $a.attr("href", "#" + choice.ScreenName);
+            $a.attr("href", "#" + choice.__next.id);
         }
         $divlist.append($a);
     });
@@ -180,7 +180,7 @@ function createGrid($, pageId, grids, title) {
         if (grid.url) {
             $a.attr("href", grid.url).attr("target", "_blank");
         } else {
-            $a.attr("href", "#" + grid.ScreenName).attr("class", "animsition-link");
+            $a.attr("href", "#" + grid.__next.id).attr("class", "animsition-link");
         }
 
         var $img = $("<img/>").attr("src", grid.UrlImage).attr("height", 50).attr("width", 50);
@@ -373,6 +373,28 @@ function createCall($, pageId, queue, title) {
     return $;
 }
 
+
+
+function createAction($, pageId, HTTPMethod, url,__next) {
+
+
+    var $p = $("<p/>").text("please wait");
+
+    pageId.replace(".", "//.");
+    var _script= document.createElement("script");
+    _script.text("$('#"pageId"').on('pageshow',function(event){UbiCallManager.Action("HTTPMethod","url","__next");});";
+    var $divpages = $("<div/>").attr("class", "ubi-pages");
+    var $content = $("<div/>").attr("data-role", "content");
+    var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
+
+    $divpages.append($p);
+    $divpages.append(_script);
+    $content.append($divpages);
+    $page.append($content);
+    $("body").prepend($page);
+    return $;
+}
+
 /**
 @param $ is cheerio documnet
 @param theme - theme name to add it"s css url
@@ -396,5 +418,6 @@ module.exports = {
     createInfo: createInfo,
     createCall: createCall,
     createForm: createForm,
+    createAction:createAction,
     applyTheme: applyTheme
 };

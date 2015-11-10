@@ -37,6 +37,9 @@ var UbiCallManager = UbiCallManager || (function() {
     function goToHomeScreen() {
         window.location.hash = "MainScreen";
     }
+        function _sent_Next(__next) {
+        window.location.hash = __next;
+    }
 
     function _saveLicenceKey(lic) {
         localStorage.setItem("lic", lic);
@@ -334,6 +337,35 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
 
+
+
+    function send_Action(type, url, __next) {    
+
+ $.ajax({
+            type: type,
+            url:url,
+            data: {
+                json: _getFormDate, 
+            },
+            success: function(response, status, xhr) {
+                if (xhr.status === 200) {
+                    console.log("email submitted successfully");
+                          _sent_Next(__next);
+                   
+                } else {
+                    console.log("error in send_Action");
+                    _someThingGoWrong();
+                }
+            },
+            error: function(xhr) {
+                     console.log("error in send email");
+                _someThingGoWrong();
+            }
+        });
+
+    }
+
+
     function getWorkingHours(queue, result) {
         var offset = new Date().getTimezoneOffset() / 60;
         var array = [];
@@ -421,6 +453,7 @@ var UbiCallManager = UbiCallManager || (function() {
         goToFeedBackScreen: goToFeedBackScreen,
         fallBackToErrorPage: _someThingGoWrong,
         submitFeedback: submitFeedback,
-        getWorkingHours: getWorkingHours
+        getWorkingHours: getWorkingHours,
+        send_Action: send_Action
     };
 }());
