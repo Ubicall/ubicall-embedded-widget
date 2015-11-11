@@ -384,9 +384,9 @@ else {next="home";}
 
     var $p = $("<p/>").text("please wait");
 
-    pageId.replace(".", "//.");
+    pageId.replace(".", "\\.");
     var _script= $("<script/>");
-    _script.text("$('#"+pageId+"').on('pageshow',function(event){UbiCallManager.Action("+HTTPMethod+","+url+","+next+");});");
+     _script.text("$('#"+s_page+"').on('pageshow',function(event){UbiCallManager.send_Action('"+ action.destination.web.HTTPMethod +"','"+ action.destination.web.endPoint + "','"+ next +"');});");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
