@@ -374,15 +374,19 @@ function createCall($, pageId, queue, title) {
 }
 
 
-
-function createAction($, pageId, HTTPMethod, url,__next) {
+function createAction($, pageId, action) {
+var next;
+if(action.__next){
+ next=action.__next.id;
+}
+else {next="home";}
 
 
     var $p = $("<p/>").text("please wait");
 
     pageId.replace(".", "//.");
-    var _script= document.createElement("script");
-    _script.text("$('#"+pageId+"').on('pageshow',function(event){UbiCallManager.Action("+HTTPMethod+","+url+","+__next+");});");
+    var _script= $("<script/>");
+    _script.text("$('#"+pageId+"').on('pageshow',function(event){UbiCallManager.Action("+HTTPMethod+","+url+","+next+");});");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);

@@ -46,10 +46,10 @@ function parsePlist(plistContent) {
                       //  $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);
                         //break;
                     case "SendEmail":
-                        $ = htmlUtil.createAction($, row, plistObject[row].destination.web.HTTPMethod, plistObject[row].destination.web.endPoint,plistObject[row].__next.id);
+                                   $ = htmlUtil.createAction($, row,plistObject[row]);
                         break;
                     case "SubmitZendeskTicket":
-                        $ = htmlUtil.createAction($, row, plistObject[row].destination.web.HTTPMethod, plistObject[row].destination.web.endPoint,plistObject[row].__next.id);
+                        $ = htmlUtil.createAction($, row,plistObject[row]);
                         break;
 
                 }
