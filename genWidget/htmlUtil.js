@@ -317,7 +317,7 @@ function createInfo($, pageId, info) {
 
     $divpages.append($p);
         if(info.__next){
-  var $a = $("<a/>").attr("class", "list-group-item lest-01").text(Next);
+  var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
             $a.attr("href", "#" + info.__next.id);
              $divpages.append($a);
 }
