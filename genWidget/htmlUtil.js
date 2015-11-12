@@ -125,11 +125,8 @@ function createChoices($, pageId, choices, title) {
     choices.forEach(function(choice) {
 
         var $a = $("<a/>").attr("class", "list-group-item lest-01").text(choice.ChoiceText);
-        if (choice.url) {
-            $a.attr("href", choice.url).attr("target", "_blank");
-        } else {
             $a.attr("href", "#" + choice.__next.id);
-        }
+        
         $divlist.append($a);
     });
     var $divpages = $("<div/>").attr("class", "ubi-pages");
@@ -384,7 +381,7 @@ else {next="home";}
 
     var $p = $("<p/>").text("please wait");
 
-    pageId.replace(".", "\\.");
+    var s_page = pageId.replace(".", "\\.");
     var _script= $("<script/>");
      _script.text("$('#"+s_page+"').on('pageshow',function(event){UbiCallManager.send_Action('"+ action.destination.web.HTTPMethod +"','"+ action.destination.web.endPoint + "','"+ next +"');});");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
