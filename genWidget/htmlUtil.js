@@ -382,7 +382,7 @@ else {next="home";}
 
     var $p = $("<p/>").text("please wait");
 
-    var s_page = pageId.replace(/\./g, '\\\\.';
+    var s_page = pageId.replace(/\./g, '\\\\.');
     var _script= $("<script/>");
      _script.text("$('#"+s_page+"').on('pageshow',function(event){UbiCallManager.send_Action('"+ action.destination.web.HTTPMethod +"','"+ action.destination.web.endPoint + "','"+ next +"');});");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
