@@ -125,11 +125,8 @@ function createChoices($, pageId, choices, title) {
     choices.forEach(function(choice) {
 
         var $a = $("<a/>").attr("class", "list-group-item lest-01").text(choice.ChoiceText);
-        if (choice.url) {
-            $a.attr("href", choice.url).attr("target", "_blank");
-        } else {
-            $a.attr("href", "#" + choice.ScreenName);
-        }
+            $a.attr("href", "#" + choice.__next.id);
+        
         $divlist.append($a);
     });
     var $divpages = $("<div/>").attr("class", "ubi-pages");
@@ -177,12 +174,7 @@ function createGrid($, pageId, grids, title) {
     grids.forEach(function(grid) {
         var $li = $("<li/>");
         var $a = $("<a/>");
-        if (grid.url) {
-            $a.attr("href", grid.url).attr("target", "_blank");
-        } else {
-            $a.attr("href", "#" + grid.ScreenName).attr("class", "animsition-link");
-        }
-
+        $a.attr("href", "#" + grid.__next.id).attr("class", "animsition-link");
         var $img = $("<img/>").attr("src", grid.UrlImage).attr("height", 50).attr("width", 50);
         $a.append($img).append(grid.ChoiceText);
         $li.append($a);
@@ -373,6 +365,32 @@ function createCall($, pageId, queue, title) {
     return $;
 }
 
+
+function createAction($, pageId, action) {
+var next;
+if(action.__next){
+ next=action.__next.id;
+}
+else {next="home";}
+
+
+    var $p = $("<p/>").text("please wait");
+
+    var s_page = pageId.replace(".", "\\.");
+    var _script= $("<script/>");
+     _script.text("$('#"+s_page+"').on('pageshow',function(event){UbiCallManager.send_Action('"+ action.destination.web.HTTPMethod +"','"+ action.destination.web.endPoint + "','"+ next +"');});");
+    var $divpages = $("<div/>").attr("class", "ubi-pages");
+    var $content = $("<div/>").attr("data-role", "content");
+    var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
+
+    $divpages.append($p);
+    $divpages.append(_script);
+    $content.append($divpages);
+    $page.append($content);
+    $("body").prepend($page);
+    return $;
+}
+
 /**
 @param $ is cheerio documnet
 @param theme - theme name to add it"s css url
@@ -396,5 +414,6 @@ module.exports = {
     createInfo: createInfo,
     createCall: createCall,
     createForm: createForm,
+    createAction:createAction,
     applyTheme: applyTheme
 };
