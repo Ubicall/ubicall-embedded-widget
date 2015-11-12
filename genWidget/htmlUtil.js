@@ -125,7 +125,7 @@ function createChoices($, pageId, choices, title) {
     choices.forEach(function(choice) {
 
         var $a = $("<a/>").attr("class", "list-group-item lest-01").text(choice.ChoiceText);
-            $a.attr("href", "#" + choice.__next);
+            $a.attr("href", "#" + choice.__next.id);
         
         $divlist.append($a);
     });
@@ -174,7 +174,7 @@ function createGrid($, pageId, grids, title) {
     grids.forEach(function(grid) {
         var $li = $("<li/>");
         var $a = $("<a/>");
-        $a.attr("href", "#" + grid.__next).attr("class", "animsition-link");
+        $a.attr("href", "#" + grid.__next.id).attr("class", "animsition-link");
         var $img = $("<img/>").attr("src", grid.UrlImage).attr("height", 50).attr("width", 50);
         $a.append($img).append(grid.ChoiceText);
         $li.append($a);
@@ -308,7 +308,7 @@ function createInfo($, pageId, info) {
     var header = setTitle($, info.ScreenTitle);
     var search = _search($);
 
-    var $p = $("<p/>").text(info.content);
+        var $p = $("<p/>").text(info.ContentText);
 
 
     var $divpages = $("<div/>").attr("class", "ubi-pages");
