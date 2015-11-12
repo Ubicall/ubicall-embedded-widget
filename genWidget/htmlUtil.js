@@ -174,12 +174,7 @@ function createGrid($, pageId, grids, title) {
     grids.forEach(function(grid) {
         var $li = $("<li/>");
         var $a = $("<a/>");
-        if (grid.url) {
-            $a.attr("href", grid.url).attr("target", "_blank");
-        } else {
-            $a.attr("href", "#" + grid.__next.id).attr("class", "animsition-link");
-        }
-
+        $a.attr("href", "#" + grid.__next.id).attr("class", "animsition-link");
         var $img = $("<img/>").attr("src", grid.UrlImage).attr("height", 50).attr("width", 50);
         $a.append($img).append(grid.ChoiceText);
         $li.append($a);
