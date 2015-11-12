@@ -39,9 +39,9 @@ function parsePlist(plistContent) {
                     case "Grid":
                         $ = htmlUtil.createGrid($, row, plistObject[row].choices, plistObject[row].ScreenTitle);
                         break;
-                    //case "Info":
-                      //$ = htmlUtil.createInfo($, row, plistObject[row].ContentText, plistObject[row].ScreenTitle,plistObject[row].__next.id);
-                       //break;
+                      case "Info":
+                      $ = htmlUtil.createInfo($, row, plistObject[row]);
+                       break;
                     //case "Call":
                       //  $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);
                         //break;
