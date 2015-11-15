@@ -235,15 +235,7 @@
           UbiCallManager._sent_Next(next);
         }
       }
-          helpers.submitFormEmail = function(form_id) {
-        if ( !form_id ) {
-          UbiCallManager.fallBackToErrorPage();
-        } else {
-          var formData = JSON.stringify($("form#"+form_id).serializeObject());
-          var did = $('form#' + form_id + ' #did').val();
-          UbiCallManager.send_form(formData,did);
-        }
-      }
+    
             helpers.getHours = function(queue) {
                 UbiCallManager.getWorkingHours(queue, function(output) {
                     if (output[0] === "closed") {
