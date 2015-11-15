@@ -341,13 +341,11 @@ var UbiCallManager = UbiCallManager || (function() {
 
 
     function send_Action(type, url, __next) {    
-
+var SDate =_getFormDate;
  $.ajax({
             type: type,
             url:url,
-            data: {
-                json: _getFormDate, 
-            },
+            data:  JSON.stringify(SDate),
             success: function(response, status, xhr) {
                 if (xhr.status === 200) {
                     console.log("email submitted successfully");
