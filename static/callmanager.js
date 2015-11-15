@@ -4,6 +4,7 @@ var UbiCallManager = UbiCallManager || (function() {
     var API = "https://api.ubicall.com";
     var V1 = API + "/v1";
     var AUTH = API + "/auth";
+    var Home_Screen;
 
     function _goToCallOptions() {
         window.location.hash = "callOptions";
@@ -35,11 +36,11 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
     function goToHomeScreen() {
-        window.location.hash = "MainScreen";
+        window.location.hash = Home_Screen;
     }
         function _sent_Next(__next) {
-            if(__next=== "home"){ goToHomeScreen();}
-           else{ window.location.hash = __next;}
+            
+            window.location.hash = __next;
     }
 
     function _saveLicenceKey(lic) {
@@ -92,6 +93,10 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function _removeCallId(id) {
         localStorage.removeItem("callID");
+    }
+    function _Set_Home(home) {
+        Home_Screen=home;
+        goToHomeScreen();
     }
 
     function _getAT() {
@@ -454,6 +459,7 @@ var SDate =_getFormDate;
         submitFeedback: submitFeedback,
         getWorkingHours: getWorkingHours,
         send_Action: send_Action,
-        _sent_Next: _sent_Next
+        _sent_Next: _sent_Next,
+        _Set_Home: _Set_Home
     };
 }());

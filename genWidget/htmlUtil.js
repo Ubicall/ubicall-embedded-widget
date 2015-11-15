@@ -111,10 +111,10 @@ function _search($) {
         <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
       </div>
 **/
-function createChoices($, pageId, choices, title) {
+function createChoices($, pageId, choices, title,home) {
 
     var header;
-    if (pageId === "MainScreen") {
+    if (pageId === home) {
         header = setTitle_main($, title);
     } else {
         header = setTitle($, title);
@@ -161,9 +161,9 @@ function createChoices($, pageId, choices, title) {
          </li>
        </ul>
  **/
-function createGrid($, pageId, grids, title) {
+function createGrid($, pageId, grids, title,home) {
     var header;
-    if (pageId === "MainScreen") {
+    if (pageId === home) {
         header = setTitle_main($, title);
     } else {
         header = setTitle($, title);
@@ -218,11 +218,18 @@ function createGrid($, pageId, grids, title) {
         <input type="hidden" id="qid" value="@param queue">
     </div>
  **/
-function createForm($, pageId ,form) {
+function createForm($, pageId ,form ,home) {
 
     var formId = pageId.replace(/[^a-z0-9\s]/gi, "").replace(/[_\s]/g, "-");
-    var header = setTitle($,form.ScreenTitle);
-    var search = _search($);
+ 
+    var header;
+
+    if (pageId === home) {
+        header = setTitle_main($, form.ScreenTitle);
+    } else {
+        header = setTitle($, form.ScreenTitle);
+    }
+     var search = _search($);
 
     var $maidiv = $("<div/>").attr("class", "ubi-pages");
 
@@ -230,7 +237,7 @@ function createForm($, pageId ,form) {
     var path;
 if(form.__next){
 path =form.__next.id;
-}else{ path = "home" }
+}else{ path = home }
     var $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
             .attr("onsubmit", "helpers.submitForm('form-" + formId + "','"+ path +"');return false;");
    
@@ -307,10 +314,16 @@ path =form.__next.id;
 @return
   <p> @param content</p>
 **/
-function createInfo($, pageId, info) {
+function createInfo($, pageId, info,home) {
 
-    var header = setTitle($, info.ScreenTitle);
-    var search = _search($);
+   var header;
+    if (pageId === home) {
+        header = setTitle_main($, info.ScreenTitle);
+    } else {
+        header = setTitle($, info.ScreenTitle);
+    }
+     var search = _search($);
+    
 
         var $p = $("<p/>").text(info.ContentText);
 
@@ -346,8 +359,13 @@ function createInfo($, pageId, info) {
 
 function createCall($, pageId, queue, title) {
 
-    var header = setTitle($, title);
-    var search = _search($);
+    var header;
+    if (pageId === home) {
+        header = setTitle_main($, title);
+    } else {
+        header = setTitle($, title);
+    }
+     var search = _search($);
 
     var $div = $("<div/>");
 
@@ -376,12 +394,12 @@ function createCall($, pageId, queue, title) {
 }
 
 
-function createAction($, pageId, action) {
+function createAction($, pageId, action,home) {
 var next;
 if(action.__next){
  next=action.__next.id;
 }
-else {next="home";}
+else {next=home;}
 
 
     var $p = $("<p/>").text("please wait");
