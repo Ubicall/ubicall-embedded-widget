@@ -27,8 +27,8 @@ function parsePlist(plistContent) {
         }
         var $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
         var home = plistObject.__home.id;
-        console.log("home",home);
-         $=$("body").attr("onload","UbiCallManager._Set_Home('" + home + "')");
+       
+         $ =setHome($,home);
         for (var row in plistObject) {
             if (typeof plistObject[row] === "object") { // parse only plist component
                 var stype = plistObject[row].ScreenType;
