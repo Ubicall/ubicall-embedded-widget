@@ -218,62 +218,64 @@ function createGrid($, pageId, grids, title) {
         <input type="hidden" id="qid" value="@param queue">
     </div>
  **/
-function createForm($, pageId, formFields, Destination, FormTitle, title, form_type) {
+function createForm($, pageId ,form) {
 
     var formId = pageId.replace(/[^a-z0-9\s]/gi, "").replace(/[_\s]/g, "-");
-    var header = setTitle($, title);
+    var header = setTitle($,form.ScreenTitle);
     var search = _search($);
 
     var $maidiv = $("<div/>").attr("class", "ubi-pages");
 
-    var $p = $("<p/>").text(FormTitle);
+    var $p = $("<p/>").text(form.FormTitle);
+    var path;
+if(form.__next){
+path =form.__next.id;
+}else{ path = "home" }
+    var $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
+            .attr("onsubmit", "helpers.submitForm('form-" + formId + "','"path"');return false;");
+   
 
-    var $form;
-    if (form_type === "email") {
-        $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-            .attr("onsubmit", "helpers.submitFormEmail('form-" + formId + "');return false;");
-
-    } else {
-        $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-            .attr("onsubmit", "helpers.submitCallForm('form-" + formId + "');return false;");
-    }
-
-    formFields.forEach(function(field) {
+    form.FormFields.forEach(function(field) {
 
         var $div = $("<div/>").attr("class", "form-group");
         var $label = $("<label/>").text(field.FieldLabel);
 
         var $input = $("<input/>").attr("class", "form-control").attr("placeholder", field.Placeholder).attr("name", field.FieldLabel);
-
-        if (field.isMandatory === true) {
-            $input.attr("required", "required");
+        if (field.editable === false){
+           $input.attr("readonly", "readonly");
         }
+           if (field.FieldType === "Decimal"){
+           $input.attr("type", "number");
+        }
+        
+
+        if (field.required === true) {
+            $input.attr("required", "required");
+          }
         if (field.FieldType === "Date") {
             $input.attr("type", "date");
         } else if (field.FieldType === "Selector") {
+
             $input = $("<select/>").attr("class", "form-control").attr("name", field.FieldLabel);
-            field.Values.forEach(function(op) {
-                var $option = $("<option/>").text(op).val(op);
+            field.select_field_options.forEach(function(op) {
+                 var $option ;
+                if(op.value==="__default"){
+               $option = $("<option/>").text(op.name).val("").attr("disabled selected");
+                }
+                else{ $option = $("<option/>").text(op.name).val(op.value);}
                 $input.append($option);
             });
-        } else {
-            if (field.Keyboard === "0") {
-                $input.attr("type", "number");
-            } else {
-                $input.attr("type", "text");
-            }
-        }
+
+        } 
         $div.append($label);
         $div.append($input);
         $form.append($div);
 
     });
 
-    var $HinputId = $("<input/>").attr("type", "hidden").attr("id", "did").val(Destination.id);
-    var $HinputName = $("<input/>").attr("type", "hidden").attr("id", "dname").val(Destination.name);
+  
+  
     var $button = $("<button/>").attr("type", "submit").attr("class", "btn btn-default").text("Submit");
-    $form.append($HinputId);
-    $form.append($HinputName);
     $form.append($button);
     $maidiv.append($p);
     $maidiv.append($form);

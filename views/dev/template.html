@@ -214,24 +214,14 @@
     return o;
 };
 
-             helpers.submitCallForm = function(form_id) {
+            helpers.submitForm = function(form_id,next) {
         if ( !form_id ) {
           UbiCallManager.fallBackToErrorPage();
         } else {
              var formData = JSON.stringify($("form#"+form_id).serializeObject());
           var qid = $('form#' + form_id + ' #did').val();
           UbiCallManager.setFormDate(formData);
-          UbiCallManager.setPhoneCallQueue(qid);
-          UbiCallManager.goToCallOptions();
-        }
-      }
-          helpers.submitFormEmail = function(form_id) {
-        if ( !form_id ) {
-          UbiCallManager.fallBackToErrorPage();
-        } else {
-          var formData = JSON.stringify($("form#"+form_id).serializeObject());
-          var did = $('form#' + form_id + ' #did').val();
-          UbiCallManager.send_form(formData,did);
+          UbiCallManager._sent_Next(next);
         }
       }
             helpers.getHours = function(queue) {

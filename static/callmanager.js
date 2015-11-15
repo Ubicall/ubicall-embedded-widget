@@ -38,7 +38,8 @@ var UbiCallManager = UbiCallManager || (function() {
         window.location.hash = "MainScreen";
     }
         function _sent_Next(__next) {
-        window.location.hash = __next;
+            if(__next=== "home"){ goToHomeScreen();}
+           else{ window.location.hash = __next;}
     }
 
     function _saveLicenceKey(lic) {
@@ -454,6 +455,7 @@ var UbiCallManager = UbiCallManager || (function() {
         fallBackToErrorPage: _someThingGoWrong,
         submitFeedback: submitFeedback,
         getWorkingHours: getWorkingHours,
-        send_Action: send_Action
+        send_Action: send_Action,
+        _sent_Next: _sent_Next
     };
 }());
