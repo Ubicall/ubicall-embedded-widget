@@ -451,5 +451,6 @@ module.exports = {
     createCall: createCall,
     createForm: createForm,
     createAction:createAction,
-    applyTheme: applyTheme
+    applyTheme: applyTheme,
+    setHome: setHome
 };
