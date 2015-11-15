@@ -36,6 +36,10 @@ function parsePlist(plistContent) {
                     case "Form":
                        $ = htmlUtil.createForm($, row, plistObject[row]);
                         break;
+                          case "ZendeskForm":
+                       $ = htmlUtil.createForm($, row, plistObject[row]);
+                        break;
+                        
                     case "Grid":
                         $ = htmlUtil.createGrid($, row, plistObject[row].choices, plistObject[row].ScreenTitle);
                         break;

@@ -244,10 +244,12 @@ path =form.__next.id;
         if (field.editable === false){
            $input.attr("readonly", "readonly");
         }
-           if (field.FieldType === "Decimal"){
-           $input.attr("type", "number");
+           if (field.FieldType === "Integer"){
+           $input.attr("type", "number").attr("step", 1);
         }
-        
+           if (field.FieldType === "Decimal"){
+           $input.attr("type", "number").attr("step", 0.01);;
+        }
 
         if (field.required === true) {
             $input.attr("required", "required");
