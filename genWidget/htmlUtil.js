@@ -452,5 +452,5 @@ module.exports = {
     createForm: createForm,
     createAction:createAction,
     applyTheme: applyTheme,
-    setHome: setHome
+    _Set_Home: _Set_Home
 };
