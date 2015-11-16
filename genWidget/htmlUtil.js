@@ -383,7 +383,7 @@ var s_page = pageId.replace(/\./g, '\\\\.');
     $divpages.append(_script);
         if(Url.__next){
   var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
-            $a.attr("href", "#" + info.__next.id);
+            $a.attr("href", "#" + Url.__next.id);
              $divpages.append($a);
 }
 
