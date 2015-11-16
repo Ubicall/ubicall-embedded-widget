@@ -50,6 +50,10 @@ function parsePlist(plistContent) {
                       case "Info":
                       $ = htmlUtil.createInfo($, row, plistObject[row],home);
                        break;
+
+                        case "URL":
+                      $ = htmlUtil.createUrl($, row, plistObject[row],home);
+                       break;
                     //case "Call":
                       //  $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);
                         //break;

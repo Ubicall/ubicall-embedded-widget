@@ -355,6 +355,46 @@ function createInfo($, pageId, info,home) {
     return $;
 }
 
+
+
+
+
+function createUrl($, pageId, Url,home) {
+
+   var header;
+    if (pageId === home) {
+        header = setTitle_main($, Url.ScreenTitle);
+    } else {
+        header = setTitle($, Url.ScreenTitle);
+    }
+     var search = _search($);
+    
+
+        var $p = $("<p/>").text("The URL  is Opened in another Page");
+
+var s_page = pageId.replace(/\./g, '\\\\.');
+    var _script= $("<script/>");
+     _script.text("$('#"+s_page+"').on('pageshow',function(event){window.open('"+Url.url+"', '_blank');});");
+    var $divpages = $("<div/>").attr("class", "ubi-pages");
+    var $content = $("<div/>").attr("data-role", "content");
+    var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
+
+    $divpages.append($p);
+    $divpages.append(_script);
+        if(Url.__next){
+  var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
+            $a.attr("href", "#" + info.__next.id);
+             $divpages.append($a);
+}
+
+    $content.append(header);
+    $content.append(search);
+    $content.append($divpages);
+    $page.append($content);
+    $("body").prepend($page);
+    return $;
+}
+
 /**
 @param $ is cheerio documnet
 @param queue queue id
