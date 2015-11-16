@@ -451,18 +451,16 @@ if(action.__next){
 else {next=home;}
 
 
-    var $p = $("<p/>").text("please wait");
-
+  var $img = $("<img/>").attr("src", "https://cdn.ubicall.com/static/ubicall/images/loading.gif");
+   
     var s_page = pageId.replace(/\./g, '\\\\.');
     var _script= $("<script/>");
      _script.text("$('#"+s_page+"').on('pageshow',function(event){UbiCallManager.send_Action('"+ action.destination.web.HTTPMethod +"','"+ action.destination.web.endPoint + "','"+ next +"');});");
-    var $divpages = $("<div/>").attr("class", "ubi-pages");
     var $content = $("<div/>").attr("data-role", "content");
-    var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
+    var $page = $("<div/>").attr("data-role", "page").attr("id", pageId).attr("class", "popup-01");
 
-    $divpages.append($p);
-    $divpages.append(_script);
-    $content.append($divpages);
+    $content.append($img);
+    $content.append(_script);
     $page.append($content);
     $("body").prepend($page);
     return $;
