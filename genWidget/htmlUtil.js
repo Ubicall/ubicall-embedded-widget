@@ -6,7 +6,7 @@ var settings = require("../settings");
 
 function Set_Home($,home) {
  var _script= $("<script/>");
-     _script.text("   window.onpaint = UbiCallManager._Set_Home('" + home + "');");
+     _script.text("   window.onload = UbiCallManager._Set_Home('" + home + "');");
 $("head").append(_script);
     return $ ;
 }
