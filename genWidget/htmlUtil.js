@@ -4,7 +4,7 @@ var settings = require("../settings");
 
 
 
-function _Set_Home($,home) {
+function Set_Home($,home) {
 
 $("body").attr("onload","UbiCallManager._Set_Home('" + home + "')");
     return $ ;
@@ -452,5 +452,5 @@ module.exports = {
     createForm: createForm,
     createAction:createAction,
     applyTheme: applyTheme,
-    _Set_Home: _Set_Home
+    Set_Home: Set_Home
 };
