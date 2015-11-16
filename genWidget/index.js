@@ -28,7 +28,7 @@ function parsePlist(plistContent) {
         var $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
         var home = plistObject.__home.id;
        
-         $ =  Set_Home($ , home);
+         $ =  htmlUtil.Set_Home($ , home);
          
         for (var row in plistObject) {
             if (typeof plistObject[row] === "object") { // parse only plist component
