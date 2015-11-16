@@ -256,7 +256,7 @@ path =form.__next.id;
         var $div = $("<div/>").attr("class", "form-group");
         var $label = $("<label/>").text(field.FieldLabel);
 
-        var $input = $("<input/>").attr("class", "form-control").attr("placeholder", field.Placeholder).attr("name", field.FieldLabel);
+        var $input = $("<input/>").attr("class", "form-control").attr("placeholder", field.Placeholder).attr("name", field.FieldValue);
         if (field.editable === false){
            $input.attr("readonly", "readonly");
         }
@@ -274,7 +274,7 @@ path =form.__next.id;
             $input.attr("type", "date");
         } else if (field.FieldType === "Selector") {
 
-            $input = $("<select/>").attr("class", "form-control").attr("name", field.FieldLabel);
+            $input = $("<select/>").attr("class", "form-control").attr("name", field.FieldValue);
             field.select_field_options.forEach(function(op) {
                  var $option ;
                 if(op.value==="__default"){
