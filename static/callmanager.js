@@ -242,7 +242,6 @@ var UbiCallManager = UbiCallManager || (function() {
             data: {
                 caller_type: 3,
                 voiceuser_id: phone,
-                qid: PHONE_SUBMIT_QUEUE,
                 json: FORM_DATA || "",
                 long: GEO && GEO.longitude ? GEO.longitude : "",
                 lat: GEO && GEO.latitude ? GEO.latitude : ""
