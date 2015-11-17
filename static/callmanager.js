@@ -172,11 +172,11 @@ var UbiCallManager = UbiCallManager || (function() {
         return deferred.promise();
     }
 
-    function scheduleSipCall(queue) {
+    function scheduleSipCall(type,url) {
         sipSign().done(function(_sip) {
             $.ajax({
-                type: "POST",
-                url: V1 + "/web/call",
+                type: type,
+                url:url,
                 data: {
                     caller_type: 2, // flag mean this is usuall web call
                     voiceuser_id: _sip.username,
@@ -284,9 +284,13 @@ var UbiCallManager = UbiCallManager || (function() {
         goToHomeScreen();
     }
 
-    function setPhoneCallQueue(queue) {
-        PHONE_SUBMIT_QUEUE = queue;
-        localStorage.setItem("queue", queue);
+    function setPhoneCallQueue(type,url) {
+       
+       var queue ={}
+       queue.stype=type;
+        queue.url=url;
+         //PHONE_SUBMIT_QUEUE = queue;
+      return localStorage.setItem("queue", JSON.stringify(queue));
     }
 
     function _getPhoneCallQueue() {

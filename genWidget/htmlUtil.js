@@ -406,23 +406,23 @@ var s_page = pageId.replace(/\./g, '\\\\.');
   </div>
 **/
 
-function createCall($, pageId, queue, title) {
+function createCall($, pageId, call,home) {
 
     var header;
     if (pageId === home) {
-        header = setTitle_main($, title);
+        header = setTitle_main($, call.ScreenTitle);
     } else {
-        header = setTitle($, title);
+        header = setTitle($, call.ScreenTitle);
     }
      var search = _search($);
 
     var $div = $("<div/>");
 
-    var $buttona = $("<button/>").attr("class", "btn btn-default").text("Receive web VoIP call").attr("id", "receive-web")
-        .attr("onclick", "this.disabled=true;UbiCallManager.scheduleSipCall(" + queue + ");this.disabled=false");
+ var $buttona = $("<button/>").attr("class", "btn btn-default").text("Receive web VoIP call").attr("id", "receive-web")
+        .attr("onclick", "this.disabled=true;UbiCallManager.scheduleSipCall('" + call.destination.web.HTTPMethod + "', '" + call.destination.web.endPoint + "');this.disabled=false");
 
-    var $buttonb = $("<button/>").attr("class", "btn btn-default").text("Receive a call on Cell phone")
-        .attr("onclick", "this.disabled=true;UbiCallManager.setPhoneCallQueue(" + queue + ");UbiCallManager.goTosubmitPhoneCall();helpers.getHours(" + queue + ");this.disabled=false;");
+   var $buttonb = $("<button/>").attr("class", "btn btn-default").text("Receive a call on Cell phone")
+        .attr("onclick", "this.disabled=true;UbiCallManager.setPhoneCallQueue('" + call.destination.web.HTTPMethod + "', '" + call.destination.web.endPoint + "');UbiCallManager.goTosubmitPhoneCall();this.disabled=false;");
 
 
     $div.append($buttona);
