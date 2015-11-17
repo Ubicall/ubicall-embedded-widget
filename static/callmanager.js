@@ -238,7 +238,7 @@ var UbiCallManager = UbiCallManager || (function() {
     function schedulePhoneCall(phone, time) {
         $.ajax({
             type: "POST",
-            url: V1 + "web/call",
+            url: V1 + "/web/call",
             data: {
                 caller_type: 3,
                 voiceuser_id: phone,
