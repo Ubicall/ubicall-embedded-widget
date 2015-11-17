@@ -353,6 +353,8 @@ var SDate =_getFormDate();
             type: type,
             url:url,
             data:SDate,
+            contentType: "application/json; charset=utf-8",
+            dataType   : "json",
             success: function(response, status, xhr) {
                 if (xhr.status === 200) {
                     console.log("email submitted successfully");
