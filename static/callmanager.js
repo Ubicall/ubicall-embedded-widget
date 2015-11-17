@@ -352,7 +352,7 @@ var SDate =_getFormDate;
  $.ajax({
             type: type,
             url:url,
-            data:  JSON.stringify(SDate),
+            data:SDate,
             success: function(response, status, xhr) {
                 if (xhr.status === 200) {
                     console.log("email submitted successfully");
