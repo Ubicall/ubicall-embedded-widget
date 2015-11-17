@@ -240,9 +240,10 @@ var UbiCallManager = UbiCallManager || (function() {
             url: V1 + "/web/call",
             data: {
                 caller_type: 3,
-                voiceuser_id: phone,
+                sip: phone,
                 json: FORM_DATA || "",
                 long: GEO && GEO.longitude ? GEO.longitude : "",
+                time:time,
                 lat: GEO && GEO.latitude ? GEO.latitude : ""
             },
             success: function(response, status, xhr) {
