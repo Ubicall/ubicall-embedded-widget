@@ -236,7 +236,6 @@
           UbiCallManager.fallBackToErrorPage();
         } else {
              var formData = JSON.stringify($("form#"+form_id).serializeObject());
-          var qid = $('form#' + form_id + ' #did').val();
           UbiCallManager.setFormDate(formData);
           UbiCallManager._sent_Next(next);
         }

@@ -348,8 +348,7 @@ var UbiCallManager = UbiCallManager || (function() {
 
 
     function send_Action(type, url, __next) {    
-var SDate =_getFormDate;
-console.log(" SDate  ",  JSON.stringify(SDate));
+var SDate =_getFormDate();
  $.ajax({
             type: type,
             url:url,
