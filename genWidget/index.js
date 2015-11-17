@@ -54,7 +54,8 @@ function parsePlist(plistContent) {
                         case "URL":
                       $ = htmlUtil.createUrl($, row, plistObject[row],home);
                        break;
-                    case "Call":
+                       
+                    case "SubmitCall":
                       $ = htmlUtil.createCall($, row, plistObject[row],home);
                         break;
 
