@@ -180,7 +180,6 @@ var UbiCallManager = UbiCallManager || (function() {
                 data: {
                     caller_type: 2, // flag mean this is usuall web call
                     voiceuser_id: _sip.username,
-                    qid: queue || PHONE_SUBMIT_QUEUE,
                     json: FORM_DATA || "",
                     long: GEO && GEO.longitude ? GEO.longitude : "",
                     lat: GEO && GEO.latitude ? GEO.latitude : ""
