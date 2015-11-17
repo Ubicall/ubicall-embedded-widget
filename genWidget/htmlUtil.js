@@ -33,7 +33,7 @@ function setTitle($, title) {
     var $a_home = $("<a/>").attr("href", "#").attr("onclick", "UbiCallManager.goToHomeScreen()");
     var $a_home_i = $("<i/>").attr("class", "fa fa-home fa-right");
 
-    var $title = $("<h3/>").text( title );
+    var $title = $("<h3/>").text( " "+title );
 
     $a_back.append($a_back_i);
     $a_home.append($a_home_i);
