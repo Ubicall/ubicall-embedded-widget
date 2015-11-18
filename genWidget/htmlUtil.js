@@ -374,6 +374,37 @@ function createCall($, pageId, queue, title) {
 }
 
 /**
+ * @param $ is cheerio documnet
+ * @param {String} pageId - current screen div id
+ * @param {Object} choice - choice screen object
+ * @param {String} choice.ScreenTitle - screen title
+ * @param {{ChoiceText:String, __next:{id: String}}[]} choice.choices - screen choices
+ **/
+function createAction($, pageId, action) {
+
+    var $img = $("<img/>").attr("src", "https://cdn.ubicall.com/static/ubicall/images/loading.gif");
+    // $('*[data-action-node]').is(":visible")
+    var $content = $("<div/>")
+        .attr("data-role", "content")
+        .attr("data-action-node", true)
+        .attr("data-http-method", action.destination.web.HTTPMethod)
+        .attr("data-end-point", action.destination.web.endPoint);
+    if (action.__next && action.__next.id) {
+        $content.attr("data-next", action.__next.id);
+    }
+
+    var $page = $("<div/>")
+        .attr("data-role", "page")
+        .attr("id", pageId)
+        .attr("class", "popup-01");
+
+    $content.append($img);
+    $page.append($content);
+    $("body").prepend($page);
+    return $;
+}
+
+/**
 @param $ is cheerio documnet
 @param theme - theme name to add it"s css url
 @return
@@ -396,5 +427,6 @@ module.exports = {
     createInfo: createInfo,
     createCall: createCall,
     createForm: createForm,
+    createAction: createAction,
     applyTheme: applyTheme
 };

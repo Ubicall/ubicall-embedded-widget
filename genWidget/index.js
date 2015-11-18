@@ -45,6 +45,15 @@ function parsePlist(plistContent) {
                     case "Call":
                         $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);
                         break;
+                    case "SubmitCall":
+                        $ = htmlUtil.createCall($, row, plistObject[row]);
+                        break;
+                    case "SendEmail":
+                        $ = htmlUtil.createAction($, row, plistObject[row]);
+                        break;
+                    case "SubmitZendeskTicket":
+                        $ = htmlUtil.createAction($, row, plistObject[row]);
+                        break;
                 }
             } else if (typeof plistObject[row] === "string" || plistObject[row] instanceof String) { //work with mete info like font , version ,theme
                 switch (row.toLowerCase()) {
