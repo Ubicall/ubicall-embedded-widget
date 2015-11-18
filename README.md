@@ -1,6 +1,8 @@
 # ubicall-embedded-widget
 > embeddable web component provide facility to browse your call center IVR in web browser
 
+[![Build Status](https://travis-ci.org/Ubicall/ubicall-embedded-widget.svg)](https://travis-ci.org/Ubicall/ubicall-embedded-widget.svg)
+
 ## How To use
 ```javascript
 <script src="https://platform.ubicall.com/widget/widget.min.js"></script>
