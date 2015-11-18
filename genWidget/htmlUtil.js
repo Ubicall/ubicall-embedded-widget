@@ -384,7 +384,7 @@ function createUrl($, pageId, Url,home) {
 
 var s_page = pageId.replace(/\./g, '\\\\.');
     var _script= $("<script/>");
-     _script.text("$('#"+s_page+"').on('pageshow',function(event){ $('#"+generateid+"').click() });");
+     _script.text("$('#"+s_page+"').on('pageshow',function(event){ $('#"+generateid+"').trigger('click');  });");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
