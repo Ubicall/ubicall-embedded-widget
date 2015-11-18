@@ -1,13 +1,19 @@
+/*jshint multistr: true */
 var should = require("should");
 var fs = require("fs");
 var settings = require("../../settings");
 var htmlUtil = require("../../genWidget/htmlUtil");
 var beautify_html = require("js-beautify").html;
 var cheerio = require("cheerio");
+var plist = require("plist");
 
 describe("htmlUtil functionality used to convert plist component to html ones", function() {
 
     var $;
+
+    var plistify = function(xml, id) {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE plist PUBLIC \"-\/\/Apple\/\/DTD PLIST 1.0\/\/EN\" \"http:\/\/www.apple.com\/DTDs\/PropertyList-1.0.dtd\">\r\n<plist version=\"1.0\"><dict><key>" + id + "</key>" + xml + "</dict></plist>";
+    };
 
     beforeEach(function() {
         $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
@@ -49,28 +55,47 @@ describe("htmlUtil functionality used to convert plist component to html ones", 
     describe("#createChoices()", function() {
         before(function() {
             $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
-            var choice = {
-                id: "3dd947db.c226b8",
-                name: "Help Types",
-                type: "view-choice",
-                choices: [{
-                    text: "Sales"
-                }, {
-                    text: "Subscriptions"
-                }, {
-                    text: "Technical support"
-                }],
-                wires: [
-                    ["d8d0fdc3.272f"],
-                    ["kiad65rf.55fg9"],
-                    ["66a152ec.995eac"]
-                ],
-                x: 357,
-                y: 141,
-                z: "17032888.e8fcd7"
-            };
+            var id = "3dd947db.c226b8";
+            var choice = "<dict>\
+                          <key>ScreenTitle</key>\
+                          <string>Help Types</string>\
+                          <key>ScreenType</key>\
+                          <string>Choice</string>\
+                          <key>choices</key>\
+                          <array>\
+                            <dict>\
+                              <key>ChoiceText</key>\
+                              <string>Sales</string>\
+                              <key>__next</key>\
+                              <dict>\
+                                <key>id</key>\
+                                <string>d8d0fdc3.272f</string>\
+                              </dict>\
+                            </dict>\
+                            <dict>\
+                              <key>ChoiceText</key>\
+                              <string>Subscriptions</string>\
+                              <key>__next</key>\
+                              <dict>\
+                                <key>id</key>\
+                                <string>kiad65rf.55fg9</string>\
+                              </dict>\
+                            </dict>\
+                            <dict>\
+                              <key>ChoiceText</key>\
+                              <string>Technical support</string>\
+                              <key>__next</key>\
+                              <dict>\
+                                <key>id</key>\
+                                <string>66a152ec.995eac</string>\
+                              </dict>\
+                            </dict>\
+                          </array>\
+                        </dict>";
 
-            $ = htmlUtil.createChoices($, choice.id, choice);
+            choice = plist.parse(plistify(choice, id));
+
+            $ = htmlUtil.createChoices($, id, choice);
 
         });
 
