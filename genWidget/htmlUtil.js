@@ -11,6 +11,12 @@ $("head").append(_script);
     return $ ;
 }
 
+
+
+function generateNumber() {
+    var generateN = Math.floor((Math.random() * 100) + 150);
+  return generateN ;
+}
 /**
 @param title is current sub page title
 @return
@@ -372,18 +378,22 @@ function createUrl($, pageId, Url,home) {
     
 
         var $p = $("<p/>").text("The URL  is Opened in another Page");
+                var $a = $("<a/>").attr("class", "list-group-item lest-01").text(Url.ScreenTitle);
+            $a.attr("href", Url.url).attr("target", "_blank");
+       var generateid = generateNumber();
 
 var s_page = pageId.replace(/\./g, '\\\\.');
     var _script= $("<script/>");
-     _script.text("$('#"+s_page+"').on('pageshow',function(event){window.open('"+Url.url+"', '_blank');});");
+     _script.text("$('#"+s_page+"').on('pageshow',function(event){ $('#"+generateid+"').click() });");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
     $divpages.append($p);
+        $divpages.append($a);
     $divpages.append(_script);
         if(Url.__next){
-  var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
+  var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next").attr("id",generateid);
             $a.attr("href", "#" + Url.__next.id);
              $divpages.append($a);
 }
