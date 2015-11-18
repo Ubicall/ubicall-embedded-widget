@@ -31,7 +31,7 @@ function parsePlist(plistContent) {
                 var stype = plistObject[row].ScreenType;
                 switch (stype) {
                     case "Choice":
-                        $ = htmlUtil.createChoices($, row, plistObject[row].choices, plistObject[row].ScreenTitle);
+                        $ = htmlUtil.createChoices($, row, plistObject[row]);
                         break;
                     case "Form":
                         $ = htmlUtil.createForm($, row, plistObject[row].FormFields, plistObject[row].Destination, plistObject[row].FormTitle, plistObject[row].ScreenTitle, plistObject[row].Callback);

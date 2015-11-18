@@ -47,30 +47,41 @@ describe("htmlUtil functionality used to convert plist component to html ones", 
     });
 
     describe("#createChoices()", function() {
-        it("should return should return div with nested anchors which has href as ScreenName or url and text ad ChoiceText", function() {
+        before(function() {
+            $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
+            var choice = {
+                id: "3dd947db.c226b8",
+                name: "Help Types",
+                type: "view-choice",
+                choices: [{
+                    text: "Sales"
+                }, {
+                    text: "Subscriptions"
+                }, {
+                    text: "Technical support"
+                }],
+                wires: [
+                    ["d8d0fdc3.272f"],
+                    ["kiad65rf.55fg9"],
+                    ["66a152ec.995eac"]
+                ],
+                x: 357,
+                y: 141,
+                z: "17032888.e8fcd7"
+            };
 
-            $ = htmlUtil.setTitle($, "Choice Screen");
-            $ = htmlUtil.createChoices($, [{
-                "url": "http://www.fedex.com/",
-                "ChoiceText": "Track Your Order"
-            }, {
-                "ScreenName": "7fc41f2b.803be",
-                "ChoiceText": "Call Us"
-            }]);
+            $ = htmlUtil.createChoices($, choice.id, choice);
 
-            ("Choice Screen").should.be.exactly($("#header .header").text());
-
-            (2).should.be.exactly($("#pages .list-group").children().length);
-
-            ("http://www.fedex.com/").should.be.exactly($("#pages .list-group :nth-child(1)").attr("href"));
-            ("_blank").should.be.exactly($("#pages .list-group :nth-child(1)").attr("target"));
-            ("Track Your Order").should.be.exactly($("#pages .list-group :nth-child(1)").text());
-
-            ("7fc41f2b.803be.html").should.be.exactly($("#pages .list-group :nth-child(2)").attr("href"));
-            ("Call Us").should.be.exactly($("#pages .list-group :nth-child(2)").text());
-
-            // console.log(beautify_html($("#pages").html()));
         });
+
+        it("should has @{choices} has same size as @param {choice.wires}");
+
+        it("should has choices with length @param {choice.choices}");
+
+        it("should has title with @param {choice.name}");
+
+        it("should has choice with next wire in same order");
+
     });
 
     describe("#createInfo()", function() {
