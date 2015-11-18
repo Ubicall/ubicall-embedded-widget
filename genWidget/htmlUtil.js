@@ -307,6 +307,7 @@ function createForm($, pageId, formFields, Destination, FormTitle, title, form_t
  * @param {Object} info - info screen object
  * @param {String} info.ScreenTitle - screen title
  * @param {String} info.ContentText - screen content
+ * @param {__next:{id:String}} info.__next - contain next screen id if exist
  **/
 function createInfo($, pageId, info) {
 

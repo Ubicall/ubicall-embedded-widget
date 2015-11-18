@@ -40,7 +40,7 @@ function parsePlist(plistContent) {
                         $ = htmlUtil.createGrid($, row, plistObject[row].choices, plistObject[row].ScreenTitle);
                         break;
                     case "Info":
-                        $ = htmlUtil.createInfo($, row, plistObject[row].ContentText, plistObject[row].ScreenTitle);
+                        $ = htmlUtil.createInfo($, row, plistObject[row]);
                         break;
                     case "Call":
                         $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);

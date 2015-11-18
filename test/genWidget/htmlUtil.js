@@ -1,13 +1,19 @@
+/*jshint multistr: true */
 var should = require("should");
 var fs = require("fs");
 var settings = require("../../settings");
 var htmlUtil = require("../../genWidget/htmlUtil");
 var beautify_html = require("js-beautify").html;
 var cheerio = require("cheerio");
+var plist = require("plist");
 
 describe("htmlUtil functionality used to convert plist component to html ones", function() {
 
     var $;
+
+    var plistify = function(xml, id) {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE plist PUBLIC \"-\/\/Apple\/\/DTD PLIST 1.0\/\/EN\" \"http:\/\/www.apple.com\/DTDs\/PropertyList-1.0.dtd\">\r\n<plist version=\"1.0\"><dict><key>" + id + "</key>" + xml + "</dict></plist>";
+    };
 
     beforeEach(function() {
         $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
@@ -17,30 +23,32 @@ describe("htmlUtil functionality used to convert plist component to html ones", 
 
         before(function() {
             $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
-            var info = {
-                "id": "4b266393.b4d99c",
-                "type": "view-info",
-                "name": "Help Note",
-                "help": "Increase customer satisfaction through Ubicall’s Interactive Visual Response (Visual IVR),smart form-filling, self-queueing technology and more",
-                "x": 362,
-                "y": 130,
-                "z": "17032888.e8fcd7",
-                "wires": [
-                    [
-                        "d8d0fdc3.272f"
-                    ]
-                ]
-            };
+            var id = "4b266393.b4d99c";
+            var info = "<dict>\
+                  <key>ScreenTitle</key>\
+                  <string>Help Note</string>\
+                  <key>ScreenType</key>\
+                  <string>Info</string>\
+                  <key>ContentText</key>\
+                  <string>Increase customer satisfaction through Ubicall’s Interactive Visual Response (Visual IVR),smart form-filling, self-queueing technology and more</string>\
+                  <key>__next</key>\
+                  <dict>\
+                    <key>id</key>\
+                    <string>d8d0fdc3.272f</string>\
+                  </dict>\
+              </dict>";
 
-            $ = htmlUtil.createInfo($, info.id, info);
+            info = plist.parse(plistify(info, id));
+
+            $ = htmlUtil.createInfo($, id, info);
 
         });
 
-        it("should has title with @param {info.name}");
+        it("should has title with @param {info.ScreenTitle}");
 
-        it("should has content with @param {info.help}");
+        it("should has content with @param {info.ContentText}");
 
-        it("should has next link with value @param {info.wires[0][0]}");
+        it("should has next link with value @param {info.__next.id}");
 
     });
 
@@ -99,22 +107,6 @@ describe("htmlUtil functionality used to convert plist component to html ones", 
 
             ("7fc41f2b.803be.html").should.be.exactly($("#pages .list-group :nth-child(2)").attr("href"));
             ("Call Us").should.be.exactly($("#pages .list-group :nth-child(2)").text());
-
-            // console.log(beautify_html($("#pages").html()));
-        });
-    });
-
-    describe("#createInfo()", function() {
-        it("should return paragraph with same content", function() {
-
-            var InfoText = "this is an info message";
-            $ = htmlUtil.setTitle($, "Info Screen");
-            $ = htmlUtil.createInfo($, InfoText);
-
-            ("Info Screen").should.be.exactly($("#header .header").text());
-
-            (1).should.be.exactly($("#pages").children().length);
-            (InfoText).should.be.exactly($("#pages p").text());
 
             // console.log(beautify_html($("#pages").html()));
         });
