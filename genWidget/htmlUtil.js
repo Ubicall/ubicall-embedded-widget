@@ -375,12 +375,12 @@ function createUrl($, pageId, Url,home) {
         header = setTitle($, Url.ScreenTitle);
     }
      var search = _search($);
-    
+        var generateid = generateNumber();
 
         var $p = $("<p/>").text("The URL  is Opened in another Page");
                 var $a = $("<a/>").attr("class", "list-group-item lest-01").text(Url.ScreenTitle);
-            $a.attr("href", Url.url).attr("target", "_blank");
-       var generateid = generateNumber();
+            $a.attr("href", Url.url).attr("target", "_blank").attr("id",generateid);
+   
 
 var s_page = pageId.replace(/\./g, '\\\\.');
     var _script= $("<script/>");
@@ -390,12 +390,12 @@ var s_page = pageId.replace(/\./g, '\\\\.');
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
     $divpages.append($p);
-        $divpages.append($a);
+    $divpages.append($a);
     $divpages.append(_script);
         if(Url.__next){
-  var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next").attr("id",generateid);
-            $a.attr("href", "#" + Url.__next.id);
-             $divpages.append($a);
+  var $a_next = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
+            $a_next.attr("href", "#" + Url.__next.id);
+             $divpages.append($a_next);
 }
 
     $content.append(header);
