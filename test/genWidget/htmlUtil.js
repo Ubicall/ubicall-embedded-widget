@@ -13,6 +13,37 @@ describe("htmlUtil functionality used to convert plist component to html ones", 
         $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
     });
 
+    describe("#createInfo()", function() {
+
+        before(function() {
+            $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
+            var info = {
+                "id": "4b266393.b4d99c",
+                "type": "view-info",
+                "name": "Help Note",
+                "help": "Increase customer satisfaction through Ubicall’s Interactive Visual Response (Visual IVR),smart form-filling, self-queueing technology and more",
+                "x": 362,
+                "y": 130,
+                "z": "17032888.e8fcd7",
+                "wires": [
+                    [
+                        "d8d0fdc3.272f"
+                    ]
+                ]
+            };
+
+            $ = htmlUtil.createInfo($, info.id, info);
+
+        });
+
+        it("should has title with @param {info.name}");
+
+        it("should has content with @param {info.help}");
+
+        it("should has next link with value @param {info.wires[0][0]}");
+
+    });
+
     describe("#createGrid()", function() {
         it("should return ul with nested li contain anchor with href as nextLink has text as text and nested image with source as iconLink", function() {
 

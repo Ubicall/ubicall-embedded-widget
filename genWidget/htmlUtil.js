@@ -301,22 +301,19 @@ function createForm($, pageId, formFields, Destination, FormTitle, title, form_t
 
 }
 
-
-
-
-
 /**
-@param $ is cheerio documnet
-@param content " content for info screen "
-@return
-  <p> @param content</p>
-**/
-function createInfo($, pageId, content, title) {
+ * @param $ is cheerio documnet
+ * @param {String} pageId - current screen div id
+ * @param {Object} info - info screen object
+ * @param {String} info.ScreenTitle - screen title
+ * @param {String} info.ContentText - screen content
+ **/
+function createInfo($, pageId, info) {
 
-    var header = setTitle($, title);
+    var header = setTitle($, info.ScreenTitle);
     var search = _search($);
 
-    var $p = $("<p/>").text(content);
+    var $p = $("<p/>").text(info.ContentText);
 
 
     var $divpages = $("<div/>").attr("class", "ubi-pages");
@@ -324,6 +321,12 @@ function createInfo($, pageId, content, title) {
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
     $divpages.append($p);
+    if (info.__next && info.__next.id) {
+        var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
+        $a.attr("href", "#" + info.__next.id);
+        $divpages.append($a);
+    }
+
     $content.append(header);
     $content.append(search);
     $content.append($divpages);

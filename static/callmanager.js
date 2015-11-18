@@ -26,7 +26,8 @@ var UbiCallManager = UbiCallManager || (function() {
     function _someThingGoWrong() {
         window.location.hash = "sorry";
     }
-        function _sent_successfully() {
+
+    function _sent_successfully() {
         window.location.hash = "email_Succes";
     }
 
@@ -304,29 +305,29 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
 
-    function send_form(data, email_id) {    
+    function send_form(data, email_id) {
 
- $.ajax({
+        $.ajax({
             type: "POST",
             url: V1 + "/email",
             data: {
-                json: data, 
+                json: data,
                 long: GEO && GEO.longitude ? GEO.longitude : "",
                 lat: GEO && GEO.latitude ? GEO.latitude : "",
-                email_id:email_id
+                email_id: email_id
             },
             success: function(response, status, xhr) {
                 if (xhr.status === 200) {
                     console.log("email submitted successfully");
-                          _sent_successfully();
-                   
+                    _sent_successfully();
+
                 } else {
                     console.log("error in send email");
                     _someThingGoWrong();
                 }
             },
             error: function(xhr) {
-                     console.log("error in send email");
+                console.log("error in send email");
                 _someThingGoWrong();
             }
         });
@@ -412,7 +413,7 @@ var UbiCallManager = UbiCallManager || (function() {
         cancleCurrentSipCall: cancleCurrentSipCall,
         setPhoneCallQueue: setPhoneCallQueue,
         setFormDate: setFormDate,
-         send_form: send_form,
+        send_form: send_form,
         getSipInfo: _getSipInfo,
         clearSipInfo: _removeSipInfo,
         goToHomeScreen: goToHomeScreen,
