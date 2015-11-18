@@ -379,7 +379,7 @@ function createUrl($, pageId, Url,home) {
 
         var $p = $("<p/>").text("The URL  is Opened in another Page");
                 var $a = $("<a/>").attr("id",generateid).attr("class", "list-group-item lest-01").text(Url.ScreenTitle);
-            $a.attr("href", Url.url).attr("target", "_blank");
+            $a.attr("href", Url.url);
    
 
 var s_page = pageId.replace(/\./g, '\\\\.');
