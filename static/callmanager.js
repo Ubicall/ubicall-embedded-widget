@@ -236,8 +236,8 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function schedulePhoneCall(phone, time) {
         $.ajax({
-            type: "POST",
-            url: V1 + "/web/call",
+            type: queueUrl.stype,
+            url: queueUrl.url,
             data: {
                 caller_type: 3,
                 sip: phone,
@@ -410,6 +410,7 @@ var SDate =_getFormDate();
     }
 
     var GEO = GEO || _getGeoInfo();
+    var queueUrl = queueUrl || _getPhoneCallQueue();
     var SIP = _getSipInfo();
 
     var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
