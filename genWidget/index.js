@@ -43,7 +43,6 @@ function parsePlist(plistContent) {
                     case "ZendeskForm":
                         $ = htmlUtil.createForm($, row, plistObject[row], home);
                         break;
-
                     case "Grid":
                         $ = htmlUtil.createGrid($, row, plistObject[row].choices, plistObject[row].ScreenTitle, home);
                         break;
@@ -70,7 +69,7 @@ function parsePlist(plistContent) {
             } else if (typeof plistObject[row] === "string" || plistObject[row] instanceof String) { //work with mete info like font , version ,theme
                 switch (row.toLowerCase()) {
                     case "theme":
-                        $ = htmlUtil.applyTheme($, plistObject[row]);
+                        $ = htmlUtil.applyTheme($, plistObject[row], settings.themeHost);
                         break;
                 }
             }

@@ -477,10 +477,10 @@ function createAction($, pageId, action, home) {
 @return
   <link href="cssHref" rel="stylesheet" />
 **/
-function applyTheme($, theme) {
+function applyTheme($, theme, themeHost) {
     theme = theme.toLowerCase();
     if (theme !== "default") {
-        var cssHref = settings.themeHost + theme + ".css";
+        var cssHref = themeHost + theme + ".css";
         var $cssLink = $("<link/>").attr("href", cssHref).attr("rel", "stylesheet");
         $("head").append($cssLink);
     }
