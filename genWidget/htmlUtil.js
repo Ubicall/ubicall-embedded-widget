@@ -1,7 +1,5 @@
 /*jshint scripturl:true*/
 
-var settings = require("../settings");
-
 /**
 @param title is current sub page title
 @return
@@ -204,7 +202,14 @@ function createGrid($, pageId, grids, title) {
 
 }
 
-
+/**
+ * @param $ is cheerio documnet
+ * @param {String} pageId - current screen div id
+ * @param {Object} form - form screen object
+ * @param {String} form.ScreenTitle - screen title
+ * @param {String} form.__next.id - next screen
+ * @param {{FieldLabel: String,FieldValue: String, FieldType: String , required: Boolean, editable: Boolean, Placeholder: String, select_field_options:{name: String, value: String}[]}[]} form.FormFields - screen choices
+ **/
 function createForm($, pageId, form) {
 
     var formId = pageId.replace(/[^a-z0-9\s]/gi, "").replace(/[_\s]/g, "-");
@@ -363,10 +368,10 @@ function createCall($, pageId, queue, title) {
 @return
   <link href="cssHref" rel="stylesheet" />
 **/
-function applyTheme($, theme) {
+function applyTheme($, theme, themeHost) {
     theme = theme.toLowerCase();
     if (theme !== "default") {
-        var cssHref = settings.themeHost + theme + ".css";
+        var cssHref = themeHost + theme + ".css";
         var $cssLink = $("<link/>").attr("href", cssHref).attr("rel", "stylesheet");
         $("head").append($cssLink);
     }
