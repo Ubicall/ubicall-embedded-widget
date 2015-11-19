@@ -369,7 +369,7 @@ function createUrl($, pageId, Url,home) {
         header = setTitle($, Url.ScreenTitle);
     }
      var search = _search($);
-    var $alink = $("<a/>").attr("href",Url.__next.id).attr("target","_blank").text("Here");
+    var $alink = $("<a/>").attr("href",Url.url).attr("target","_blank").text("Here");
        
 
         var $p = $("<p/>").text("The URL  is Opened in another Page, If URL was not Opened please Click").append($alink );
