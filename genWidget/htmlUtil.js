@@ -1,7 +1,5 @@
 /*jshint scripturl:true*/
 
-var settings = require("../settings");
-
 /**
 @param title is current sub page title
 @return
@@ -410,10 +408,10 @@ function createAction($, pageId, action) {
 @return
   <link href="cssHref" rel="stylesheet" />
 **/
-function applyTheme($, theme) {
+function applyTheme($, theme, themeHost) {
     theme = theme.toLowerCase();
     if (theme !== "default") {
-        var cssHref = settings.themeHost + theme + ".css";
+        var cssHref = themeHost + theme + ".css";
         var $cssLink = $("<link/>").attr("href", cssHref).attr("rel", "stylesheet");
         $("head").append($cssLink);
     }
