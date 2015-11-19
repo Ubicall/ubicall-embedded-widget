@@ -230,16 +230,15 @@
     });
     return o;
 };
-    
-             helpers.submitForm = function(form_id,next,FormType) {
+        helpers.submitForm = function(form_id,next,FormType) {
         if ( !form_id ) {
           UbiCallManager.fallBackToErrorPage();
         } else {
              var formData = JSON.stringify($("form#"+form_id).serializeObject());
              var data={};
              if(FormType==="Form"){
-               data.json=JSON.stringify(formData);
-             }else {data=JSON.stringify(formData);}
+               data.json=formData;
+             }else {data=formData;}
           UbiCallManager.setFormDate(data);
           UbiCallManager._sent_Next(next);
         }

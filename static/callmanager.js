@@ -289,7 +289,7 @@ var UbiCallManager = UbiCallManager || (function() {
        queue.stype=type;
         queue.url=url;
          //PHONE_SUBMIT_QUEUE = queue;
-      return localStorage.setItem("queue", JSON.stringify(queue));
+       localStorage.setItem("queue", JSON.stringify(queue));
     }
 
     function _getPhoneCallQueue() {
