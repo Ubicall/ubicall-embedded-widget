@@ -358,13 +358,15 @@ var UbiCallManager = UbiCallManager || (function() {
             SData = {
                 "json": FDate
             };
+            SData = JSON.stringify(SData);
+
         } else {
             SData = FDate;
         }
         $.ajax({
             type: type,
             url: url,
-            data: JSON.stringify(SData),
+            data: SData,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(response, status, xhr) {
