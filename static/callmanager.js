@@ -351,7 +351,7 @@ var UbiCallManager = UbiCallManager || (function() {
     function send_Action(type, url, __next,FotmType) {    
 var FDate =_getFormDate();
 var SData;
-if(FotmType === SendEmail){
+if(FotmType === "SendEmail"){
 SData= {"json":FDate};
 }else {SData=FDate}
  $.ajax({
