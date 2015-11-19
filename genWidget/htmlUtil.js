@@ -4,11 +4,11 @@ var settings = require("../settings");
 
 
 
-function Set_Home($,home) {
- var _script= $("<script/>");
-     _script.text("   window.onload = UbiCallManager._Set_Home('" + home + "');");
-$("head").append(_script);
-    return $ ;
+function Set_Home($, home) {
+    var _script = $("<script/>");
+    _script.text("   window.onload = UbiCallManager._Set_Home('" + home + "');");
+    $("head").append(_script);
+    return $;
 }
 
 /**
@@ -33,7 +33,7 @@ function setTitle($, title) {
     var $a_home = $("<a/>").attr("href", "#").attr("onclick", "UbiCallManager.goToHomeScreen()");
     var $a_home_i = $("<i/>").attr("class", "fa fa-home fa-right");
 
-    var $title = $("<h3/>").text( " "+title );
+    var $title = $("<h3/>").text(" " + title);
 
     $a_back.append($a_back_i);
     $a_home.append($a_home_i);
@@ -120,7 +120,7 @@ function _search($) {
         <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
       </div>
 **/
-function createChoices($, pageId, choices, title,home) {
+function createChoices($, pageId, choices, title, home) {
 
     var header;
     if (pageId === home) {
@@ -134,8 +134,8 @@ function createChoices($, pageId, choices, title,home) {
     choices.forEach(function(choice) {
 
         var $a = $("<a/>").attr("class", "list-group-item lest-01").text(choice.ChoiceText);
-            $a.attr("href", "#" + choice.__next.id);
-        
+        $a.attr("href", "#" + choice.__next.id);
+
         $divlist.append($a);
     });
     var $divpages = $("<div/>").attr("class", "ubi-pages");
@@ -170,7 +170,7 @@ function createChoices($, pageId, choices, title,home) {
          </li>
        </ul>
  **/
-function createGrid($, pageId, grids, title,home) {
+function createGrid($, pageId, grids, title, home) {
     var header;
     if (pageId === home) {
         header = setTitle_main($, title);
@@ -227,10 +227,10 @@ function createGrid($, pageId, grids, title,home) {
         <input type="hidden" id="qid" value="@param queue">
     </div>
  **/
-function createForm($, pageId ,form ,home) {
+function createForm($, pageId, form, home) {
 
     var formId = pageId.replace(/[^a-z0-9\s]/gi, "").replace(/[_\s]/g, "-");
- 
+
     var header;
 
     if (pageId === home) {
@@ -238,18 +238,20 @@ function createForm($, pageId ,form ,home) {
     } else {
         header = setTitle($, form.ScreenTitle);
     }
-     var search = _search($);
+    var search = _search($);
 
     var $maidiv = $("<div/>").attr("class", "ubi-pages");
 
     var $p = $("<p/>").text(form.FormTitle);
     var path;
-if(form.__next){
-path =form.__next.id;
-}else{ path = home }
+    if (form.__next) {
+        path = form.__next.id;
+    } else {
+        path = home;
+    }
     var $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-            .attr("onsubmit", "helpers.submitForm('form-" + formId + "','"+ path +"');return false;");
-   
+        .attr("onsubmit", "helpers.submitForm('form-" + formId + "','" + path + "');return false;");
+
 
     form.FormFields.forEach(function(field) {
 
@@ -257,42 +259,43 @@ path =form.__next.id;
         var $label = $("<label/>").text(field.FieldLabel);
 
         var $input = $("<input/>").attr("class", "form-control").attr("placeholder", field.Placeholder).attr("name", field.FieldValue);
-        if (field.editable === false){
-           $input.attr("readonly", "readonly");
+        if (field.editable === false) {
+            $input.attr("readonly", "readonly");
         }
-           if (field.FieldType === "Integer"){
-           $input.attr("type", "number").attr("step", 1);
+        if (field.FieldType === "Integer") {
+            $input.attr("type", "number").attr("step", 1);
         }
-           if (field.FieldType === "Decimal"){
-           $input.attr("type", "number").attr("step", 0.01);;
+        if (field.FieldType === "Decimal") {
+            $input.attr("type", "number").attr("step", 0.01);
         }
 
         if (field.required === true) {
             $input.attr("required", "required");
-          }
+        }
         if (field.FieldType === "Date") {
             $input.attr("type", "date");
         } else if (field.FieldType === "Selector") {
 
             $input = $("<select/>").attr("class", "form-control").attr("name", field.FieldValue);
             field.select_field_options.forEach(function(op) {
-                 var $option ;
-                if(op.value==="__default"){
-               $option = $("<option/>").text(op.name).val("").attr("disabled selected");
+                var $option;
+                if (op.value === "__default") {
+                    $option = $("<option/>").text(op.name).val("").attr("disabled selected");
+                } else {
+                    $option = $("<option/>").text(op.name).val(op.value);
                 }
-                else{ $option = $("<option/>").text(op.name).val(op.value);}
                 $input.append($option);
             });
 
-        } 
+        }
         $div.append($label);
         $div.append($input);
         $form.append($div);
 
     });
 
-  
-  
+
+
     var $button = $("<button/>").attr("type", "submit").attr("class", "btn btn-default").text("Submit");
     $form.append($button);
     $maidiv.append($p);
@@ -323,18 +326,18 @@ path =form.__next.id;
 @return
   <p> @param content</p>
 **/
-function createInfo($, pageId, info,home) {
+function createInfo($, pageId, info, home) {
 
-   var header;
+    var header;
     if (pageId === home) {
         header = setTitle_main($, info.ScreenTitle);
     } else {
         header = setTitle($, info.ScreenTitle);
     }
-     var search = _search($);
-    
+    var search = _search($);
 
-        var $p = $("<p/>").text(info.ContentText);
+
+    var $p = $("<p/>").text(info.ContentText);
 
 
     var $divpages = $("<div/>").attr("class", "ubi-pages");
@@ -342,11 +345,11 @@ function createInfo($, pageId, info,home) {
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
     $divpages.append($p);
-        if(info.__next){
-  var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
-            $a.attr("href", "#" + info.__next.id);
-             $divpages.append($a);
-}
+    if (info.__next) {
+        var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
+        $a.attr("href", "#" + info.__next.id);
+        $divpages.append($a);
+    }
 
     $content.append(header);
     $content.append(search);
@@ -360,34 +363,34 @@ function createInfo($, pageId, info,home) {
 
 
 
-function createUrl($, pageId, Url,home) {
+function createUrl($, pageId, Url, home) {
 
-   var header;
+    var header;
     if (pageId === home) {
         header = setTitle_main($, Url.ScreenTitle);
     } else {
         header = setTitle($, Url.ScreenTitle);
     }
-     var search = _search($);
-    var $alink = $("<a/>").attr("href",Url.url).attr("target","_blank").text("Here");
-       
+    var search = _search($);
+    var $alink = $("<a/>").attr("href", Url.url).attr("target", "_blank").text("Here");
 
-        var $p = $("<p/>").text("The URL  is Opened in another Page, If URL was not Opened please Click").append($alink );
 
-var s_page = pageId.replace(/\./g, '\\\\.');
-    var _script= $("<script/>");
-     _script.text("$('#"+s_page+"').on('pageshow',function(event){window.open('"+Url.url+"','_blank');});");
+    var $p = $("<p/>").text("The URL  is Opened in another Page, If URL was not Opened please Click").append($alink);
+
+    var s_page = pageId.replace(/\./g, "\\\\.");
+    var _script = $("<script/>");
+    _script.text("$('#" + s_page + "').on('pageshow',function(event){window.open('" + Url.url + "','_blank');});");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
     $divpages.append($p);
     $divpages.append(_script);
-        if(Url.__next){
-  var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
-            $a.attr("href", "#" + Url.__next.id);
-             $divpages.append($a);
-}
+    if (Url.__next) {
+        var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
+        $a.attr("href", "#" + Url.__next.id);
+        $divpages.append($a);
+    }
 
     $content.append(header);
     $content.append(search);
@@ -407,7 +410,7 @@ var s_page = pageId.replace(/\./g, '\\\\.');
   </div>
 **/
 
-function createCall($, pageId, call,home) {
+function createCall($, pageId, call, home) {
 
     var header;
     if (pageId === home) {
@@ -415,14 +418,14 @@ function createCall($, pageId, call,home) {
     } else {
         header = setTitle($, call.ScreenTitle);
     }
-     var search = _search($);
+    var search = _search($);
 
     var $div = $("<div/>");
 
- var $buttona = $("<button/>").attr("class", "btn btn-default").text("Receive web VoIP call").attr("id", "receive-web")
+    var $buttona = $("<button/>").attr("class", "btn btn-default").text("Receive web VoIP call").attr("id", "receive-web")
         .attr("onclick", "this.disabled=true;UbiCallManager.scheduleSipCall('" + call.destination.web.HTTPMethod + "', '" + call.destination.web.endPoint + "');this.disabled=false");
 
-   var $buttonb = $("<button/>").attr("class", "btn btn-default").text("Receive a call on Cell phone")
+    var $buttonb = $("<button/>").attr("class", "btn btn-default").text("Receive a call on Cell phone")
         .attr("onclick", "this.disabled=true;UbiCallManager.setPhoneCallQueue('" + call.destination.web.HTTPMethod + "', '" + call.destination.web.endPoint + "');UbiCallManager.goTosubmitPhoneCall();this.disabled=false;");
 
 
@@ -444,19 +447,20 @@ function createCall($, pageId, call,home) {
 }
 
 
-function createAction($, pageId, action,home) {
-var next;
-if(action.__next){
- next=action.__next.id;
-}
-else {next=home;}
+function createAction($, pageId, action, home) {
+    var next;
+    if (action.__next) {
+        next = action.__next.id;
+    } else {
+        next = home;
+    }
 
 
-  var $img = $("<img/>").attr("src", "https://cdn.ubicall.com/static/ubicall/images/loading.gif");
-   
-    var s_page = pageId.replace(/\./g, '\\\\.');
-    var _script= $("<script/>");
-     _script.text("$('#"+s_page+"').on('pageshow',function(event){UbiCallManager.send_Action('"+ action.destination.web.HTTPMethod +"','"+ action.destination.web.endPoint + "','"+ next +"','"+ action.ScreenType +"');});");
+    var $img = $("<img/>").attr("src", "https://cdn.ubicall.com/static/ubicall/images/loading.gif");
+
+    var s_page = pageId.replace(/\./g, "\\\\.");
+    var _script = $("<script/>");
+    _script.text("$('#" + s_page + "').on('pageshow',function(event){UbiCallManager.send_Action('" + action.destination.web.HTTPMethod + "','" + action.destination.web.endPoint + "','" + next + "','" + action.ScreenType + "');});");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId).attr("class", "popup-01");
 
@@ -490,7 +494,7 @@ module.exports = {
     createInfo: createInfo,
     createCall: createCall,
     createForm: createForm,
-    createAction:createAction,
+    createAction: createAction,
     applyTheme: applyTheme,
     Set_Home: Set_Home,
     createUrl: createUrl

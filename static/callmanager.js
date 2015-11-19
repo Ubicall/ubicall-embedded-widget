@@ -27,7 +27,8 @@ var UbiCallManager = UbiCallManager || (function() {
     function _someThingGoWrong() {
         window.location.hash = "sorry";
     }
-        function _sent_successfully() {
+
+    function _sent_successfully() {
         window.location.hash = "email_Succes";
     }
 
@@ -38,9 +39,10 @@ var UbiCallManager = UbiCallManager || (function() {
     function goToHomeScreen() {
         window.location.hash = Home_Screen;
     }
-        function _sent_Next(__next) {
-            
-            window.location.hash = __next;
+
+    function _sent_Next(__next) {
+
+        window.location.hash = __next;
     }
 
     function _saveLicenceKey(lic) {
@@ -94,8 +96,9 @@ var UbiCallManager = UbiCallManager || (function() {
     function _removeCallId(id) {
         localStorage.removeItem("callID");
     }
+
     function _Set_Home(home) {
-        Home_Screen=home;
+        Home_Screen = home;
         goToHomeScreen();
     }
 
@@ -172,11 +175,11 @@ var UbiCallManager = UbiCallManager || (function() {
         return deferred.promise();
     }
 
-    function scheduleSipCall(type,url) {
+    function scheduleSipCall(type, url) {
         sipSign().done(function(_sip) {
             $.ajax({
                 type: type,
-                url:url,
+                url: url,
                 data: {
                     caller_type: 2, // flag mean this is usuall web call
                     voiceuser_id: _sip.username,
@@ -243,7 +246,7 @@ var UbiCallManager = UbiCallManager || (function() {
                 sip: phone,
                 json: FORM_DATA || "",
                 long: GEO && GEO.longitude ? GEO.longitude : "",
-                time:time,
+                time: time,
                 lat: GEO && GEO.latitude ? GEO.latitude : ""
             },
             success: function(response, status, xhr) {
@@ -283,13 +286,13 @@ var UbiCallManager = UbiCallManager || (function() {
         goToHomeScreen();
     }
 
-    function setPhoneCallQueue(type,url) {
-       
-       var queue ={}
-       queue.stype=type;
-        queue.url=url;
-         //PHONE_SUBMIT_QUEUE = queue;
-       localStorage.setItem("queue", JSON.stringify(queue));
+    function setPhoneCallQueue(type, url) {
+
+        var queue = {};
+        queue.stype = type;
+        queue.url = url;
+        //PHONE_SUBMIT_QUEUE = queue;
+        localStorage.setItem("queue", JSON.stringify(queue));
     }
 
     function _getPhoneCallQueue() {
@@ -316,29 +319,29 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
 
-    function send_form(data, email_id) {    
+    function send_form(data, email_id) {
 
- $.ajax({
+        $.ajax({
             type: "POST",
             url: V1 + "/email",
             data: {
-                json: data, 
+                json: data,
                 long: GEO && GEO.longitude ? GEO.longitude : "",
                 lat: GEO && GEO.latitude ? GEO.latitude : "",
-                email_id:email_id
+                email_id: email_id
             },
             success: function(response, status, xhr) {
                 if (xhr.status === 200) {
                     console.log("email submitted successfully");
-                          _sent_successfully();
-                   
+                    _sent_successfully();
+
                 } else {
                     console.log("error in send email");
                     _someThingGoWrong();
                 }
             },
             error: function(xhr) {
-                     console.log("error in send email");
+                console.log("error in send email");
                 _someThingGoWrong();
             }
         });
@@ -348,31 +351,34 @@ var UbiCallManager = UbiCallManager || (function() {
 
 
 
-    function send_Action(type, url, __next,FotmType) {    
-var FDate =_getFormDate();
-var SData;
-if(FotmType === "SendEmail"){
-SData= {"json":FDate};
-console.log(SData);
-}else {SData=FDate}
- $.ajax({
+    function send_Action(type, url, __next, FotmType) {
+        var FDate = _getFormDate();
+        var SData;
+        if (FotmType === "SendEmail") {
+            SData = {
+                "json": FDate
+            };
+        } else {
+            SData = FDate;
+        }
+        $.ajax({
             type: type,
-            url:url,
-            data:JSON.stringify(SData),
+            url: url,
+            data: JSON.stringify(SData),
             contentType: "application/json; charset=utf-8",
-            dataType   : "json",
+            dataType: "json",
             success: function(response, status, xhr) {
                 if (xhr.status === 200) {
                     console.log("email submitted successfully");
-                          _sent_Next(__next);
-                   
+                    _sent_Next(__next);
+
                 } else {
                     console.log("error in send_Action");
                     _someThingGoWrong();
                 }
             },
             error: function(xhr) {
-                     console.log("error in send email");
+                console.log("error in send email");
                 _someThingGoWrong();
             }
         });
@@ -459,7 +465,7 @@ console.log(SData);
         cancleCurrentSipCall: cancleCurrentSipCall,
         setPhoneCallQueue: setPhoneCallQueue,
         setFormDate: setFormDate,
-         send_form: send_form,
+        send_form: send_form,
         getSipInfo: _getSipInfo,
         clearSipInfo: _removeSipInfo,
         goToHomeScreen: goToHomeScreen,

@@ -11,15 +11,13 @@
 
     <script src="https://cdn-dev.ubicall.com/static/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn-dev.ubicall.com/static/jquery-mobile/js/jquery.mobile-1.4.5.min.js"></script>
-    <script src="https://platform-dev.ubicall.com/widget/callmanager.js"></script>  
+    <script src="https://platform-dev.ubicall.com/widget/callmanager.js"></script>
 
-<style>
-
-.ui-select span {
-    display: none;
-}
-
-</style>
+    <style>
+        .ui-select span {
+            display: none;
+        }
+    </style>
 
 </head>
 
@@ -182,23 +180,23 @@
 
 
     <div data-role="page" id="email_Succes">
-    <div data-role="content">
-      <div class="ubi-header">
-        <a onclick="javascript:history.go(-1)">
-          <i class="fa fa-chevron-left fa-left"></i>
-        </a>
-        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
-          <i class="fa fa-home fa-right"></i>
-        </a>
-        <h3 class="header">Successfully</h3>
-      </div>
-      <div class="ubi-pages">
-        <h2>
+        <div data-role="content">
+            <div class="ubi-header">
+                <a onclick="javascript:history.go(-1)">
+                    <i class="fa fa-chevron-left fa-left"></i>
+                </a>
+                <a href="#" onclick="UbiCallManager.goToHomeScreen()">
+                    <i class="fa fa-home fa-right"></i>
+                </a>
+                <h3 class="header">Successfully</h3>
+            </div>
+            <div class="ubi-pages">
+                <h2>
          Sent Successfully<br><a onclick="UbiCallManager.goToHomeScreen()" href="#"> You Can Go To Home Screen.</a>
         </h2>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
     <!-- js -->
 
 
@@ -206,32 +204,31 @@
         var helpers = helpers || {};
         $(document).ready(function() {
             var feedback = {};
-   $.fn.serializeObject = function()
-{
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
-        }
-    });
-    return o;
-};
+            $.fn.serializeObject = function() {
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function() {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
 
-        helpers.submitForm = function(form_id,next) {
-        if ( !form_id ) {
-          UbiCallManager.fallBackToErrorPage();
-        } else {
-         var formData = JSON.stringify($("form#"+form_id).serializeObject());
-          UbiCallManager.setFormDate(formData);
-          UbiCallManager._sent_Next(next);
-        }
-      }
+            helpers.submitForm = function(form_id, next) {
+                if (!form_id) {
+                    UbiCallManager.fallBackToErrorPage();
+                } else {
+                    var formData = JSON.stringify($("form#" + form_id).serializeObject());
+                    UbiCallManager.setFormDate(formData);
+                    UbiCallManager._sent_Next(next);
+                }
+            }
             helpers.getHours = function(queue) {
                 UbiCallManager.getWorkingHours(queue, function(output) {
                     if (output[0] === "closed") {
