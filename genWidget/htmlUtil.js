@@ -331,34 +331,37 @@ function createInfo($, pageId, content, title) {
 }
 
 /**
-@param $ is cheerio documnet
-@param queue queue id
-@return
-  <div>
-    <button onclick="this.disabled=true;UbiCallManager.scheduleSipCall(@param queue);this.disabled=false;" class="btn btn-default">Receive web VoIP call</button>
-    <button onclick="this.disabled=true;UbiCallManager.setPhoneCallQueue(@param queue);UbiCallManager.goTosubmitPhoneCall();this.disabled=false;" class="btn btn-default">Receive a call on Cell phone</button>
-  </div>
-**/
+ * @param $ is cheerio documnet
+ * @param {String} pageId - current screen div id
+ * @param {Object} call - call screen object
+ * @param {String} call.ScreenTitle - screen title
+ * @param {String} call.__next.id - next screen
+ * @param {{web:{HTTPMethod: String, endPoint: url}, mobile:{HTTPMethod: String, endPoint: url}}} - call destination
+ **/
+function createCall($, pageId, call) {
 
-function createCall($, pageId, queue, title) {
+    var header = setTitle($, call.ScreenTitle);
 
-    var header = setTitle($, title);
     var search = _search($);
 
     var $div = $("<div/>");
 
     var $buttona = $("<button/>").attr("class", "btn btn-default").text("Receive web VoIP call").attr("id", "receive-web")
-        .attr("onclick", "this.disabled=true;UbiCallManager.scheduleSipCall(" + queue + ");this.disabled=false");
+        .attr("onclick", "this.disabled=true;UbiCallManager.scheduleSipCall('" + call.destination.web.HTTPMethod + "', '" + call.destination.web.endPoint + "');this.disabled=false");
 
     var $buttonb = $("<button/>").attr("class", "btn btn-default").text("Receive a call on Cell phone")
-        .attr("onclick", "this.disabled=true;UbiCallManager.setPhoneCallQueue(" + queue + ");UbiCallManager.goTosubmitPhoneCall();helpers.getHours(" + queue + ");this.disabled=false;");
+        .attr("onclick", "this.disabled=true;UbiCallManager.setPhoneCallQueue('" + call.destination.web.HTTPMethod + "', '" + call.destination.web.endPoint + "');UbiCallManager.goTosubmitPhoneCall();this.disabled=false;");
 
 
     $div.append($buttona);
     $div.append($buttonb);
 
     var $divpages = $("<div/>").attr("class", "ubi-pages");
-    var $content = $("<div/>").attr("data-role", "content");
+    var $content = $("<div/>").attr("data-role", "content")
+        .attr("data-call-node", true)
+        .attr("data-http-method", call.destination.web.HTTPMethod)
+        .attr("data-end-point", call.destination.web.endPoint);
+
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
     $divpages.append($div);
