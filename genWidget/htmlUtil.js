@@ -248,7 +248,7 @@ if(form.__next){
 path =form.__next.id;
 }else{ path = home }
     var $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-            .attr("onsubmit", "helpers.submitForm('form-" + formId + "','"+ path +"','"+ form.ScreenType +"');return false;");
+            .attr("onsubmit", "helpers.submitForm('form-" + formId + "','"+ path +"');return false;");
    
 
     form.FormFields.forEach(function(field) {
@@ -456,7 +456,7 @@ else {next=home;}
    
     var s_page = pageId.replace(/\./g, '\\\\.');
     var _script= $("<script/>");
-     _script.text("$('#"+s_page+"').on('pageshow',function(event){UbiCallManager.send_Action('"+ action.destination.web.HTTPMethod +"','"+ action.destination.web.endPoint + "','"+ next +"');});");
+     _script.text("$('#"+s_page+"').on('pageshow',function(event){UbiCallManager.send_Action('"+ action.destination.web.HTTPMethod +"','"+ action.destination.web.endPoint + "','"+ next +"','"+ action.ScreenType +"');});");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId).attr("class", "popup-01");
 

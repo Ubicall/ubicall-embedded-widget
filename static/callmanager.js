@@ -348,12 +348,16 @@ var UbiCallManager = UbiCallManager || (function() {
 
 
 
-    function send_Action(type, url, __next) {    
-var SDate =_getFormDate();
+    function send_Action(type, url, __next,FotmType) {    
+var FDate =_getFormDate();
+var SData;
+if(FotmType === SendEmail){
+SData= "json":FDate;
+}else {SData=FDate}
  $.ajax({
             type: type,
             url:url,
-            data:SDate,
+            data:SData,
             contentType: "application/json; charset=utf-8",
             dataType   : "json",
             success: function(response, status, xhr) {
