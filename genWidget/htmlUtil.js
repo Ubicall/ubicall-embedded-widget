@@ -203,71 +203,68 @@ function createGrid($, pageId, grids, title) {
 }
 
 /**
-  @param $ is form documnet
-  @param pageId is screen id
-  @param formFields [{FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard} , {FieldLabel, Placeholder, isMandatory ,FieldType,Keyboard}]
-  @param queue where to submit this form data
-  @param FormTitle "what this form about"
-  @return
-    <div>
-        <p>@param FormTitle</p>
-        <form id="form-@param pageId" action="" method="post" onsubmit="helpers.submitCallForm("form-@param pageId");return false;">
-            <div class="form-group">
-                <label>Gender</label>
-                <select class="form-control" name="Gender">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-        <input type="hidden" id="qid" value="@param queue">
-    </div>
+ * @param $ is cheerio documnet
+ * @param {String} pageId - current screen div id
+ * @param {Object} form - form screen object
+ * @param {String} form.ScreenTitle - screen title
+ * @param {String} form.__next.id - next screen
+ * @param {{FieldLabel: String,FieldValue: String, FieldType: String , required: Boolean, editable: Boolean, Placeholder: String, select_field_options:{name: String, value: String}[]}[]} form.FormFields - screen choices
  **/
-function createForm($, pageId, formFields, Destination, FormTitle, title, form_type) {
+function createForm($, pageId, form) {
 
     var formId = pageId.replace(/[^a-z0-9\s]/gi, "").replace(/[_\s]/g, "-");
-    var header = setTitle($, title);
+
+    var header;
+
+    header = setTitle($, form.ScreenTitle);
     var search = _search($);
 
     var $maidiv = $("<div/>").attr("class", "ubi-pages");
 
-    var $p = $("<p/>").text(FormTitle);
-
-    var $form;
-    if (form_type === "email") {
-        $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-            .attr("onsubmit", "helpers.submitFormEmail('form-" + formId + "');return false;");
-
-    } else {
-        $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-            .attr("onsubmit", "helpers.submitCallForm('form-" + formId + "');return false;");
+    var $p = $("<p/>").text(form.FormTitle);
+    var path;
+    if (form.__next && form.__next.id) {
+        path = form.__next.id;
     }
 
-    formFields.forEach(function(field) {
+    var $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
+        .attr("onsubmit", "helpers.submitForm('form-" + formId + "','" + path + "');return false;");
+
+
+    form.FormFields.forEach(function(field) {
 
         var $div = $("<div/>").attr("class", "form-group");
         var $label = $("<label/>").text(field.FieldLabel);
 
-        var $input = $("<input/>").attr("class", "form-control").attr("placeholder", field.Placeholder).attr("name", field.FieldLabel);
+        var $input = $("<input/>").attr("class", "form-control").attr("placeholder", field.Placeholder).attr("name", field.FieldValue);
+        if (field.editable === false) {
+            $input.attr("readonly", "readonly");
+        }
+        if (field.FieldType === "Integer") {
+            $input.attr("type", "number").attr("step", 1);
+        }
+        if (field.FieldType === "Decimal") {
+            $input.attr("type", "number").attr("step", 0.01);
+        }
 
-        if (field.isMandatory === true) {
+        if (field.required === true) {
             $input.attr("required", "required");
         }
         if (field.FieldType === "Date") {
             $input.attr("type", "date");
         } else if (field.FieldType === "Selector") {
-            $input = $("<select/>").attr("class", "form-control").attr("name", field.FieldLabel);
-            field.Values.forEach(function(op) {
-                var $option = $("<option/>").text(op).val(op);
+
+            $input = $("<select/>").attr("class", "form-control").attr("name", field.FieldValue);
+            field.select_field_options.forEach(function(op) {
+                var $option;
+                if (op.value === "__default") {
+                    $option = $("<option/>").text(op.name).val("").attr("disabled selected");
+                } else {
+                    $option = $("<option/>").text(op.name).val(op.value);
+                }
                 $input.append($option);
             });
-        } else {
-            if (field.Keyboard === "0") {
-                $input.attr("type", "number");
-            } else {
-                $input.attr("type", "text");
-            }
+
         }
         $div.append($label);
         $div.append($input);
@@ -275,11 +272,9 @@ function createForm($, pageId, formFields, Destination, FormTitle, title, form_t
 
     });
 
-    var $HinputId = $("<input/>").attr("type", "hidden").attr("id", "did").val(Destination.id);
-    var $HinputName = $("<input/>").attr("type", "hidden").attr("id", "dname").val(Destination.name);
+
+
     var $button = $("<button/>").attr("type", "submit").attr("class", "btn btn-default").text("Submit");
-    $form.append($HinputId);
-    $form.append($HinputName);
     $form.append($button);
     $maidiv.append($p);
     $maidiv.append($form);
@@ -298,10 +293,6 @@ function createForm($, pageId, formFields, Destination, FormTitle, title, form_t
     return $;
 
 }
-
-
-
-
 
 /**
 @param $ is cheerio documnet
