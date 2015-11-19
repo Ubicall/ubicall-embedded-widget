@@ -182,24 +182,24 @@
     </div>
 
 
-      <div data-role="page" id="email_Succes">
-    <div data-role="content">
-      <div class="ubi-header">
-        <a onclick="javascript:history.go(-1)">
-          <i class="fa fa-chevron-left fa-left"></i>
-        </a>
-        <a href="#" onclick="UbiCallManager.goToHomeScreen()">
-          <i class="fa fa-home fa-right"></i>
-        </a>
-        <h3 class="header">Successfully</h3>
-      </div>
-      <div class="ubi-pages">
-        <h2>
+    <div data-role="page" id="email_Succes">
+        <div data-role="content">
+            <div class="ubi-header">
+                <a onclick="javascript:history.go(-1)">
+                    <i class="fa fa-chevron-left fa-left"></i>
+                </a>
+                <a href="#" onclick="UbiCallManager.goToHomeScreen()">
+                    <i class="fa fa-home fa-right"></i>
+                </a>
+                <h3 class="header">Successfully</h3>
+            </div>
+            <div class="ubi-pages">
+                <h2>
          Sent Successfully<br><a onclick="UbiCallManager.goToHomeScreen()" href="#"> You Can Go To Home Screen.</a>
         </h2>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 
 
 
@@ -213,16 +213,44 @@
         $(document).ready(function() {
             var feedback = {};
 
-            
-      $.fn.serializeObject = function()
-{
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
+
+            $.fn.serializeObject = function() {
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function() {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
+
+            helpers.submitCallForm = function(form_id) {
+                if (!form_id) {
+                    UbiCallManager.fallBackToErrorPage();
+                } else {
+                    var formData = JSON.stringify($("form#" + form_id).serializeObject());
+                    var qid = $('form#' + form_id + ' #did').val();
+                    UbiCallManager.setFormDate(formData);
+                    UbiCallManager.setPhoneCallQueue(qid);
+                    UbiCallManager.goToCallOptions();
+                }
             }
+            helpers.submitFormEmail = function(form_id) {
+                if (!form_id) {
+                    UbiCallManager.fallBackToErrorPage();
+                } else {
+                    var formData = JSON.stringify($("form#" + form_id).serializeObject());
+                    var did = $('form#' + form_id + ' #did').val();
+                    UbiCallManager.send_form(formData, did);
+                }
+            }
+
             o[this.name].push(this.value || '');
         } else {
             o[this.name] = this.value || '';
@@ -240,6 +268,7 @@
         }
       }
     
+
             helpers.getHours = function(queue) {
                 UbiCallManager.getWorkingHours(queue, function(output) {
                     if (output[0] === "closed") {

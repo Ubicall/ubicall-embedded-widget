@@ -39,6 +39,7 @@ function parsePlist(plistContent) {
                         break;
                     case "Form":
                        $ = htmlUtil.createForm($, row, plistObject[row],home);
+
                         break;
                           case "ZendeskForm":
                        $ = htmlUtil.createForm($, row, plistObject[row],home);
@@ -70,7 +71,7 @@ function parsePlist(plistContent) {
             } else if (typeof plistObject[row] === "string" || plistObject[row] instanceof String) { //work with mete info like font , version ,theme
                 switch (row.toLowerCase()) {
                     case "theme":
-                        $ = htmlUtil.applyTheme($, plistObject[row]);
+                        $ = htmlUtil.applyTheme($, plistObject[row], settings.themeHost);
                         break;
                 }
             }
