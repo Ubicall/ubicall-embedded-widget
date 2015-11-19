@@ -9,6 +9,15 @@
     <link href="https://cdn.ubicall.com/static/ubicall/css/widget/widget.css" rel="stylesheet" />
     <link href="https://cdn.ubicall.com/static/jquery-mobile/css/jquery.mobile.ubicall.custom-1.4.5.css" rel="stylesheet" />
 
+    <script src="https://cdn.ubicall.com/static/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.ubicall.com/static/jquery-mobile/js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://platform.ubicall.com/widget/callmanager.min.js"></script>
+
+    <style>
+        .ui-select span {
+            display: none;
+        }
+    </style>
 
 </head>
 
@@ -219,27 +228,16 @@
                 });
                 return o;
             };
-
-            helpers.submitCallForm = function(form_id) {
+            helpers.submitForm = function(form_id, next) {
                 if (!form_id) {
                     UbiCallManager.fallBackToErrorPage();
                 } else {
                     var formData = JSON.stringify($("form#" + form_id).serializeObject());
-                    var qid = $('form#' + form_id + ' #did').val();
                     UbiCallManager.setFormDate(formData);
-                    UbiCallManager.setPhoneCallQueue(qid);
-                    UbiCallManager.goToCallOptions();
+                    UbiCallManager._sent_Next(next);
                 }
             }
-            helpers.submitFormEmail = function(form_id) {
-                if (!form_id) {
-                    UbiCallManager.fallBackToErrorPage();
-                } else {
-                    var formData = JSON.stringify($("form#" + form_id).serializeObject());
-                    var did = $('form#' + form_id + ' #did').val();
-                    UbiCallManager.send_form(formData, did);
-                }
-            }
+
             helpers.getHours = function(queue) {
                 UbiCallManager.getWorkingHours(queue, function(output) {
                     if (output[0] === "closed") {
