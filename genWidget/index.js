@@ -45,6 +45,9 @@ function parsePlist(plistContent) {
                     case "Call":
                         $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);
                         break;
+                    case "URL":
+                        $ = htmlUtil.createUrl($, row, plistObject[row]);
+                        break;
                 }
             } else if (typeof plistObject[row] === "string" || plistObject[row] instanceof String) { //work with mete info like font , version ,theme
                 switch (row.toLowerCase()) {
