@@ -4,7 +4,6 @@ var UbiCallManager = UbiCallManager || (function() {
     var API = "https://api.ubicall.com";
     var V1 = API + "/v1";
     var AUTH = API + "/auth";
-    var Home_Screen;
 
     function _goToCallOptions() {
         window.location.hash = "callOptions";
@@ -37,11 +36,7 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
     function goToHomeScreen() {
-        window.location.hash = Home_Screen;
-    }
-        function _sent_Next(__next) {
-            
-            window.location.hash = __next;
+        window.location.hash = "MainScreen";
     }
 
     function _saveLicenceKey(lic) {
@@ -94,10 +89,6 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function _removeCallId(id) {
         localStorage.removeItem("callID");
-    }
-    function _Set_Home(home) {
-        Home_Screen=home;
-        goToHomeScreen();
     }
 
     function _getAT() {
@@ -173,14 +164,15 @@ var UbiCallManager = UbiCallManager || (function() {
         return deferred.promise();
     }
 
-    function scheduleSipCall(type,url) {
+    function scheduleSipCall(queue) {
         sipSign().done(function(_sip) {
             $.ajax({
-                type: type,
-                url:url,
+                type: "POST",
+                url: V1 + "/web/call",
                 data: {
                     caller_type: 2, // flag mean this is usuall web call
                     voiceuser_id: _sip.username,
+                    qid: queue || PHONE_SUBMIT_QUEUE,
                     json: FORM_DATA || "",
                     long: GEO && GEO.longitude ? GEO.longitude : "",
                     lat: GEO && GEO.latitude ? GEO.latitude : ""
@@ -237,14 +229,14 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function schedulePhoneCall(phone, time) {
         $.ajax({
-            type: queueUrl.stype,
-            url: queueUrl.url,
+            type: "POST",
+            url: V1 + "web/call",
             data: {
                 caller_type: 3,
-                sip: phone,
+                voiceuser_id: phone,
+                qid: PHONE_SUBMIT_QUEUE,
                 json: FORM_DATA || "",
                 long: GEO && GEO.longitude ? GEO.longitude : "",
-                time:time,
                 lat: GEO && GEO.latitude ? GEO.latitude : ""
             },
             success: function(response, status, xhr) {
@@ -284,13 +276,9 @@ var UbiCallManager = UbiCallManager || (function() {
         goToHomeScreen();
     }
 
-    function setPhoneCallQueue(type,url) {
-       
-       var queue ={}
-       queue.stype=type;
-        queue.url=url;
-         //PHONE_SUBMIT_QUEUE = queue;
-       localStorage.setItem("queue", JSON.stringify(queue));
+    function setPhoneCallQueue(queue) {
+        PHONE_SUBMIT_QUEUE = queue;
+        localStorage.setItem("queue", queue);
     }
 
     function _getPhoneCallQueue() {
@@ -347,39 +335,6 @@ var UbiCallManager = UbiCallManager || (function() {
     }
 
 
-
-
-    function send_Action(type, url, __next,FotmType) {    
-var FDate =_getFormDate();
-var SData;
-if(FotmType === "SendEmail"){
-SData= {"json":FDate};
-}else {SData=FDate}
- $.ajax({
-            type: type,
-            url:url,
-            data:JSON.stringify(SData)  ,
-            contentType: "application/json; charset=utf-8",
-            dataType   : "json",
-            success: function(response, status, xhr) {
-                if (xhr.status === 200) {
-                    console.log("email submitted successfully");
-                          _sent_Next(__next);
-                   
-                } else {
-                    console.log("error in send_Action");
-                    _someThingGoWrong();
-                }
-            },
-            error: function(xhr) {
-                     console.log("error in send email");
-                _someThingGoWrong();
-            }
-        });
-
-    }
-
-
     function getWorkingHours(queue, result) {
         var offset = new Date().getTimezoneOffset() / 60;
         var array = [];
@@ -415,7 +370,6 @@ SData= {"json":FDate};
     }
 
     var GEO = GEO || _getGeoInfo();
-    var queueUrl = queueUrl || _getPhoneCallQueue();
     var SIP = _getSipInfo();
 
     var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
@@ -468,9 +422,6 @@ SData= {"json":FDate};
         goToFeedBackScreen: goToFeedBackScreen,
         fallBackToErrorPage: _someThingGoWrong,
         submitFeedback: submitFeedback,
-        getWorkingHours: getWorkingHours,
-        send_Action: send_Action,
-        _sent_Next: _sent_Next,
-        _Set_Home: _Set_Home
+        getWorkingHours: getWorkingHours
     };
 }());
