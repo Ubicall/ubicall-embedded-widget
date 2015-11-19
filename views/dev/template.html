@@ -229,10 +229,11 @@
           UbiCallManager.fallBackToErrorPage();
         } else {
              var formData = JSON.stringify($("form#"+form_id).serializeObject());
+             var data={};
              if(FormType==="Form"){
-               formData=["json":formData];
-             }
-          UbiCallManager.setFormDate(formData);
+               data.json=formData;
+             }else {data=formData;}
+          UbiCallManager.setFormDate(data);
           UbiCallManager._sent_Next(next);
         }
       }
