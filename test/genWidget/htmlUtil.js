@@ -19,4 +19,65 @@ describe("htmlUtil functionality used to convert plist component to html ones", 
         $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
     });
 
+    describe("#createGrid()", function() {
+        before(function() {
+            $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
+            var id = "3dd947db.c226b8";
+            var grid = "<dict>\
+                        <key>ScreenTitle</key>\
+                        <string>Help Types</string>\
+                        <key>ScreenType</key>\
+                        <string>Choice</string>\
+                        <key>choices</key>\
+                        <array>\
+                          <dict>\
+                            <key>ChoiceText</key>\
+                            <string>Sales</string>\
+                            <key>UrlImage</key>\
+                            <string>https://designer-dev.ubicall.com/uploads/b32ed83fef8be9a9a3d735e752610413.png</string>\
+                            <key>__next</key>\
+                            <dict>\
+                              <key>id</key>\
+                              <string>d8d0fdc3.272f</string>\
+                            </dict>\
+                          </dict>\
+                          <dict>\
+                            <key>ChoiceText</key>\
+                            <string>Subscriptions</string>\
+                            <key>UrlImage</key>\
+                            <string>https://designer-dev.ubicall.com/uploads/b32ed83fhdowed4654854752610413.png</string>\
+                            <key>__next</key>\
+                            <dict>\
+                              <key>id</key>\
+                              <string>kiad65rf.55fg9</string>\
+                            </dict>\
+                          </dict>\
+                          <dict>\
+                            <key>ChoiceText</key>\
+                            <string>Technical support</string>\
+                            <key>UrlImage</key>\
+                            <string>https://designer-dev.ubicall.com/uploads/b32ed83fhwdfowuihdf54e752610413.png</string>\
+                            <key>__next</key>\
+                            <dict>\
+                              <key>id</key>\
+                              <string>66a152ec.995eac</string>\
+                            </dict>\
+                          </dict>\
+                        </array>\
+                      </dict>";
+
+            grid = plist.parse(plistify(grid, id));
+
+            $ = htmlUtil.createChoices($, id, grid);
+
+        });
+
+        it("should has choices with length @param {choice.choices}");
+
+        it("every choice should has ChoiceText, UrlImage and __next ");
+
+        it("should has title with @param {choice.name}");
+
+    });
+
 });

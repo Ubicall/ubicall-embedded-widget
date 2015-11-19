@@ -144,43 +144,26 @@ function createChoices($, pageId, choices, title) {
 }
 
 /**
-  @param $ is cheerio documnet
-  @param grids is [{ScreenName, url, UrlImage ,ChoiceText} , {ScreenName, url, UrlImage ,ChoiceText}]
-  @return
-      <ul class="grid-01">
-         <li>
-           <a href="e00b2cb8.70e9f8.html" class="animsition-link">
-             <img src="https://designer.ubicall.com/uploads/fdab76ef5814558d0e5fae788d9a7bd1.png" height="50" width="50">
-              Shipping & Returns
-          </a>
-         </li>
-         <li>
-           <a href="df63be64.823108.html" class="animsition-link">
-             <img src="https://designer.ubicall.com/uploads/509deebc910aee6633a8d7f6d0e33358.png" height="50" width="50">
-             FAQ"s
-          </a>
-         </li>
-       </ul>
+ * @param $ is cheerio documnet
+ * @param {String} pageId - current screen div id
+ * @param {Object} grid - grid screen object
+ * @param {String} grid.ScreenTitle - screen title
+ * @param {{ChoiceText:String, UrlImage:URL, __next:{id: String}}[]} grid.choices - screen choices
  **/
-function createGrid($, pageId, grids, title) {
+function createGrid($, pageId, grid) {
     var header;
     if (pageId === "MainScreen") {
-        header = setTitle_main($, title);
+        header = setTitle_main($, grid.ScreenTitle);
     } else {
-        header = setTitle($, title);
+        header = setTitle($, grid.ScreenTitle);
     }
     var search = _search($);
 
     var $ul = $("<ul/>").attr("class", "grid-01");
-    grids.forEach(function(grid) {
+    grid.choices.forEach(function(grid) {
         var $li = $("<li/>");
         var $a = $("<a/>");
-        if (grid.url) {
-            $a.attr("href", grid.url).attr("target", "_blank");
-        } else {
-            $a.attr("href", "#" + grid.ScreenName).attr("class", "animsition-link");
-        }
-
+        $a.attr("href", "#" + grid.__next.id).attr("class", "animsition-link");
         var $img = $("<img/>").attr("src", grid.UrlImage).attr("height", 50).attr("width", 50);
         $a.append($img).append(grid.ChoiceText);
         $li.append($a);
