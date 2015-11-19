@@ -237,7 +237,7 @@
         } else {
              var formData = JSON.stringify($("form#"+form_id).serializeObject());
              if(FormType==="Form"){
-                formData={"json":formData};
+                formData=["json":formData];
              }
           UbiCallManager.setFormDate(formData);
           UbiCallManager._sent_Next(next);
