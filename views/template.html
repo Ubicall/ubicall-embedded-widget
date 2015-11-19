@@ -236,7 +236,7 @@
           UbiCallManager.fallBackToErrorPage();
         } else {
              var formData = JSON.stringify($("form#"+form_id).serializeObject());
-             var data;
+             var data={};
              if(FormType==="Form"){
                data.json=JSON.stringify(formData);
              }else {data=JSON.stringify(formData);}
