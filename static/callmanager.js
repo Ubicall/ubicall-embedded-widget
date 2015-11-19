@@ -353,12 +353,11 @@ var FDate =_getFormDate();
 var SData;
 if(FotmType === "SendEmail"){
 SData= {"json":FDate};
-console.log(SData);
 }else {SData=FDate}
  $.ajax({
             type: type,
             url:url,
-            data:JSON.stringify(SData),
+            data:JSON.stringify(SData)  ,
             contentType: "application/json; charset=utf-8",
             dataType   : "json",
             success: function(response, status, xhr) {
