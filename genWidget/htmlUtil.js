@@ -371,11 +371,11 @@ function createUrl($, pageId, Url,home) {
      var search = _search($);
     
 
-        var $p = $("<p/>").text("The URL  is Opened in another Page");
+        var $p = $("<p/>").text("The URL  is Opened in another Page, If URL was not Opened please Click <a href='"+Url.url+"' target='_blank'> Here</a>");
 
 var s_page = pageId.replace(/\./g, '\\\\.');
     var _script= $("<script/>");
-     _script.text("$('#"+s_page+"').on('pageshow',function(event){window.open('"+Url.url+"');});");
+     _script.text("$('#"+s_page+"').on('pageshow',function(event){window.open('"+Url.url+"','_blank');});");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
