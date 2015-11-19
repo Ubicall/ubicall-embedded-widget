@@ -19,4 +19,47 @@ describe("htmlUtil functionality used to convert plist component to html ones", 
         $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
     });
 
+    describe("#createCall()", function() {
+        before(function() {
+            $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
+            var id = "5872hjd.poj906";
+            var call = "<dict>\
+                        <key>ScreenTitle</key>\
+                        <string>call our customer support</string>\
+                        <key>ScreenType</key>\
+                        <string>SubmitCall</string>\
+                        <key>destination</key>\
+                        <dict>\
+                          <key>mobile</key>\
+                          <dict>\
+                            <key>HTTPMethod</key>\
+                            <key>POST</key>\
+                            <key>endPoint</key>\
+                            <string>https://api.ubicall.com/v1/sip/call/201/customer-support</string>\
+                          </dict>\
+                          <key>web</key>\
+                          <dict>\
+                            <key>HTTPMethod</key>\
+                            <key>POST</key>\
+                            <key>endPoint</key>\
+                            <string>https://api.ubicall.com/v1/web/call/201/customer-support</string>\
+                          </dict>\
+                        </dict>\
+                        <key>__next</key>\
+                        <dict>\
+                          <key>id</key>\
+                          <string>d8d0fdc3.272f</string>\
+                        </dict>\
+                      </dict>";
+
+            call = plist.parse(plistify(call, id));
+
+            $ = htmlUtil.createChoices($, id, call);
+
+        });
+
+        it("should has title with @param {ScreenTitle}");
+
+    });
+
 });

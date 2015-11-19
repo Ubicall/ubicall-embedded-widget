@@ -43,7 +43,7 @@ function parsePlist(plistContent) {
                         $ = htmlUtil.createInfo($, row, plistObject[row].ContentText, plistObject[row].ScreenTitle);
                         break;
                     case "Call":
-                        $ = htmlUtil.createCall($, row, plistObject[row].QueueDestination.id, plistObject[row].QueueDestination.name);
+                        $ = htmlUtil.createCall($, row, plistObject[row]);
                         break;
                 }
             } else if (typeof plistObject[row] === "string" || plistObject[row] instanceof String) { //work with mete info like font , version ,theme
