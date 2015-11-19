@@ -332,6 +332,49 @@ function createInfo($, pageId, content, title) {
     return $;
 }
 
+
+/**
+ * @param $ is cheerio documnet
+ * @param {String} pageId - current screen div id
+ * @param {Object} url - url screen object
+ * @param {String} url.ScreenTitle - screen title
+ * @param {String} url.url - actual url
+ * @param {url.__next:{id: String}} - next screen
+ **/
+function createUrl($, pageId, url) {
+
+    var header = setTitle($, url.ScreenTitle);
+    var search = _search($);
+
+    var $p = $("<p/>").text("The URL  is Opened in another Page");
+
+    var $divpages = $("<div/>").attr("class", "ubi-pages");
+
+    // $('*[data-url-node]').is(":visible")
+    var $content = $("<div/>").attr("data-role", "content")
+        .attr("data-url-node", true)
+        .attr("data-url", url.url);
+
+    if (url.__next && url.__next.id) {
+        var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
+        $a.attr("href", "#" + url.__next.id);
+        $divpages.append($a);
+    }
+
+    var $page = $("<div/>")
+        .attr("data-role", "page")
+        .attr("id", pageId);
+
+    $divpages.append($p);
+
+    $content.append(header);
+    $content.append(search);
+    $content.append($divpages);
+    $page.append($content);
+    $("body").prepend($page);
+    return $;
+}
+
 /**
 @param $ is cheerio documnet
 @param queue queue id
@@ -394,6 +437,7 @@ module.exports = {
     createGrid: createGrid,
     createChoices: createChoices,
     createInfo: createInfo,
+    createUrl: createUrl,
     createCall: createCall,
     createForm: createForm,
     applyTheme: applyTheme
