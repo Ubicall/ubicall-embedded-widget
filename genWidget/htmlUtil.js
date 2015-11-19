@@ -101,33 +101,26 @@ function _search($) {
 }
 
 /**
-@param $ is cheerio documnet
-@param choices [{ ScreenName, ChoiceText , url},{ ScreenName, ChoiceText , url}]
-@return
-      <div class="list-group">
-        <a target="_blank" data-toggle="collapse" class="list-group-item lest-01"  href="http://www.fedex.com/">Track Your Order</a>
-        <a data-toggle="collapse" class="list-group-item lest-01" href="eeeba174.b1edc.html">Returns &amp; Exchange</a>
-      </div>
-**/
-function createChoices($, pageId, choices, title) {
+ * @param $ is cheerio documnet
+ * @param {String} pageId - current screen div id
+ * @param {Object} choice - choice screen object
+ * @param {String} choice.ScreenTitle - screen title
+ * @param {{ChoiceText:String, __next:{id: String}}[]} choice.choices - screen choices
+ **/
+function createChoices($, pageId, choice) {
 
     var header;
     if (pageId === "MainScreen") {
-        header = setTitle_main($, title);
+        header = setTitle_main($, choice.ScreenTitle);
     } else {
-        header = setTitle($, title);
+        header = setTitle($, choice.ScreenTitle);
     }
     var search = _search($);
 
     var $divlist = $("<div/>").attr("class", "list-group");
-    choices.forEach(function(choice) {
-
+    choice.choices.forEach(function(choice) {
         var $a = $("<a/>").attr("class", "list-group-item lest-01").text(choice.ChoiceText);
-        if (choice.url) {
-            $a.attr("href", choice.url).attr("target", "_blank");
-        } else {
-            $a.attr("href", "#" + choice.ScreenName);
-        }
+        $a.attr("href", "#" + choice.__next.id);
         $divlist.append($a);
     });
     var $divpages = $("<div/>").attr("class", "ubi-pages");
