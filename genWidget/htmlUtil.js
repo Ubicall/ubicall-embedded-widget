@@ -248,7 +248,7 @@ if(form.__next){
 path =form.__next.id;
 }else{ path = home }
     var $form = $("<form/>").attr("id", "form-" + formId).attr("method", "post").attr("action", "")
-            .attr("onsubmit", "helpers.submitForm('form-" + formId + "','"+ path +"');return false;");
+            .attr("onsubmit", "helpers.submitForm('form-" + formId + "','"+ path +"','"+ form.ScreenType +"');return false;");
    
 
     form.FormFields.forEach(function(field) {

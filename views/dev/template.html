@@ -223,11 +223,15 @@
     return o;
 };
 
-            helpers.submitForm = function(form_id,next) {
+       
+             helpers.submitForm = function(form_id,next,FormType) {
         if ( !form_id ) {
           UbiCallManager.fallBackToErrorPage();
         } else {
              var formData = JSON.stringify($("form#"+form_id).serializeObject());
+             if(FormType==="Form"){
+                formData={"json":formData};
+             }
           UbiCallManager.setFormDate(formData);
           UbiCallManager._sent_Next(next);
         }
