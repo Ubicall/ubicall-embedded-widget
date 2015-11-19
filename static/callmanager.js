@@ -358,7 +358,7 @@ console.log(SData);
  $.ajax({
             type: type,
             url:url,
-            data:SData,
+            data:JSON.stringify(SData),
             contentType: "application/json; charset=utf-8",
             dataType   : "json",
             success: function(response, status, xhr) {
