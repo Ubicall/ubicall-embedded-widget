@@ -6,6 +6,15 @@ var UbiCallManager = UbiCallManager || (function() {
     var AUTH = API + "/auth";
     var Home_Screen;
 
+    $.ajaxSetup({
+        beforeSend: function(jqXHR, settings) {
+            var auth_token = ACCESS_TOKEN;
+            if (auth_token) {
+                jqXHR.setRequestHeader("Authorization", "Bearer " + auth_token);
+            }
+        }
+    });
+
     function _goToCallOptions() {
         window.location.hash = "callOptions";
     }
@@ -453,14 +462,7 @@ var UbiCallManager = UbiCallManager || (function() {
         });
     }
 
-    $.ajaxSetup({
-        beforeSend: function(jqXHR, settings) {
-            var auth_token = ACCESS_TOKEN;
-            if (auth_token) {
-                jqXHR.setRequestHeader("Authorization", "Bearer " + auth_token);
-            }
-        }
-    });
+
     return {
         scheduleSipCall: scheduleSipCall,
         schedulePhoneCall: schedulePhoneCall,
