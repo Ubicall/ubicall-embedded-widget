@@ -3,9 +3,21 @@ var UbiCallManager = UbiCallManager || (function() {
 
     var API = "https://api.ubicall.com";
     var V1 = API + "/v1";
-    var AUTH = API + "/auth";
+    var AUTH = API + "/auth/token";
     var Home_Screen;
 
+
+
+    /*
+        $.ajaxSetup({
+            beforeSend: function(jqXHR, settings) {
+                var auth_token = ACCESS_TOKEN;
+                if (auth_token) {
+                    jqXHR.setRequestHeader("Authorization", "Bearer " + auth_token);
+                }
+            }
+        });
+    */
     function _goToCallOptions() {
         window.location.hash = "callOptions";
     }
@@ -106,7 +118,7 @@ var UbiCallManager = UbiCallManager || (function() {
         var deferred = $.Deferred();
         $.ajax({
             type: "POST",
-            url: AUTH + "/token",
+            url: AUTH,
             data: {
                 client_id: "ubicall-widget",
                 grant_type: "authorization_code",
@@ -148,7 +160,7 @@ var UbiCallManager = UbiCallManager || (function() {
         var deferred = $.Deferred();
         $.ajax({
             type: "POST",
-            url: V1 + "/web/account",
+            url: V1 + "/web/account?access_token=" + ACCESS_TOKEN,
             data: {
                 sdk_name: "0000", // web sdk
                 sdk_version: "0.2",
@@ -179,7 +191,7 @@ var UbiCallManager = UbiCallManager || (function() {
         sipSign().done(function(_sip) {
             $.ajax({
                 type: type,
-                url: url,
+                url: url + "?access_token=" + ACCESS_TOKEN,
                 data: {
                     caller_type: 2, // flag mean this is usuall web call
                     voiceuser_id: _sip.username,
@@ -216,7 +228,7 @@ var UbiCallManager = UbiCallManager || (function() {
         if (call_id) {
             $.ajax({
                 type: "DELETE",
-                url: V1 + "/call/" + call_id,
+                url: V1 + "/call/" + call_id + "?access_token=" + ACCESS_TOKEN,
                 data: {
                     call_id: call_id
                 },
@@ -240,7 +252,7 @@ var UbiCallManager = UbiCallManager || (function() {
     function schedulePhoneCall(phone, time) {
         $.ajax({
             type: queueUrl.stype,
-            url: queueUrl.url,
+            url: queueUrl.url + "?access_token=" + ACCESS_TOKEN,
             data: {
                 caller_type: 3,
                 sip: phone,
@@ -272,7 +284,7 @@ var UbiCallManager = UbiCallManager || (function() {
         if (callId && (feedback.text || (feedback.feel && feedback.feel !== 1))) {
             $.ajax({
                 type: "POST",
-                url: V1 + "/call/" + callId + "/feedback",
+                url: V1 + "/call/" + callId + "/feedback?access_token=" + ACCESS_TOKEN,
                 data: {
                     call_id: callId,
                     feedback: feedback.feel || 1,
@@ -323,7 +335,7 @@ var UbiCallManager = UbiCallManager || (function() {
 
         $.ajax({
             type: "POST",
-            url: V1 + "/email",
+            url: V1 + "/email?access_token=" + ACCESS_TOKEN,
             data: {
                 json: data,
                 long: GEO && GEO.longitude ? GEO.longitude : "",
@@ -365,7 +377,7 @@ var UbiCallManager = UbiCallManager || (function() {
         }
         $.ajax({
             type: type,
-            url: url,
+            url: url + "?access_token=" + ACCESS_TOKEN,
             data: SData,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -429,14 +441,6 @@ var UbiCallManager = UbiCallManager || (function() {
     var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
 
     var ACCESS_TOKEN = ACCESS_TOKEN || _getAccessToken();
-
-    // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
-    var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
-    var FORM_DATA = FORM_DATA || _getFormDate();
-
-    if (LICENSE) {
-        _saveLicenceKey(LICENSE);
-    }
     if (ACCESS_TOKEN) {
         _saveAccessToken(ACCESS_TOKEN);
     } else {
@@ -446,6 +450,14 @@ var UbiCallManager = UbiCallManager || (function() {
         });
     }
 
+    // page navigation load script again and clear these variable [till we put all widget in single page , load only once]
+    var PHONE_SUBMIT_QUEUE = PHONE_SUBMIT_QUEUE || _getPhoneCallQueue();
+    var FORM_DATA = FORM_DATA || _getFormDate();
+
+    if (LICENSE) {
+        _saveLicenceKey(LICENSE);
+    }
+
     if (!GEO) {
         $.when(_initGeo()).done(function(_geo) {
             GEO = _geo;
@@ -453,14 +465,7 @@ var UbiCallManager = UbiCallManager || (function() {
         });
     }
 
-    $.ajaxSetup({
-        beforeSend: function(jqXHR, settings) {
-            var auth_token = ACCESS_TOKEN;
-            if (auth_token) {
-                jqXHR.setRequestHeader("Authorization", "Bearer " + auth_token);
-            }
-        }
-    });
+
     return {
         scheduleSipCall: scheduleSipCall,
         schedulePhoneCall: schedulePhoneCall,
