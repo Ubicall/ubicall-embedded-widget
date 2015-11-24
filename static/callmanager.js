@@ -111,8 +111,14 @@ var UbiCallManager = UbiCallManager || (function() {
 
     function _Set_Home(home) {
         Home_Screen = home;
+        $.when(_getAT()).done(function(at) {
+            ACCESS_TOKEN = at.access_token;
+            _saveAccessToken(ACCESS_TOKEN);
+        });
         goToHomeScreen();
+
     }
+
 
     function _getAT() {
         var deferred = $.Deferred();
@@ -137,6 +143,10 @@ var UbiCallManager = UbiCallManager || (function() {
         });
         return deferred.promise();
     }
+
+
+
+
 
     function _initGeo() {
         var deferred = $.Deferred();
@@ -441,6 +451,7 @@ var UbiCallManager = UbiCallManager || (function() {
     var LICENSE = LICENSE || _getLicenceKey() || window.location.href.split("/li/")[1].split(".")[0];
 
     var ACCESS_TOKEN = ACCESS_TOKEN || _getAccessToken();
+
     if (ACCESS_TOKEN) {
         _saveAccessToken(ACCESS_TOKEN);
     } else {
