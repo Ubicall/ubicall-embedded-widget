@@ -268,6 +268,9 @@ function createForm($, pageId, form, home) {
         if (field.FieldType === "Decimal") {
             $input.attr("type", "number").attr("step", 0.01);
         }
+        if (field.FieldType === "Check Box") {
+            $input.attr("type", "checkbox");
+        }
 
         if (field.required === true) {
             $input.attr("required", "required");
