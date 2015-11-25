@@ -290,7 +290,19 @@ function createForm($, pageId, form, home) {
                 $input.append($option);
             });
 
+        } else if (field.FieldType === "Text Area") {
+            $input = $("<textarea/>").attr("class", "form-control").attr("name", field.FieldValue).attr("placeholder", field.Placeholder);
+            if (field.required === true) {
+                $input.attr("required", "required");
+            }
+            if (field.editable === false) {
+                $input.attr("readonly", "readonly");
+            }
+
         }
+
+
+
         $div.append($label);
         $div.append($input);
         $form.append($div);
