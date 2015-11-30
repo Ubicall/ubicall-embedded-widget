@@ -26,9 +26,11 @@
     "express": "^4.8.3",
     "js-beautify": "^1.5.10",
     "mkdirp": "^0.5.1",
+    "node-remote-config-loader": "git://github.com/Ubicall/node-remote-config-loader.git",
     "passport": "^0.3.0",
     "plist": "git://github.com/TooTallNate/plist.js.git",
     "request": "^2.60.0",
+    "ubicall-oauth": "git://github.com/Ubicall/ubicall-oauth.git",
     "when": "^3.7.3",
     "winston": "^1.0.1"
   },
