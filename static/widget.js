@@ -5,7 +5,7 @@ var ubiWidget = ubiWidget || (function() {
     var _args = {};
 
     function _createUbiWidgetContainer(id) {
-        var containerId = id || "ubi-widget" + Math.random() * (9999 - 10254);
+        var containerId = id || "ubi-widget";
         document.body.innerHTML += "<div id=" + _args.containerId + "></div>";
         return containerId;
     }
@@ -18,7 +18,7 @@ var ubiWidget = ubiWidget || (function() {
             iframeSource = "https://cdn.ubicall.com/static/ubicall/html/404.html";
         }
         var iframe = document.createElement("iframe");
-        iframe.setAttribute("src", iframeSource);
+        iframe.setAttribute("data-src", iframeSource);
         iframe.setAttribute("class", " popup-ifram-style");
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("lic", partyId);
