@@ -509,7 +509,7 @@ function createZopim($, pageId, zopim, home) {
     }
     var search = _search($);
     $ = setZopimChat($, zopim.settings.token);
-    var $buttona = $("<button/>").attr("class", "btn btn-default").text("Open Chat").attr("onclick", "javascript:void($zopim.livechat.window.openPopout()");
+    var $buttona = $("<button/>").attr("class", "btn btn-default").text("Open Chat").attr("onclick", "javascript:void($zopim.livechat.window.openPopout())");
 
 
 
