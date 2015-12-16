@@ -11,6 +11,16 @@ function Set_Home($, home) {
     return $;
 }
 
+function setZopimChat($, token) {
+
+    var _script = $("<script/>");
+    _script.text(" window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set._.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');$.src='//v2.zopim.com/?" + token + "';z.t=+new Date;$.type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');");
+    $("head").append(_script);
+    return $;
+
+}
+
+
 /**
 @param title is current sub page title
 @return
@@ -486,6 +496,42 @@ function createAction($, pageId, action, home) {
     return $;
 }
 
+
+
+
+function createZopim($, pageId, zopim, home) {
+
+    var header;
+    if (pageId === home) {
+        header = setTitle_main($, zopim.ScreenTitle);
+    } else {
+        header = setTitle($, zopim.ScreenTitle);
+    }
+    var search = _search($);
+    $ = setZopimChat($, zopim.settings.token);
+    var $buttona = $("<button/>").attr("class", "btn btn-default").text("Open Chat").attr("onclick", "javascript:void($zopim.livechat.window.openPopout())");
+
+
+
+
+
+
+    var $divpages = $("<div/>").attr("class", "ubi-pages");
+    var $content = $("<div/>").attr("data-role", "content");
+    var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
+
+    $divpages.append($buttona);
+
+
+
+    $content.append(header);
+    $content.append(search);
+    $content.append($divpages);
+    $page.append($content);
+    $("body").prepend($page);
+    return $;
+}
+
 /**
 @param $ is cheerio documnet
 @param theme - theme name to add it"s css url
@@ -512,5 +558,6 @@ module.exports = {
     createAction: createAction,
     applyTheme: applyTheme,
     Set_Home: Set_Home,
-    createUrl: createUrl
+    createUrl: createUrl,
+    createZopim: createZopim
 };

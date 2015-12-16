@@ -64,6 +64,10 @@ function parsePlist(plistContent) {
                     case "SubmitZendeskTicket":
                         $ = htmlUtil.createAction($, row, plistObject[row], home);
                         break;
+                    case "ZopimChat":
+                        $ = htmlUtil.createZopim($, row, plistObject[row], home);
+                        break;
+
 
                 }
             } else if (typeof plistObject[row] === "string" || plistObject[row] instanceof String) { //work with mete info like font , version ,theme
