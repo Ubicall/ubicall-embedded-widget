@@ -19,7 +19,6 @@ var ubiWidget = ubiWidget || (function() {
         }
         var iframe = document.createElement("iframe");
         iframe.setAttribute("src", iframeSource);
-        iframe.setAttribute("class", " popup-ifram-style");
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("lic", partyId);
         iframe.setAttribute("id", "ubiIframe");
