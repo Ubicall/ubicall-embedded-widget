@@ -446,7 +446,7 @@ var UbiCallManager = UbiCallManager || (function() {
         });
     }
 
-    var GEO = GEO || _getGeoInfo();
+    var GEO = {} || GEO || _getGeoInfo();
     var queueUrl = queueUrl || _getPhoneCallQueue();
     var SIP = _getSipInfo();
 
