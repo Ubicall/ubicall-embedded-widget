@@ -478,7 +478,6 @@ var UbiCallManager = UbiCallManager || (function() {
         });
     }
 
-
     return {
         scheduleSipCall: scheduleSipCall,
         schedulePhoneCall: schedulePhoneCall,

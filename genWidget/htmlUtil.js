@@ -385,9 +385,6 @@ function createInfo($, pageId, info, home) {
 }
 
 
-
-
-
 function createUrl($, pageId, Url, home) {
 
     var header;
@@ -397,22 +394,38 @@ function createUrl($, pageId, Url, home) {
         header = setTitle($, Url.ScreenTitle);
     }
     var search = _search($);
-    var $alink = $("<a/>").attr("href", Url.url).attr("target", "_blank").text("Here");
 
-
-    var $p = $("<p/>").text("The URL  is Opened in another Page, If URL was not Opened please Click").append($alink);
-
-    var s_page = pageId.replace(/\./g, "\\\\.");
-    var _script = $("<script/>");
-    _script.text("$('#" + s_page + "').on('pageshow',function(event){window.open('" + Url.url + "','_blank');});");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
+
+    if (Url.sameOrigin) {
+        var _url = Url.url.replace(/^http:\/\//i, "https://");
+
+        var $iframe = $("<iframe>")
+            .attr("src", _url)
+            .attr("id", "iframe_" + pageId)
+            .attr("class", "ubi-url-iframe")
+            .attr("fallback_text", "Url can't be loaded, please fellow")
+            .attr("fallback_url", Url.url);
+
+        $divpages.append($iframe);
+
+    } else {
+        var $alink = $("<a/>").attr("href", Url.url).attr("target", "_blank").text("Here");
+        var $p = $("<p/>").text("The URL  is Opened in another Page, If URL was not Opened please Click").append($alink);
+        var s_page = pageId.replace(/\./g, "\\\\.");
+        var _script = $("<script/>");
+        _script.text("$('#" + s_page + "').on('pageshow',function(event){window.open('" + Url.url + "','_blank');});");
+
+        $divpages.append($p);
+        $divpages.append(_script);
+
+    }
+
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
-    $divpages.append($p);
-    $divpages.append(_script);
     if (Url.__next) {
-        var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
+        var $a = $("<a/>").attr("class", "btn btn-default").text("Next");
         $a.attr("href", "#" + Url.__next.id);
         $divpages.append($a);
     }
