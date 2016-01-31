@@ -397,22 +397,18 @@ function createUrl($, pageId, Url, home) {
         header = setTitle($, Url.ScreenTitle);
     }
     var search = _search($);
-    var $alink = $("<a/>").attr("href", Url.url).attr("target", "_blank").text("Here");
 
+    Url.url = Url.url.replace(/^http:\/\//i, "https://");
+    var $iframe = $("<iframe>").attr("src", Url.url).attr("id", "iframe_" + pageId).attr("class", "ubi-url-iframe");
 
-    var $p = $("<p/>").text("The URL  is Opened in another Page, If URL was not Opened please Click").append($alink);
-
-    var s_page = pageId.replace(/\./g, "\\\\.");
-    var _script = $("<script/>");
-    _script.text("$('#" + s_page + "').on('pageshow',function(event){window.open('" + Url.url + "','_blank');});");
     var $divpages = $("<div/>").attr("class", "ubi-pages");
     var $content = $("<div/>").attr("data-role", "content");
     var $page = $("<div/>").attr("data-role", "page").attr("id", pageId);
 
-    $divpages.append($p);
-    $divpages.append(_script);
+    $divpages.append($iframe);
+
     if (Url.__next) {
-        var $a = $("<a/>").attr("class", "list-group-item lest-01").text("Next");
+        var $a = $("<a/>").attr("class", "btn btn-default").text("Next");
         $a.attr("href", "#" + Url.__next.id);
         $divpages.append($a);
     }

@@ -22,6 +22,7 @@ var ubiWidget = ubiWidget || (function() {
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("lic", partyId);
         iframe.setAttribute("id", "ubiIframe");
+        iframe.setAttribute("name", "ubi_iframe");
         ubiWidget.appendChild(iframe);
     }
 
