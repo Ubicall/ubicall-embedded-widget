@@ -576,13 +576,13 @@ function createWidget($, licence_key, title, img) {
 
     ////
 
-    var $_span = $("<span/>").text("title");
+    var $_span = $("<span/>").text(title);
     var $aHeader = $("<a/>").attr("href", "#").attr("class", "ubi-close").text("&times;");
     var $divHeader = $("<div/>").attr("class", "widget-header");
     $divHeader.append($aHeader);
     $divHeader.append($_span);
 
-    var $iframe = $(" </iframe>").attr("src", settings.iframe_popUp + licence_key + ".html").attr("frameborder", "0").attr("lic", licence_key).attr("id", "ubiIframe").attr("name", "ubi_iframe");
+    var $iframe = $(" <iframe/>").attr("src", settings.iframe_popUp + "widget" + licence_key + ".html").attr("frameborder", "0").attr("lic", licence_key).attr("id", "ubiIframe").attr("name", "ubi_iframe");
     var $divpopup = $("<div/>").attr("id", "dialog").attr("class", "popup-ifram-style-01");
     $divpopup.append($iframe);
     ///
