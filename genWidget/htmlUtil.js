@@ -626,17 +626,16 @@ function create_Popup($, licence_key, title, img) {
     var $divpopup = $("<div/>").attr("id", "dialog").attr("class", "popup-ifram-style-02");
     $divpopup.append($iframe);
     ///
-    var $divButt = $("<div/>").attr("class", "usrp-fb-1 wow fadeInRight").attr("data-wow-delay", "0.3s");
+
     var $divIframe = $("<div/>").attr("class", "ubi-overlay").attr("id", "widget-popup");
     var $divUbi_popup = $("<div/>").attr("class", "ubi-popup");
 
     var $page = $("<div/>");
     //////////
-    $divButt.append($a);
     $divUbi_popup.append($divHeader);
     $divUbi_popup.append($divpopup);
     $divIframe.append($divUbi_popup);
-    $page.append($divButt);
+    $page.append($a);
     $page.append($divIframe);
     ////////
 
