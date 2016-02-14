@@ -604,6 +604,48 @@ function createWidget($, licence_key, title, img) {
 
 }
 
+
+
+function create_Popup($, licence_key, title, img) {
+
+
+    ////
+
+    var $a = $("<a/>").attr("href", "#widget-popup").text(title);
+
+
+    ////
+
+    var $_span = $("<span/>").text(title);
+    var $aHeader = $("<a/>").attr("href", "#").attr("class", "ubi-close").text("&times;");
+    var $divHeader = $("<div/>").attr("class", "widget-header");
+    $divHeader.append($aHeader);
+    $divHeader.append($_span);
+
+    var $iframe = $(" <iframe/>").attr("src", settings.iframe_popUp + "widget" + licence_key + ".html").attr("frameborder", "0").attr("lic", licence_key).attr("id", "ubiIframe").attr("name", "ubi_iframe");
+    var $divpopup = $("<div/>").attr("id", "dialog").attr("class", "popup-ifram-style-02");
+    $divpopup.append($iframe);
+    ///
+    var $divButt = $("<div/>").attr("class", "usrp-fb-1 wow fadeInRight").attr("data-wow-delay", "0.3s");
+    var $divIframe = $("<div/>").attr("class", "ubi-overlay").attr("id", "widget-popup");
+    var $divUbi_popup = $("<div/>").attr("class", "ubi-popup");
+
+    var $page = $("<div/>");
+    //////////
+    $divButt.append($a);
+    $divUbi_popup.append($divHeader);
+    $divUbi_popup.append($divpopup);
+    $divIframe.append($divUbi_popup);
+    $page.append($divButt);
+    $page.append($divIframe);
+    ////////
+
+
+    $("body").prepend($page);
+    return $;
+
+}
+
 module.exports = {
 
     createGrid: createGrid,
@@ -616,5 +658,6 @@ module.exports = {
     Set_Home: Set_Home,
     createUrl: createUrl,
     createZopim: createZopim,
-    createWidget: createWidget
+    createWidget: createWidget,
+    create_Popup: create_Popup
 };

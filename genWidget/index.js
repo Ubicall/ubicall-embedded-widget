@@ -89,8 +89,8 @@ function parsePlist(plistContent) {
             }
         }
 
-        $$ = htmlUtil.createWidget($$, licence_key, "Help", "https://cdn-dev.ubicall.com/static/ubicall/images/time-icon.png");
-
+        //  $$ = htmlUtil.createWidget($$, licence_key, "Help", "https://cdn-dev.ubicall.com/static/ubicall/images/time-icon.png");
+        $$ = htmlUtil.create_Popup($$, licence_key, "Help", "https://cdn-dev.ubicall.com/static/ubicall/images/time-icon.png");
         _MakeStream_widget($.html(), licence_key);
         _MakeStream_popUp($$.html(), licence_key);
         return resolve({});
