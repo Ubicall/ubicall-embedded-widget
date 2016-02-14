@@ -8,7 +8,16 @@ var mkdirp = require("mkdirp");
 var htmlUtil = require("./htmlUtil.js");
 var settings = require("../settings");
 
-function _MakeStream(html, licence_key) {
+function _MakeStream_widget(html, licence_key) {
+    mkdirp.sync(settings.platformTemplatesPath, 0777);
+    var stream = fs.createWriteStream(settings.platformTemplatesPath + "/widget" + licence_key + ".html");
+    stream.once("open", function() {
+        stream.write(html);
+        stream.end();
+    });
+}
+
+function _MakeStream_popUp(html, licence_key) {
     mkdirp.sync(settings.platformTemplatesPath, 0777);
     var stream = fs.createWriteStream(settings.platformTemplatesPath + "/" + licence_key + ".html");
     stream.once("open", function() {
@@ -26,6 +35,7 @@ function parsePlist(plistContent) {
             return reject("plist has no licence_key");
         }
         var $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
+        var $$ = cheerio.load(fs.readFileSync(settings.mainTemplate_popUp));
         var home = plistObject.__home.id;
 
         $ = htmlUtil.Set_Home($, home);
@@ -78,7 +88,11 @@ function parsePlist(plistContent) {
                 }
             }
         }
-        _MakeStream($.html(), licence_key);
+
+        $$ = htmlUtil.createWidget($$, licence_key, "Help", "https://cdn-dev.ubicall.com/static/ubicall/images/time-icon.png");
+
+        _MakeStream_widget($.html(), licence_key);
+        _MakeStream_popUp($$.html(), licence_key);
         return resolve({});
     });
 }
