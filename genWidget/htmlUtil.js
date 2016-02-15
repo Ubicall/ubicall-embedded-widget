@@ -577,7 +577,7 @@ function createWidget($, licence_key, title, img) {
     ////
 
     var $_span = $("<span/>").text(title);
-    var $aHeader = $("<a/>").attr("href", "#").attr("class", "ubi-close").attr("data-toggle", "control-sidebar").text("&times;");
+    var $aHeader = $("<a/>").attr("href", "#").attr("class", "ubi-close").attr("data-toggle", "control-sidebar").text("X");
     var $divHeader = $("<div/>").attr("class", "widget-header");
     $divHeader.append($aHeader);
     $divHeader.append($_span);
@@ -620,7 +620,7 @@ function create_Popup($, licence_key, title, img) {
     ////
 
     var $_span = $("<span/>").text(title);
-    var $aHeader = $("<a/>").attr("href", "#").attr("class", "ubi-close").text("&times;");
+    var $aHeader = $("<a/>").attr("href", "#").attr("class", "ubi-close").text("X");
     var $divHeader = $("<div/>").attr("class", "widget-header");
     $divHeader.append($aHeader);
     $divHeader.append($_span);
