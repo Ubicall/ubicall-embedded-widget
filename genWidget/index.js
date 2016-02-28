@@ -30,6 +30,10 @@ function parsePlist(plistContent) {
     return when.promise(function(resolve, reject) {
         var plistObject = plist.parse(plistContent);
         var licence_key = plistObject.key;
+        var look = plistObject.Look;
+        var icon = plistObject.Icon;
+        var title = plistObject.Title;
+
         plistObject.theme = plistObject.theme || "Default";
         if (!licence_key) {
             return reject("plist has no licence_key");
@@ -89,8 +93,26 @@ function parsePlist(plistContent) {
             }
         }
 
-        //$$ = htmlUtil.createWidget($$, licence_key, "Help", "http://www.ubicall.com/img/help-icon.png");
-        $$ = htmlUtil.create_Popup($$, licence_key, "Help", "http://www.ubicall.com/img/help-icon.png");
+
+        if (look === "Widget") {
+            if (title === "Default") {
+                title = "Help";
+            }
+            if (icon === "Default") {
+                icon = "http://www.ubicall.com/img/help-icon.png";
+            }
+            $$ = htmlUtil.createWidget($$, licence_key, title, icon);
+        } else {
+            if (title === "Default") {
+                title = "Help";
+            }
+            if (icon === "Default") {
+                icon = "http://www.ubicall.com/img/help-icon.png";
+            }
+            $$ = htmlUtil.create_Popup($$, licence_key, title, icon);
+        }
+
+
         _MakeStream_widget($.html(), licence_key);
         _MakeStream_popUp($$.html(), licence_key);
         return resolve({});
