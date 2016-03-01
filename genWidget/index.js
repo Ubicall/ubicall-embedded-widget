@@ -89,6 +89,7 @@ function parsePlist(plistContent) {
                 switch (row.toLowerCase()) {
                     case "theme":
                         $ = htmlUtil.applyTheme($, plistObject[row], settings.themeHost);
+                        $$ = htmlUtil.applyTheme($$, plistObject[row], settings.themeHost);
                         break;
                 }
             }
