@@ -564,21 +564,21 @@ function applyTheme($, theme, themeHost) {
 
 
 
-function createWidget($, licence_key, title, img) {
+function createWidget($, licence_key, title, img, loc) {
 
-
+    loc = loc.toLowerCase();
     ////
     var $button = $("<button/>").attr("class", "usrp-fb-title").text(title);
 
     var $img = $("<img/>").attr("src", img).attr("alt", title);
-    var $a = $("<a/>").attr("href", "#").attr("data-toggle", "control-sidebar").append($img).append($button);
+    var $a = $("<a/>").attr("href", "#").attr("data-toggle", "control-sidebar-" + loc).append($img).append($button);
 
 
     ////
 
     var $_span = $("<span/>").text(title);
-    var $aHeader = $("<a/>").attr("href", "#").attr("class", "ubi-close").attr("data-toggle", "control-sidebar").text("X");
-    var $divHeader = $("<div/>").attr("class", "widget-header");
+    var $aHeader = $("<a/>").attr("href", "#").attr("class", "ubi-close").attr("data-toggle", "control-sidebar-" + loc).text("X");
+    var $divHeader = $("<div/>").attr("class", "widget-header-" + loc);
     $divHeader.append($aHeader);
     $divHeader.append($_span);
 
@@ -586,8 +586,8 @@ function createWidget($, licence_key, title, img) {
     var $divpopup = $("<div/>").attr("id", "dialog").attr("class", "popup-ifram-style-01");
     $divpopup.append($iframe);
     ///
-    var $divButt = $("<div/>").attr("class", "usrp-fb-1 wow fadeInRight").attr("data-wow-delay", "0.3s");
-    var $divIframe = $("<div/>").attr("class", "control-sidebar control-sidebar-light");
+    var $divButt = $("<div/>").attr("class", "usrp-fb-" + loc + " wow fadeInRight").attr("data-wow-delay", "0.3s");
+    var $divIframe = $("<div/>").attr("class", "control-sidebar-" + loc + " control-sidebar-light");
 
     var $page = $("<div/>");
     //////////
@@ -621,7 +621,7 @@ function create_Popup($, licence_key, title, img) {
 
     var $_span = $("<span/>").text(title);
     var $aHeader = $("<a/>").attr("href", "#").attr("class", "ubi-close").text("X");
-    var $divHeader = $("<div/>").attr("class", "widget-header");
+    var $divHeader = $("<div/>").attr("class", "widget-header-popup");
     $divHeader.append($aHeader);
     $divHeader.append($_span);
 

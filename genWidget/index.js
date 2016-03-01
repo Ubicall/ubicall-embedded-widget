@@ -33,6 +33,7 @@ function parsePlist(plistContent) {
         var look = plistObject.Look;
         var icon = plistObject.Icon;
         var title = plistObject.Title;
+        var _location = plistObject.Location;
 
         plistObject.theme = plistObject.theme || "Default";
         if (!licence_key) {
@@ -101,7 +102,7 @@ function parsePlist(plistContent) {
             if (icon === "Default") {
                 icon = "http://www.ubicall.com/img/help-icon.png";
             }
-            $$ = htmlUtil.createWidget($$, licence_key, title, icon);
+            $$ = htmlUtil.createWidget($$, licence_key, title, icon, _location);
         } else {
             if (title === "Default") {
                 title = "Help";
