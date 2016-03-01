@@ -587,7 +587,7 @@ function createWidget($, licence_key, title, img, loc) {
     $divpopup.append($iframe);
     ///
     var $divButt = $("<div/>").attr("class", "usrp-fb-" + loc + " wow fadeInRight").attr("data-wow-delay", "0.3s");
-    var $divIframe = $("<div/>").attr("class", "control-sidebar-" + loc + " control-sidebar-light");
+    var $divIframe = $("<div/>").attr("class", "control-sidebar-" + loc + " control-sidebar-light").attr("id", "sidebar");
 
     var $page = $("<div/>");
     //////////
