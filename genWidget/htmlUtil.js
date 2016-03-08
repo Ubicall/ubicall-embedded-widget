@@ -599,7 +599,7 @@ function createWidget($, licence_key, title, img, loc) {
     ////////
 
 
-    $("pages").prepend($page);
+    $("#pages").prepend($page);
     return $;
 
 }
