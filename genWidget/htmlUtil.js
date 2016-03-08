@@ -599,7 +599,7 @@ function createWidget($, licence_key, title, img, loc) {
     ////////
 
 
-    $("body").prepend($page);
+    $("pages").prepend($page);
     return $;
 
 }
@@ -643,7 +643,7 @@ function create_Popup($, licence_key, title, img) {
     ////////
 
 
-    $("body").prepend($page);
+    $("#pages").append($page);
     return $;
 
 }
