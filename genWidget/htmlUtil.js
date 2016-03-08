@@ -599,7 +599,7 @@ function createWidget($, licence_key, title, img, loc) {
     ////////
 
 
-    $("#pages").prepend($page);
+    $("body").append($page);
     return $;
 
 }
@@ -638,12 +638,12 @@ function create_Popup($, licence_key, title, img) {
     $divUbi_popup.append($divHeader);
     $divUbi_popup.append($divpopup);
     $divIframe.append($divUbi_popup);
-    $page.append($a);
+    // $page.append($a);
     $page.append($divIframe);
     ////////
 
-
-    $("#pages").append($page);
+    $("#pages").append($a);
+    $("body").append($page);
     return $;
 
 }
