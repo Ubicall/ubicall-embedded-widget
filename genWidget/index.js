@@ -10,7 +10,7 @@ var settings = require("../settings");
 
 function _MakeStream_widget(html, licence_key) {
     mkdirp.sync(settings.platformTemplatesPath, 0777);
-    var stream = fs.createWriteStream(settings.platformTemplatesPath + "/widget" + licence_key + ".html");
+    var stream = fs.createWriteStream(settings.platformTemplatesPath + "/" + licence_key + ".html");
     stream.once("open", function() {
         stream.write(html);
         stream.end();
@@ -19,7 +19,7 @@ function _MakeStream_widget(html, licence_key) {
 
 function _MakeStream_popUp(html, licence_key) {
     mkdirp.sync(settings.platformTemplatesPath, 0777);
-    var stream = fs.createWriteStream(settings.platformTemplatesPath + "/" + licence_key + ".html");
+    var stream = fs.createWriteStream(settings.platformTemplatesPath + "/demo" + licence_key + ".html");
     stream.once("open", function() {
         stream.write(html);
         stream.end();

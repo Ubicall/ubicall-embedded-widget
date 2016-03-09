@@ -625,7 +625,7 @@ function create_Popup($, licence_key, title, img) {
     $divHeader.append($aHeader);
     $divHeader.append($_span);
 
-    var $iframe = $(" <iframe/>").attr("src", settings.iframe_popUp + "widget" + licence_key + ".html").attr("frameborder", "0").attr("lic", licence_key).attr("id", "ubiIframe").attr("name", "ubi_iframe");
+    var $iframe = $(" <iframe/>").attr("src", settings.iframe_popUp + licence_key + ".html").attr("frameborder", "0").attr("lic", licence_key).attr("id", "ubiIframe").attr("name", "ubi_iframe");
     var $divpopup = $("<div/>").attr("id", "dialog").attr("class", "popup-ifram-style-02");
     $divpopup.append($iframe);
     ///
