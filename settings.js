@@ -25,6 +25,8 @@ module.exports = {
   port: 7575,
   host: "127.0.0.1",
   mainTemplate: DEVENV ? "./views/dev/template.html" : "./views/template.html",
+  mainTemplate_popUp: DEVENV ? "./views/dev/widget.html" : "./views/widget.html",
+  iframe_popUp: DEVENV ? "https://platform-dev.ubicall.com/widget/li/" : "https://platform.ubicall.com/widget/li/",
   plistHost: DEVENV ? config.endPoints.dev.defaultPlistHost : config.endPoints.defaultPlistHost,
   themeHost: DEVENV? (CDN_DEV_HOST + THEME_LOCATION) : (CDN_HOST + THEME_LOCATION)
 };

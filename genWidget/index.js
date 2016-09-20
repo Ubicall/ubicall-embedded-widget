@@ -8,9 +8,18 @@ var mkdirp = require("mkdirp");
 var htmlUtil = require("./htmlUtil.js");
 var settings = require("../settings");
 
-function _MakeStream(html, licence_key) {
+function _MakeStream_widget(html, licence_key) {
     mkdirp.sync(settings.platformTemplatesPath, 0777);
     var stream = fs.createWriteStream(settings.platformTemplatesPath + "/" + licence_key + ".html");
+    stream.once("open", function() {
+        stream.write(html);
+        stream.end();
+    });
+}
+
+function _MakeStream_popUp(html, licence_key) {
+    mkdirp.sync(settings.platformTemplatesPath, 0777);
+    var stream = fs.createWriteStream(settings.platformTemplatesPath + "/demo-" + licence_key + ".html");
     stream.once("open", function() {
         stream.write(html);
         stream.end();
@@ -21,11 +30,17 @@ function parsePlist(plistContent) {
     return when.promise(function(resolve, reject) {
         var plistObject = plist.parse(plistContent);
         var licence_key = plistObject.key;
+        var look = plistObject.Look;
+        var icon = plistObject.Icon;
+        var title = plistObject.Title;
+        var _location = plistObject.Location;
+
         plistObject.theme = plistObject.theme || "Default";
         if (!licence_key) {
             return reject("plist has no licence_key");
         }
         var $ = cheerio.load(fs.readFileSync(settings.mainTemplate));
+        var $$ = cheerio.load(fs.readFileSync(settings.mainTemplate_popUp));
         var home = plistObject.__home.id;
 
         $ = htmlUtil.Set_Home($, home);
@@ -74,11 +89,34 @@ function parsePlist(plistContent) {
                 switch (row.toLowerCase()) {
                     case "theme":
                         $ = htmlUtil.applyTheme($, plistObject[row], settings.themeHost);
+                        $$ = htmlUtil.applyTheme($$, plistObject[row], settings.themeHost);
                         break;
                 }
             }
         }
-        _MakeStream($.html(), licence_key);
+
+
+        if (look === "Widget") {
+            if (title === "Default") {
+                title = "Help";
+            }
+            if (icon === "Default") {
+                icon = "http://www.ubicall.com/img/help-icon.png";
+            }
+            $$ = htmlUtil.createWidget($$, licence_key, title, icon, _location);
+        } else {
+            if (title === "Default") {
+                title = "Help";
+            }
+            if (icon === "Default") {
+                icon = "http://www.ubicall.com/img/help-icon.png";
+            }
+            $$ = htmlUtil.create_Popup($$, licence_key, title, icon);
+        }
+
+
+        _MakeStream_widget($.html(), licence_key);
+        _MakeStream_popUp($$.html(), licence_key);
         return resolve({});
     });
 }
